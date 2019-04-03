@@ -1,1 +1,0 @@
-proposito = "un predictor de patológias bueno bueno"
