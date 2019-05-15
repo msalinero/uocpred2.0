@@ -1,486 +1,534 @@
->sp|VAR_072184|BCKD_HUMAN [3-methyl-2-oxobutanoate dehydrogenase [lipoamide]] kinase, mitochondrial OS=Homo sapiens OX=9606 GN=BCKDK PE=1 SV=2
-------------------------------------------------------------
-----MILASVLRSGP-GGGLPLRPLLGPALALRARSTSATDTHHVEMARE----------
---------------------------RSKTVTSFYNQSAID----AAAEKPSVRLTPTMM
-LYAGRSQDGSHLLKSARYLQQELPVRIAHRIK----------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GFRCLPFIIGCNPTI
-LHVH----------------------------ELYIRAFQKLTDFPPIKDQADEAQYCQL
-VRQLLDDHKDVVTLLAEGLGESRKHIED-----------------EKLVRYFLDKTLTSR
-LGIRMLATHHLALHEDKPDFVGIICTRLSPKK-----II---------------------
----EKWVDFARRLCEHKYGNAPRVRINGHVAARFPFIPMPLDYILPELLKNAMRAT----
-MESHLDTPYNVPDVVITIANNDV-------------------------------------
-----DLIIRISD------------------------------------------------
----------------RGGGIAHKDLDRVMDYHFTTAEASTQDP-----------------
---------RISPLFGHLDMHSGAQSG------------PMHGFGFGLPTSRA--------
------YAEYLG---------GSLQLQSLQGIGTDVYLRLRHIDGREESFRI---------
-----------------------------
->sp|VAR_069037|BCKD_HUMAN [3-methyl-2-oxobutanoate dehydrogenase [lipoamide]] kinase, mitochondrial OS=Homo sapiens OX=9606 GN=BCKDK PE=1 SV=2
-------------------------------------------------------------
-----MILASVLRSGP-GGGLPLRPLLGPALALRARSTSATDTHHVEMARE----------
---------------------------RSKTVTSFYNQSAID----AAAEKPSVRLTPTMM
-LYAGRSQDGSHLLKSARYLQQELPVRIAHRIK----------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GFRCLPFIIGCNPTI
-LHVH----------------------------ELYIRAFQKLTDFPPIKDQADEAQYCQL
-VRQLLDDHKDVVTLLAEGLRESRKHIED-----------------EKLVRYFLDKTLTSR
-LGIRMLATHHLALHEDKPDFVGIICTPLSPKK-----II---------------------
----EKWVDFARRLCEHKYGNAPRVRINGHVAARFPFIPMPLDYILPELLKNAMRAT----
-MESHLDTPYNVPDVVITIANNDV-------------------------------------
-----DLIIRISD------------------------------------------------
----------------RGGGIAHKDLDRVMDYHFTTAEASTQDP-----------------
---------RISPLFGHLDMHSGAQSG------------PMHGFGFGLPTSRA--------
------YAEYLG---------GSLQLQSLQGIGTDVYLRLRHIDGREESFRI---------
-----------------------------
->sp|VAR_072185|BCKD_HUMAN [3-methyl-2-oxobutanoate dehydrogenase [lipoamide]] kinase, mitochondrial OS=Homo sapiens OX=9606 GN=BCKDK PE=1 SV=2
-------------------------------------------------------------
-----MILASVLRSGP-GGGLPLRPLLGPALALRARSTSATDTHHVEMARE----------
---------------------------RSKTVTSFYNQSAID----AAAEKPSVRLTPTMM
-LYAGRSQDGSHLLKSARYLQQELPVRIAHRIK----------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GFRCLPFIIGCNPTI
-LHVH----------------------------ELYIRAFQKLTDFPPIKDQADEAQYCQL
-VRQLLDDHKDVVTLLAEGLRESRKHIED-----------------EKLVRYFLDKTLTSR
-LGIRMLATHHLALHEDKPDFVGIICTRLSPKK-----II---------------------
----EKWVDFARRLCEHKYGNAPRVRINGHVAARFPFIPMPLDYILPELLKNAMRAT----
-MESHLDTPYNVPDVVITIANNDV-------------------------------------
-----DLIIRISD------------------------------------------------
----------------RGGGIAHKDLDRVMDYHFTTAEASTQDP-----------------
---------RISPLFGHLDMHSGAQSG------------PMHGFGFGLPTSRA--------
------YAEYLG---------GSLQLQSPQGIGTDVYLRLRHIDGREESFRI---------
-----------------------------
->sp|VAR_010138|GLPK_HUMAN Glycerol kinase GKD OS=Homo sapiens OX=9606 GN=GK PE=1 SV=3
-------------------------------------------------------------
-----MAASKKAVLGPLVGAVDQGTSSTRFLVFNSKTAELLSHHQVEIKQE----------
---------------------------FPREGWVEQDPKEILHSVYECIEKTCEKLGQLNI
--------DISN-IKAIGVSNQRETTVVWDKIT----------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GEPLYNAVVWLDLRT
-QSTV----------------------------ESLSKRIPGNNNFVKSKTGLPLSTYFSA
-VK---------LRWLLDNVRKVQKAVEEKRALFGTIDSWLIWSLTGGVNGGVHCTDVTNA
-SRTMLFNIHSLEWDKQLCEFFG-IPMEILPNVRSSSEIYGLMKISHSVKAGALEGVPISG
-CLGDQSAALVGQMCFQIGQAKNTYGTGCFLLCNTGHKCVFSDHGLL--TTVAYKLGRDKP
-VYYALEGSVAIAGAVIRWLRDNLGIIKTSEEIEKLAKEVGTSYGCYFVPAFSGLYAPYWE
-PSARGIICGLTQ------------------------FTNKCHIAFAALEAVCFQTREILD
-AMNRDCGIPLSHLQVDGGMTSNKILMQLQADILYIPVVKPSMP-----------------
---------ETTALGAAMAAGAAEGVGVWSLEPEDLSAVTMERFEPQINAEES--------
------EIRYSTRKKAVMKSMGWVTTQSPESGDPSIFCSLPLGFFIVSSMVMLIGARYISG
-IP--------------------------
->sp|VAR_015433|GLPK_HUMAN Glycerol kinase GKD OS=Homo sapiens OX=9606 GN=GK PE=1 SV=3
-------------------------------------------------------------
-----MAASKKAVLGPLVGAVDQGTSSTRFLVFNSKTAELLSHHQVEIKQE----------
---------------------------FPREGWVEQDPKEILHSVYECIEKTCEKLGQLNI
--------DISN-IKAIGVSNQRETTVVWDKIT----------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GEPLYNAVVWLDLRT
-QSTV----------------------------ESLSKRIPGNNNFVKSKTGLPLSTYFSA
-VK---------LRWLLDNVRKVQKAVEEKRALFGTIDSWLIWSLTGGVNGGVHCTDVTNA
-SRTMLFNIHSLEWDKQLCEFFG-IPMEILPNVRSSSEIYGLMKISHSVKAGALEGVPISG
-CLGDQSAALVGQMCFQIGQAKNTYGTGCFLLCDTGHKCVFSDHGLL--TTVAYKLGRDKP
-VYYALEGSVAIAGAVIRWLRDNLGIIKTSEEIEKLAKEVGTSYGCYFVPAFSGLYAPYWE
-PSARGIICGLTQ------------------------FTNKCHIAFAALEAVCFQTREILD
-AMNRDCGIPLSHLQVDGGMTSNKILMQLQADILYIPVVKPSMP-----------------
---------ETTALGAAMAAGAAEGVGVWSLEPEDLSAVTMERFEPQINAEES--------
------EIRYSTWKKAVMKSMGWVTTQSPESGDPSIFCSLPLGFFIVSSMVMLIGARYISG
-IP--------------------------
->sp|VAR_001377|GLPK_HUMAN Glycerol kinase GKD OS=Homo sapiens OX=9606 GN=GK PE=1 SV=3
-------------------------------------------------------------
-----MAASKKAVLGPLVGAVDQGTSSTRFLVFNSKTAELLSHHQVEIKQE----------
---------------------------FPREGWVEQDPKEILHSVYECIEKTCEKLGQLNI
--------DISN-IKAIGVSNQRETTVVWDKIT----------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GEPLYNAVVWLDLRT
-QSTV----------------------------ESLSKRIPGNNNFVKSKTGLPLSTYFSA
-VK---------LRWLLDNVRKVQKAVEEKRALFGTIDSWLIWSLTGGVNGGVHCTDVTNA
-SRTMLFNIHSLEWDKQLCEFFG-IPMEILPNVRSSSEIYGLMKISHSVKAGALEGVPISG
-CLGDQSAALVGQMCFQIGQAKNTYGTGCFLLCNTGHKCVFSDHGLL--TTVAYKLGRDKP
-VYYALEGSVAIAGAVIRWLRDNLGIIKTSEEIEKLAKEVGTSYGCYFVPAFSGLYAPYWE
-PSARGIICGLTQ------------------------FTNKCHIAFAALEAVCFQTREILD
-AMNRDCGIPLSHLQVDGGMTSNKILMQLQAVILYIPVVKPSMP-----------------
---------ETTALGAAMAAGAAEGVGVWSLEPEDLSAVTMERFEPQINAEES--------
------EIRYSTWKKAVMKSMGWVTTQSPESGDPSIFCSLPLGFFIVSSMVMLIGARYISG
-IP--------------------------
->sp|VAR_078923|HXK1_HUMAN Hexokinase-1 OS=Homo sapiens OX=9606 GN=HK1 PE=1 SV=3
-MIAAQLLAYYFTELKDDQVKKIDKYLYAMRLSDETLIDIMTRFRKEMKNGLSRDFNPTAT
-VKMLPTFVRSIPDGSEKGDFIALDLGGSSFRILRVQVNHEKNQNVHMESEVYDTPENIVH
-GSGSQLFDHVAECLGDFMEKRKIKDKKLPVGFTFSFPCQQS----KIDEAILITWTKRFK
-ASGVEGADVVKLLNKAIKKRGDYDANIVAVVNDTVGTMMTCGYDDQHCEVGLIIGTGTNA
-CYMEELRHIDLVEGDEGRMCINTEWGAFGDDGSLEDIRTEFDREIDRGSLNPGKQLFEKM
-VSGMYLGELVRLILVKMAKEGLLFEGRITPELLTRGKFNTSDVSAIEKNKEGLHNAKEIL
-TRLGVEPSDDDCVSVQHVCTIVSFRSANLVAATLGAILNRLRDNKGTPRLRTTVGVDGSL
-YKTHPQYSRRFHKTLRRLVPDSDVRFLLSESGSGKGAAMVTAVAYRLAEQHRQIEETLAH
-FHLTKDMLLEVKKRMRAEMELGLRKQTHNNAVVKMLPSFVRRTPDGTENGDFLALDLGGT
-NFRVLLVKIRSGKKRTVEMHNKIYAIPIEIMQGTGEELF---------------------
----DHIVSCISDFLDYMGIKGPRMPLG--FTFSFPCQQTSLDAGILITWTKGFKAT----
-DCVGHDVVTLLRDAIKRREEFDLDVVAVVNDTVGTMMTCAYEEPTCEV------------
-----GLIVGTGSNACYMEEMKNVEMVEGDQGQMCINMEWGAFGDNGCLDDIRTHYDRLVD
-EYSLNAGKQRYEKMISGMYLGEIVRNILIDFTKKGFLFRGQISETLKTRGIFETKFLSQI
-ESDRLALLQVRAILQQLGLNSTCDDS------------ILVKTVCGVVSRRAAQLCGAGM
-AAVVDKIRKNR---------GLDRLNVTVGVDGTLYKLHPHFSRIMHQTVKELSPKCNVS
-FLLSEDGSGKGAALITAVGVRLRTEASS
->sp|VAR_009878|HXK1_HUMAN Hexokinase-1 HK OS=Homo sapiens OX=9606 GN=HK1 PE=1 SV=3
-MIAAQLLAYYFTELKDDQVKKIDKYLYAMRLSDETLIDIMTRFRKEMKNGLSRDFNPTAT
-VKMLPTFVRSIPDGSEKGDFIALDLGGSSFRILRVQVNHEKNQNVHMESEVYDTPENIVH
-GSGSQLFDHVAECLGDFMEKRKIKDKKLPVGFTFSFPCQQS----KIDEAILITWTKRFK
-ASGVEGADVVKLLNKAIKKRGDYDANIVAVVNDTVGTMMTCGYDDQHCEVGLIIGTGTNA
-CYMEELRHIDLVEGDEGRMCINTEWGAFGDDGSLEDIRTEFDREIDRGSLNPGKQLFEKM
-VSGMYLGELVRLILVKMAKEGLLFEGRITPELLTRGKFNTSDVSAIEKNKEGLHNAKEIL
-TRLGVEPSDDDCVSVQHVCTIVSFRSANLVAATLGAILNRLRDNKGTPRLRTTVGVDGSL
-YKTHPQYSRRFHKTLRRLVPDSDVRFLLSESGSGKGAAMVTAVAYRLAEQHRQIEETLAH
-FHLTKDMLLEVKKRMRAEMELGLRKQTHNNAVVKMLPSFVRRTPDGTENGDFSALDLGGT
-NFRVLLVKIRSGKKRTVEMHNKIYAIPIEIMQGTGEELF---------------------
----DHIVSCISDFLDYMGIKGPRMPLG--FTFSFPCQQTSLDAGILITWTKGFKAT----
-DCVGHDVVTLLRDAIKRREEFDLDVVAVVNDTVGTMMTCAYEEPTCEV------------
-----GLIVGTGSNACYMEEMKNVEMVEGDQGQMCINMEWGAFGDNGCLDDIRTHYDRLVD
-EYSLNAGKQRYEKMISGMYLGEIVRNILIDFTKKGFLFRGQISETLKTRGIFETKFLSQI
-ESDRLALLQVRAILQQLGLNSTCDDS------------ILVKTVCGVVSRRAAQLCGAGM
-AAVVDKIRENR---------GLDRLNVTVGVDGTLYKLHPHFSRIMHQTVKELSPKCNVS
-FLLSEDGSGKGAALITAVGVRLRTEASS
->sp|VAR_023780|HXK1_HUMAN Hexokinase-1 HK OS=Homo sapiens OX=9606 GN=HK1 PE=1 SV=3
-MIAAQLLAYYFTELKDDQVKKIDKYLYAMRLSDETLIDIMTRFRKEMKNGLSRDFNPTAT
-VKMLPTFVRSIPDGSEKGDFIALDLGGSSFRILRVQVNHEKNQNVHMESEVYDTPENIVH
-GSGSQLFDHVAECLGDFMEKRKIKDKKLPVGFTFSFPCQQS----KIDEAILITWTKRFK
-ASGVEGADVVKLLNKAIKKRGDYDANIVAVVNDTVGTMMTCGYDDQHCEVGLIIGTGTNA
-CYMEELRHIDLVEGDEGRMCINTEWGAFGDDGSLEDIRTEFDREIDRGSLNPGKQLFEKM
-VSGMYLGELVRLILVKMAKEGLLFEGRITPELLTRGKFNTSDVSAIEKNKEGLHNAKEIL
-TRLGVEPSDDDCVSVQHVCTIVSFRSANLVAATLGAILNRLRDNKGTPRLRTTVGVDGSL
-YKTHPQYSRRFHKTLRRLVPDSDVRFLLSESGSGKGAAMVTAVAYRLAEQHRQIEETLAH
-FHLTKDMLLEVKKRMRAEMELGLRKQTHNNAVVKMLPSFVRRTPDGTENGDFLALDLGGT
-NFRVLLVKIRSGKKRTVEMHNKIYAIPIEIMQGTGEELF---------------------
----DHIVSCISDFLDYMGIKGPRMPLG--FTFSFPCQQTSLDAGILITWTKGFKAT----
-DCVGHDVVTLLRDAIKRREEFDLDVVAVVNDTVGTMMTCAYEEPTCEV------------
-----GLIVGSGSNACYMEEMKNVEMVEGDQGQMCINMEWGAFGDNGCLDDIRTHYDRLVD
-EYSLNAGKQRYEKMISGMYLGEIVRNILIDFTKKGFLFRGQISETLKTRGIFETKFLSQI
-ESDRLALLQVRAILQQLGLNSTCDDS------------ILVKTVCGVVSRRAAQLCGAGM
-AAVVDKIRENR---------GLDRLNVTVGVDGTLYKLHPHFSRIMHQTVKELSPKCNVS
-FLLSEDGSGKGAALITAVGVRLRTEASS
->sp|VAR_069763|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLPMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_070668|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLPVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_076803|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGSPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_069757|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGPMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_069758|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPLGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_066617|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPAMMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_069756|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------FGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_066618|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------RGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_066620|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VRGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_069760|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKLVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_076804|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--PQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_069761|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQSLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_069762|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----AQVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_066621|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TEEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_070668|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVGGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_069759|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVVGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_066619|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAVEGA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
->sp|VAR_070669|CS012_HUMAN Protein C19orf12 NBIA4 OS=Homo sapiens OX=9606 GN=C19orf12 PE=1 SV=3
-------------------------------------------------------------
-------------------------------------------------ME----------
---------------------------RLKS----HKPATMT----IMVE-----------
--------DIMKLLCSLS-------------------------------------------
-------------------------------------------------------------
-------------------------------------------------------------
----------------------------------------------GERKMKAAV------
---KH----------------------------SGKGALVTGAMAFV--------------
----------------------------------------------GGLVGGPPGLAV-GA
-VGGLLGAWMTSGQFKPVPQ----ILMELPPAE--QQRLF---------------------
----NEAAAIIRHLE----------------------------------WTDAVQLT----
-------------------------------------------------------------
-----ALVMGSEA------------------------------------------------
--------------------LQQQLLAMLVNYV-------TKEL-----------------
---------------------------------------------------RA--------
------EIQYDD-------------------------------------------------
-----------------------------
+CLUSTAL 2.1 multiple sequence alignment
+
+
+sp|VAR_072184|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_069037|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_072185|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_023780|HXK1_HUMAN       MIAAQLLAYYFTELKDDQVKKIDKYLYAMRLSDETLIDIMTRFRKEMKNG
+sp|VAR_078923|HXK1_HUMAN       MIAAQLLAYYFTELKDDQVKKIDKYLYAMRLSDETLIDIMTRFRKEMKNG
+sp|VAR_009878|HXK1_HUMAN       MIAAQLLAYYFTELKDDQVKKIDKYLYAMRLSDETLIDIMTRFRKEMKNG
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       --------------------------------------------------
+sp|VAR_010138|GLPK_HUMAN       --------------------------------------------------
+sp|VAR_015433|GLPK_HUMAN       --------------------------------------------------
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       -----------MILASVLRSGPGGG----LPLRP-LLGPALALRARSTSA
+sp|VAR_069037|BCKD_HUMAN       -----------MILASVLRSGPGGG----LPLRP-LLGPALALRARSTSA
+sp|VAR_072185|BCKD_HUMAN       -----------MILASVLRSGPGGG----LPLRP-LLGPALALRARSTSA
+sp|VAR_023780|HXK1_HUMAN       LSRDFNPTATVKMLPTFVRSIPDGSEKGDFIALD-LGGSSFRILRVQVNH
+sp|VAR_078923|HXK1_HUMAN       LSRDFNPTATVKMLPTFVRSIPDGSEKGDFIALD-LGGSSFRILRVQVNH
+sp|VAR_009878|HXK1_HUMAN       LSRDFNPTATVKMLPTFVRSIPDGSEKGDFIALD-LGGSSFRILRVQVNH
+sp|VAR_066619|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_070669|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069759|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_066618|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069762|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069756|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069763|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069760|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_070668|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069757|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_066621|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069761|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_076803|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_069758|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_076804|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_066620|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_066617|CS012_HUMAN      -------------------------------------------MERLKSH
+sp|VAR_001377|GLPK_HUMAN       -----MAASKKAVLGPLVGAVDQGTSSTRFLVFNSKTAELLSHHQVEIKQ
+sp|VAR_010138|GLPK_HUMAN       -----MAASKKAVLGPLVGAVDQGTSSTRFLVFNSKTAELLSHHQVEIKQ
+sp|VAR_015433|GLPK_HUMAN       -----MAASKKAVLGPLVGAVDQGTSSTRFLVFNSKTAELLSHHQVEIKQ
+                                                                               . 
+
+sp|VAR_072184|BCKD_HUMAN       TDTHHVEMARERSKTVTSFYNQS---------------------------
+sp|VAR_069037|BCKD_HUMAN       TDTHHVEMARERSKTVTSFYNQS---------------------------
+sp|VAR_072185|BCKD_HUMAN       TDTHHVEMARERSKTVTSFYNQS---------------------------
+sp|VAR_023780|HXK1_HUMAN       EKNQNVHMESEVYDTPENIVHGSGSQLFDHVAECLGDFMEKRKIKDKKLP
+sp|VAR_078923|HXK1_HUMAN       EKNQNVHMESEVYDTPENIVHGSGSQLFDHVAECLGDFMEKRKIKDKKLP
+sp|VAR_009878|HXK1_HUMAN       EKNQNVHMESEVYDTPENIVHGSGSQLFDHVAECLGDFMEKRKIKDKKLP
+sp|VAR_066619|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_070669|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069759|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_066618|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069762|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069756|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069763|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069760|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_070668|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069757|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_066621|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069761|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_076803|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_069758|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_076804|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_066620|CS012_HUMAN      KPATMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_066617|CS012_HUMAN      KPAMMTIMVEDIMKLLCSLSGER---------------------------
+sp|VAR_001377|GLPK_HUMAN       EFPREGWVEQDPKEILHSVYECIEKTCEKLG-------------------
+sp|VAR_010138|GLPK_HUMAN       EFPREGWVEQDPKEILHSVYECIEKTCEKLG-------------------
+sp|VAR_015433|GLPK_HUMAN       EFPREGWVEQDPKEILHSVYECIEKTCEKLG-------------------
+                                      :  :  .   ..                               
+
+sp|VAR_072184|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_069037|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_072185|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_023780|HXK1_HUMAN       VGFTFSFPCQQSKIDEAILITWTKRFKASGVEGADVVKLLNKAIKKRGDY
+sp|VAR_078923|HXK1_HUMAN       VGFTFSFPCQQSKIDEAILITWTKRFKASGVEGADVVKLLNKAIKKRGDY
+sp|VAR_009878|HXK1_HUMAN       VGFTFSFPCQQSKIDEAILITWTKRFKASGVEGADVVKLLNKAIKKRGDY
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       --------------------------------------------------
+sp|VAR_010138|GLPK_HUMAN       --------------------------------------------------
+sp|VAR_015433|GLPK_HUMAN       --------------------------------------------------
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_069037|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_072185|BCKD_HUMAN       --------------------------------------------------
+sp|VAR_023780|HXK1_HUMAN       DANIVAVVNDTVGTMMTCGYDDQHCEVGLIIGTGTNACYMEELRHIDLVE
+sp|VAR_078923|HXK1_HUMAN       DANIVAVVNDTVGTMMTCGYDDQHCEVGLIIGTGTNACYMEELRHIDLVE
+sp|VAR_009878|HXK1_HUMAN       DANIVAVVNDTVGTMMTCGYDDQHCEVGLIIGTGTNACYMEELRHIDLVE
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       --------------------------------------------------
+sp|VAR_010138|GLPK_HUMAN       --------------------------------------------------
+sp|VAR_015433|GLPK_HUMAN       --------------------------------------------------
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       ------------------------------AIDAAAEKPS----------
+sp|VAR_069037|BCKD_HUMAN       ------------------------------AIDAAAEKPS----------
+sp|VAR_072185|BCKD_HUMAN       ------------------------------AIDAAAEKPS----------
+sp|VAR_023780|HXK1_HUMAN       GDEGRMCINTEWGAFGDDGSLEDIRTEFDREIDRGSLNPGKQLFEKMVSG
+sp|VAR_078923|HXK1_HUMAN       GDEGRMCINTEWGAFGDDGSLEDIRTEFDREIDRGSLNPGKQLFEKMVSG
+sp|VAR_009878|HXK1_HUMAN       GDEGRMCINTEWGAFGDDGSLEDIRTEFDREIDRGSLNPGKQLFEKMVSG
+sp|VAR_066619|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_070669|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_069759|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_066618|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_069762|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_069756|CS012_HUMAN      ------------------------------KMKAAVKHFGK---------
+sp|VAR_069763|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_069760|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_070668|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_069757|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_066621|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_069761|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_076803|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_069758|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_076804|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_066620|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_066617|CS012_HUMAN      ------------------------------KMKAAVKHSGK---------
+sp|VAR_001377|GLPK_HUMAN       ----------------------------QLNIDISNIKAIG---------
+sp|VAR_010138|GLPK_HUMAN       ----------------------------QLNIDISNIKAIG---------
+sp|VAR_015433|GLPK_HUMAN       ----------------------------QLNIDISNIKAIG---------
+                                                              :. .  :            
+
+sp|VAR_072184|BCKD_HUMAN       -----------VRLTPTMMLYAGRSQ--------------DGSHLLKSAR
+sp|VAR_069037|BCKD_HUMAN       -----------VRLTPTMMLYAGRSQ--------------DGSHLLKSAR
+sp|VAR_072185|BCKD_HUMAN       -----------VRLTPTMMLYAGRSQ--------------DGSHLLKSAR
+sp|VAR_023780|HXK1_HUMAN       MYLGELVRLILVKMAKEGLLFEGRITPELLTRGKFNTSDVSAIEKNKEGL
+sp|VAR_078923|HXK1_HUMAN       MYLGELVRLILVKMAKEGLLFEGRITPELLTRGKFNTSDVSAIEKNKEGL
+sp|VAR_009878|HXK1_HUMAN       MYLGELVRLILVKMAKEGLLFEGRITPELLTRGKFNTSDVSAIEKNKEGL
+sp|VAR_066619|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_070669|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_069759|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_066618|CS012_HUMAN      -----------GALVTGAMAFVRGLVG------------------GPPGL
+sp|VAR_069762|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_069756|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_069763|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_069760|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_070668|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_069757|CS012_HUMAN      -----------GALVTGPMAFVGGLVG------------------GPPGL
+sp|VAR_066621|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_069761|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_076803|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------SPPGL
+sp|VAR_069758|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPLGL
+sp|VAR_076804|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_066620|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_066617|CS012_HUMAN      -----------GALVTGAMAFVGGLVG------------------GPPGL
+sp|VAR_001377|GLPK_HUMAN       -----------VSNQRETTVVWDKITG---------------EPLYNAVV
+sp|VAR_010138|GLPK_HUMAN       -----------VSNQRETTVVWDKITG---------------EPLYNAVV
+sp|VAR_015433|GLPK_HUMAN       -----------VSNQRETTVVWDKITG---------------EPLYNAVV
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       YLQQELPVRIAHRIKGFRCLPFIIGCNPTILHVHELYIRAFQKLT-----
+sp|VAR_069037|BCKD_HUMAN       YLQQELPVRIAHRIKGFRCLPFIIGCNPTILHVHELYIRAFQKLT-----
+sp|VAR_072185|BCKD_HUMAN       YLQQELPVRIAHRIKGFRCLPFIIGCNPTILHVHELYIRAFQKLT-----
+sp|VAR_023780|HXK1_HUMAN       HNAKEILTRLGVEPSDDDCVSVQHVCTIVSFRSANLVAATLGAILNRLRD
+sp|VAR_078923|HXK1_HUMAN       HNAKEILTRLGVEPSDDDCVSVQHVCTIVSFRSANLVAATLGAILNRLRD
+sp|VAR_009878|HXK1_HUMAN       HNAKEILTRLGVEPSDDDCVSVQHVCTIVSFRSANLVAATLGAILNRLRD
+sp|VAR_066619|CS012_HUMAN      AVEGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_070669|CS012_HUMAN      AVG-AVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069759|CS012_HUMAN      AVVGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_066618|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069762|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069756|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069763|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069760|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKLVPQILMELPPAEQQRLFN----
+sp|VAR_070668|CS012_HUMAN      PVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069757|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_066621|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069761|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQSLFN----
+sp|VAR_076803|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_069758|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_076804|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEPQRLFN----
+sp|VAR_066620|CS012_HUMAN      AVGGAVRGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_066617|CS012_HUMAN      AVGGAVGGLLGAWMTSG-------QFKPVPQILMELPPAEQQRLFN----
+sp|VAR_001377|GLPK_HUMAN       WLDLRTQSTVESLSKRIP------GNNNFVKSKTGLPLSTYFSAVK----
+sp|VAR_010138|GLPK_HUMAN       WLDLRTQSTVESLSKRIP------GNNNFVKSKTGLPLSTYFSAVK----
+sp|VAR_015433|GLPK_HUMAN       WLDLRTQSTVESLSKRIP------GNNNFVKSKTGLPLSTYFSAVK----
+                                        :    .           .        *              
+
+sp|VAR_072184|BCKD_HUMAN       -------------DFPPIKDQADEAQYCQLVRQLLDDHKDVVTLLAEG--
+sp|VAR_069037|BCKD_HUMAN       -------------DFPPIKDQADEAQYCQLVRQLLDDHKDVVTLLAEG--
+sp|VAR_072185|BCKD_HUMAN       -------------DFPPIKDQADEAQYCQLVRQLLDDHKDVVTLLAEG--
+sp|VAR_023780|HXK1_HUMAN       NKGTPRLRTTVGVDGSLYKTHPQYSRRFHKTLRRLVPDSDVRFLLSESGS
+sp|VAR_078923|HXK1_HUMAN       NKGTPRLRTTVGVDGSLYKTHPQYSRRFHKTLRRLVPDSDVRFLLSESGS
+sp|VAR_009878|HXK1_HUMAN       NKGTPRLRTTVGVDGSLYKTHPQYSRRFHKTLRRLVPDSDVRFLLSESGS
+sp|VAR_066619|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_070669|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_069759|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_066618|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_069762|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTAQVMGSEALQQQLLAMLVN
+sp|VAR_069756|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_069763|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLPMLVN
+sp|VAR_069760|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_070668|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_069757|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_066621|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_069761|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_076803|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_069758|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_076804|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_066620|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_066617|CS012_HUMAN      -------------EAAAIIRHLEWTDAVQLTALVMGSEALQQQLLAMLVN
+sp|VAR_001377|GLPK_HUMAN       --------------LRWLLDNVRKVQKAVEEKRALFGTIDSWLIWSLTGG
+sp|VAR_010138|GLPK_HUMAN       --------------LRWLLDNVRKVQKAVEEKRALFGTIDSWLIWSLTGG
+sp|VAR_015433|GLPK_HUMAN       --------------LRWLLDNVRKVQKAVEEKRALFGTIDSWLIWSLTGG
+                                                   :             :        : .    
+
+sp|VAR_072184|BCKD_HUMAN       -------------LGESRKHIEDEKLVRYFLDKTLTSRLGIRMLATHHLA
+sp|VAR_069037|BCKD_HUMAN       -------------LRESRKHIEDEKLVRYFLDKTLTSRLGIRMLATHHLA
+sp|VAR_072185|BCKD_HUMAN       -------------LRESRKHIEDEKLVRYFLDKTLTSRLGIRMLATHHLA
+sp|VAR_023780|HXK1_HUMAN       GKGAAMVTAVAYRLAEQHRQIEET-LAHFHLTKDMLLEVKKRMRAEMELG
+sp|VAR_078923|HXK1_HUMAN       GKGAAMVTAVAYRLAEQHRQIEET-LAHFHLTKDMLLEVKKRMRAEMELG
+sp|VAR_009878|HXK1_HUMAN       GKGAAMVTAVAYRLAEQHRQIEET-LAHFHLTKDMLLEVKKRMRAEMELG
+sp|VAR_066619|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_070669|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_069759|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_066618|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_069762|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_069756|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_069763|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_069760|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_070668|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_069757|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_066621|CS012_HUMAN      -----------------------------YVTEELRAEIQYDD-------
+sp|VAR_069761|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_076803|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_069758|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_076804|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_066620|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_066617|CS012_HUMAN      -----------------------------YVTKELRAEIQYDD-------
+sp|VAR_001377|GLPK_HUMAN       -------------------------VNGGVHCTDVTNASRTMLFNIHSLE
+sp|VAR_010138|GLPK_HUMAN       -------------------------VNGGVHCTDVTNASRTMLFNIHSLE
+sp|VAR_015433|GLPK_HUMAN       -------------------------VNGGVHCTDVTNASRTMLFNIHSLE
+                                                                 :               
+
+sp|VAR_072184|BCKD_HUMAN       LHEDKPDFVGIICTRLSPKKIIEKWVD------------FARRLCEHKYG
+sp|VAR_069037|BCKD_HUMAN       LHEDKPDFVGIICTPLSPKKIIEKWVD------------FARRLCEHKYG
+sp|VAR_072185|BCKD_HUMAN       LHEDKPDFVGIICTRLSPKKIIEKWVD------------FARRLCEHKYG
+sp|VAR_023780|HXK1_HUMAN       LRKQTHNNAVVKMLPSFVRRTPDGTENGDFLALDLGGTNFRVLLVKIRSG
+sp|VAR_078923|HXK1_HUMAN       LRKQTHNNAVVKMLPSFVRRTPDGTENGDFLALDLGGTNFRVLLVKIRSG
+sp|VAR_009878|HXK1_HUMAN       LRKQTHNNAVVKMLPSFVRRTPDGTENGDFSALDLGGTNFRVLLVKIRSG
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       WDKQLCEFFGIPMEILPNVRSSSEIYG------------LMKISHSVKAG
+sp|VAR_010138|GLPK_HUMAN       WDKQLCEFFGIPMEILPNVRSSSEIYG------------LMKISHSVKAG
+sp|VAR_015433|GLPK_HUMAN       WDKQLCEFFGIPMEILPNVRSSSEIYG------------LMKISHSVKAG
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       NAPRVRIN------------------------------GHVAARFPFIPM
+sp|VAR_069037|BCKD_HUMAN       NAPRVRIN------------------------------GHVAARFPFIPM
+sp|VAR_072185|BCKD_HUMAN       NAPRVRIN------------------------------GHVAARFPFIPM
+sp|VAR_023780|HXK1_HUMAN       KKRTVEMHNKIYAIPIEIMQGTGEELFDHIVSCISDFLDYMGIKGPRMPL
+sp|VAR_078923|HXK1_HUMAN       KKRTVEMHNKIYAIPIEIMQGTGEELFDHIVSCISDFLDYMGIKGPRMPL
+sp|VAR_009878|HXK1_HUMAN       KKRTVEMHNKIYAIPIEIMQGTGEELFDHIVSCISDFLDYMGIKGPRMPL
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       ALEGVPIS------------------------------GCLGDQSAALVG
+sp|VAR_010138|GLPK_HUMAN       ALEGVPIS------------------------------GCLGDQSAALVG
+sp|VAR_015433|GLPK_HUMAN       ALEGVPIS------------------------------GCLGDQSAALVG
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       PLDYILP-----------------------------ELLKNAMRATMESH
+sp|VAR_069037|BCKD_HUMAN       PLDYILP-----------------------------ELLKNAMRATMESH
+sp|VAR_072185|BCKD_HUMAN       PLDYILP-----------------------------ELLKNAMRATMESH
+sp|VAR_023780|HXK1_HUMAN       GFTFSFPCQQTSLDAGILITWTKGFKATDCVGHDVVTLLRDAIKRREEFD
+sp|VAR_078923|HXK1_HUMAN       GFTFSFPCQQTSLDAGILITWTKGFKATDCVGHDVVTLLRDAIKRREEFD
+sp|VAR_009878|HXK1_HUMAN       GFTFSFPCQQTSLDAGILITWTKGFKATDCVGHDVVTLLRDAIKRREEFD
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       QMCFQIGQAKNTYGTGCFLLCNTG---------HKCVFSDHGLLTTVAYK
+sp|VAR_010138|GLPK_HUMAN       QMCFQIGQAKNTYGTGCFLLCNTG---------HKCVFSDHGLLTTVAYK
+sp|VAR_015433|GLPK_HUMAN       QMCFQIGQAKNTYGTGCFLLCDTG---------HKCVFSDHGLLTTVAYK
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       LD---TPYNVPDVVITIANN-------DVDLIIRISDRGGGIAHKD----
+sp|VAR_069037|BCKD_HUMAN       LD---TPYNVPDVVITIANN-------DVDLIIRISDRGGGIAHKD----
+sp|VAR_072185|BCKD_HUMAN       LD---TPYNVPDVVITIANN-------DVDLIIRISDRGGGIAHKD----
+sp|VAR_023780|HXK1_HUMAN       LD---VVAVVNDTVGTMMTCAYEEPTCEVGLIVGSGSNACYMEEMKNVEM
+sp|VAR_078923|HXK1_HUMAN       LD---VVAVVNDTVGTMMTCAYEEPTCEVGLIVGTGSNACYMEEMKNVEM
+sp|VAR_009878|HXK1_HUMAN       LD---VVAVVNDTVGTMMTCAYEEPTCEVGLIVGTGSNACYMEEMKNVEM
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       LGRDKPVYYALEGSVAIAGAVIRWLRDNLGIIKTSEEIEKLAKEVGTSYG
+sp|VAR_010138|GLPK_HUMAN       LGRDKPVYYALEGSVAIAGAVIRWLRDNLGIIKTSEEIEKLAKEVGTSYG
+sp|VAR_015433|GLPK_HUMAN       LGRDKPVYYALEGSVAIAGAVIRWLRDNLGIIKTSEEIEKLAKEVGTSYG
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       -----------------------------LDRVMDYHFTTAEASTQDPRI
+sp|VAR_069037|BCKD_HUMAN       -----------------------------LDRVMDYHFTTAEASTQDPRI
+sp|VAR_072185|BCKD_HUMAN       -----------------------------LDRVMDYHFTTAEASTQDPRI
+sp|VAR_023780|HXK1_HUMAN       VEGDQGQMCINMEWGAFGDNGCLDDIRTHYDRLVDEYSLNAGKQRYEKMI
+sp|VAR_078923|HXK1_HUMAN       VEGDQGQMCINMEWGAFGDNGCLDDIRTHYDRLVDEYSLNAGKQRYEKMI
+sp|VAR_009878|HXK1_HUMAN       VEGDQGQMCINMEWGAFGDNGCLDDIRTHYDRLVDEYSLNAGKQRYEKMI
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       CYFVPAFSGLYAPYWEPSARGIICGLTQFTNKCHIAFAALEAVCFQTREI
+sp|VAR_010138|GLPK_HUMAN       CYFVPAFSGLYAPYWEPSARGIICGLTQFTNKCHIAFAALEAVCFQTREI
+sp|VAR_015433|GLPK_HUMAN       CYFVPAFSGLYAPYWEPSARGIICGLTQFTNKCHIAFAALEAVCFQTREI
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       S-------------------------------------------------
+sp|VAR_069037|BCKD_HUMAN       S-------------------------------------------------
+sp|VAR_072185|BCKD_HUMAN       S-------------------------------------------------
+sp|VAR_023780|HXK1_HUMAN       SGMYLGEIVRNILIDFTKKGFLFRGQISETLKTRGIFETKFLSQIESDRL
+sp|VAR_078923|HXK1_HUMAN       SGMYLGEIVRNILIDFTKKGFLFRGQISETLKTRGIFETKFLSQIESDRL
+sp|VAR_009878|HXK1_HUMAN       SGMYLGEIVRNILIDFTKKGFLFRGQISETLKTRGIFETKFLSQIESDRL
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       LDAMNRDCGIPLSHLQVDGGMTSNKILMQLQAVILYIPVVKPSMPETTAL
+sp|VAR_010138|GLPK_HUMAN       LDAMNRDCGIPLSHLQVDGGMTSNKILMQLQADILYIPVVKPSMPETTAL
+sp|VAR_015433|GLPK_HUMAN       LDAMNRDCGIPLSHLQVDGGMTSNKILMQLQADILYIPVVKPSMPETTAL
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       ------PLFGHLDMHSGAQSGPMHGFGFGLPTSRAYAEYLG---------
+sp|VAR_069037|BCKD_HUMAN       ------PLFGHLDMHSGAQSGPMHGFGFGLPTSRAYAEYLG---------
+sp|VAR_072185|BCKD_HUMAN       ------PLFGHLDMHSGAQSGPMHGFGFGLPTSRAYAEYLG---------
+sp|VAR_023780|HXK1_HUMAN       ALLQVRAILQQLGLNSTCDDSILVKTVCGVVSRRAAQLCGAGMAAVVDKI
+sp|VAR_078923|HXK1_HUMAN       ALLQVRAILQQLGLNSTCDDSILVKTVCGVVSRRAAQLCGAGMAAVVDKI
+sp|VAR_009878|HXK1_HUMAN       ALLQVRAILQQLGLNSTCDDSILVKTVCGVVSRRAAQLCGAGMAAVVDKI
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       GAAMAAGAAEGVGVWSLEPEDLSAVTMERFEPQINAEESEIRYSTWKKAV
+sp|VAR_010138|GLPK_HUMAN       GAAMAAGAAEGVGVWSLEPEDLSAVTMERFEPQINAEESEIRYSTRKKAV
+sp|VAR_015433|GLPK_HUMAN       GAAMAAGAAEGVGVWSLEPEDLSAVTMERFEPQINAEESEIRYSTWKKAV
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       ----GSLQLQSLQGIG------TDVYLRLRHIDGREESFRI---------
+sp|VAR_069037|BCKD_HUMAN       ----GSLQLQSLQGIG------TDVYLRLRHIDGREESFRI---------
+sp|VAR_072185|BCKD_HUMAN       ----GSLQLQSPQGIG------TDVYLRLRHIDGREESFRI---------
+sp|VAR_023780|HXK1_HUMAN       RENRGLDRLNVTVGVDGTLYKLHPHFSRIMHQTVKELSPKCNVSFLLSED
+sp|VAR_078923|HXK1_HUMAN       RKNRGLDRLNVTVGVDGTLYKLHPHFSRIMHQTVKELSPKCNVSFLLSED
+sp|VAR_009878|HXK1_HUMAN       RENRGLDRLNVTVGVDGTLYKLHPHFSRIMHQTVKELSPKCNVSFLLSED
+sp|VAR_066619|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070669|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069759|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066618|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069762|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069756|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069763|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069760|CS012_HUMAN      --------------------------------------------------
+sp|VAR_070668|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069757|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066621|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069761|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076803|CS012_HUMAN      --------------------------------------------------
+sp|VAR_069758|CS012_HUMAN      --------------------------------------------------
+sp|VAR_076804|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066620|CS012_HUMAN      --------------------------------------------------
+sp|VAR_066617|CS012_HUMAN      --------------------------------------------------
+sp|VAR_001377|GLPK_HUMAN       MKSMGWVTTQSPESGDPSIFCSLPLGFFIVSSMVMLIGARYISGIP----
+sp|VAR_010138|GLPK_HUMAN       MKSMGWVTTQSPESGDPSIFCSLPLGFFIVSSMVMLIGARYISGIP----
+sp|VAR_015433|GLPK_HUMAN       MKSMGWVTTQSPESGDPSIFCSLPLGFFIVSSMVMLIGARYISGIP----
+                                                                                 
+
+sp|VAR_072184|BCKD_HUMAN       ----------------------
+sp|VAR_069037|BCKD_HUMAN       ----------------------
+sp|VAR_072185|BCKD_HUMAN       ----------------------
+sp|VAR_023780|HXK1_HUMAN       GSGKGAALITAVGVRLRTEASS
+sp|VAR_078923|HXK1_HUMAN       GSGKGAALITAVGVRLRTEASS
+sp|VAR_009878|HXK1_HUMAN       GSGKGAALITAVGVRLRTEASS
+sp|VAR_066619|CS012_HUMAN      ----------------------
+sp|VAR_070669|CS012_HUMAN      ----------------------
+sp|VAR_069759|CS012_HUMAN      ----------------------
+sp|VAR_066618|CS012_HUMAN      ----------------------
+sp|VAR_069762|CS012_HUMAN      ----------------------
+sp|VAR_069756|CS012_HUMAN      ----------------------
+sp|VAR_069763|CS012_HUMAN      ----------------------
+sp|VAR_069760|CS012_HUMAN      ----------------------
+sp|VAR_070668|CS012_HUMAN      ----------------------
+sp|VAR_069757|CS012_HUMAN      ----------------------
+sp|VAR_066621|CS012_HUMAN      ----------------------
+sp|VAR_069761|CS012_HUMAN      ----------------------
+sp|VAR_076803|CS012_HUMAN      ----------------------
+sp|VAR_069758|CS012_HUMAN      ----------------------
+sp|VAR_076804|CS012_HUMAN      ----------------------
+sp|VAR_066620|CS012_HUMAN      ----------------------
+sp|VAR_066617|CS012_HUMAN      ----------------------
+sp|VAR_001377|GLPK_HUMAN       ----------------------
+sp|VAR_010138|GLPK_HUMAN       ----------------------
+sp|VAR_015433|GLPK_HUMAN       ----------------------
+                                                     

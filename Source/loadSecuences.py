@@ -95,8 +95,20 @@ class Utils():
                 treeFile = fastaFile.replace('.fasta', '.dnd')
                 self.print_phylo_tree(treeFile)
 
+                # Consensus secuence  
+                summary_align = AlignInfo.SummaryInfo(self.alignment)
+                self.consensus = summary_align.dumb_consensus(threshold=0.7,require_multiple=1,ambiguous='?')
+
                 return alignment
         
+        def get_gene_from_description(self,desc):
+                geneField = re.findall('GN=\S+',desc)
+                if (len(geneField) == 1):
+                        gen = geneField[0].split('=')[1]
+                        return gen
+                else:
+                        return 'unknown_gene'
+
         
         def load_kinases(self):
                 f1 = self.select_file()
@@ -106,7 +118,8 @@ class Utils():
                         dict1 = {}
                         dict1.update({'id' : seq.id,
                                       'state' : 'healthy',
-                                      'length': len(seq)
+                                      'length': len(seq),
+                                      'gene' : self.get_gene_from_description(seq.description)
                         })  
                         rows_list.append(dict1)
                 f2 = self.select_file()
@@ -115,12 +128,14 @@ class Utils():
                         dict1 = {}
                         dict1.update({'id' : seq.id, 
                                       'state': 'pathologic',
-                                      'length': len(seq)
+                                      'length': len(seq),
+                                      'gene': self.get_gene_from_description(seq.description)
                         })
                         rows_list.append(dict1)
                 self.df = pd.DataFrame(rows_list)
-                self.df = self.df.set_index('id',drop = False)
-                print(self.df)
+                self.df = self.df.set_index('id')
+
+                print(self.df.to_string())
                 filenames = [f1,f2]
                 fastaout = os.path.dirname(os.path.abspath(__file__)) + '\\allkin.fasta'
                 with open(fastaout, 'w') as outfile:
@@ -381,9 +396,24 @@ class Utils():
                         nGaps = len(re.findall('-+', str(alignSec.seq).strip('-')))
                         self.df.at[id, 'nGaps'] = nGaps
 
-
+        def setConsensusPercentage(self):
+                # Columna nueva y valor por defecto
+                self.df['consensus'] = -1.0
+                consensusStr = str(self.consensus)
+                n = len(consensusStr)
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seqStr = str(alignSec.seq)                       
+                        x = 0
+                        for i in range(0,n):
+                                if (seqStr[i] == consensusStr[i]):
+                                        x+=1
+                        score = (x / n) * 100
+                        self.df.at[id,'consensus'] = score
 
         
+
+
         
 
         
@@ -414,8 +444,10 @@ class Utils():
                 self.setnY()
                 self.setnW()
                 self.setnZ()
+                self.setNGap()
                 self.setNGaps()
-                print(self.df)
+                self.setConsensusPercentage()
+                print(self.df.to_string())
                 
         
         
@@ -436,14 +468,18 @@ if __name__ == '__main__':
         util.load_kinases()
         print("")
 
-        # Ejecucion con ClustalW
-         
+        # Ejecucion del alineamiento
+        print("Ejecucion del alineamiento") 
         aligmentTool = 'clustalw'
         als = util.run_alignment(aligmentTool)
 
         # Crear las features
 
         util.populate_features()
+
+        # Secuencias consenso
+        print("Secuencia consenso")
+        print(util.consensus)
 
 
         # Sacar una secuencia del alineamiento
@@ -468,13 +504,6 @@ if __name__ == '__main__':
 
         
                 
-        # Consensus secuence  
-        summary_align = AlignInfo.SummaryInfo(als)
-        consensus = summary_align.dumb_consensus(threshold=0.6,require_multiple=1,ambiguous='?')
-        print(consensus)
-        print(len(consensus))
-        print((consensus.count('?') / len(consensus)) * 100)
-
 
         
 

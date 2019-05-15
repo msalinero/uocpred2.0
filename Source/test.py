@@ -8,7 +8,7 @@ print("Spanish Football Players: \n%s" % spanishPlayers)
 
 kk = "------------MAALYRPGLRLNWHGLSPLGWPSCRSIQTLRVLSGDLGQLPTGIRDFVEHSARLCQPEGIHICDGTEAENTATLTLLEQQGLIRKLPKYNNCWLARTDPKDVARVESKTVIVTPSQRDTVPLPPGGARGQLGNWMSPADFQRAVDERFPGCMQGRTMYVLPFSMGP--------VGSPLSRIGVQLTDSAYVVASMRIMTRLGTPVLQALGDGDFVKCLHSVGQPLTGQGEPVSQWPCNPEKTLIGHVPDQREIISFGSGYGGNSLLGKKCFALRIASRLARDEGWLAEHMLILGITSPAGKKRYVAAAFPSACGKTNLAMMRPALPGWKVECVGDDIAWMRFDSEGRLRAINPENGFFGVAPGTSATTNPNAMATIQSNTIFTNVAETSDGGVYWEGIDQPLPPGVTVTSWLGKPWKPG-----MCGGEGVAQPPGLSTLMVEKLSPQPPTIF---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"
 
-n = re.findall('-+', kk.strip('-'))
+n = len(re.findall('-+', kk.strip('-')))
 print(len(n))
 
 
