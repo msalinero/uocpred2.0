@@ -1,3 +1,4 @@
+import re
 import os
 import subprocess
 import numpy as np
@@ -19,6 +20,7 @@ class Utils():
         clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
         df = pd.DataFrame({})
         consensus = ''
+        alignment = ''
         
         def __init__(self):
                 pass
@@ -66,6 +68,7 @@ class Utils():
                 
         def get_alignment(self,f,format):
                 alignment = AlignIO.read(f, format)
+                self.alignment = alignment
                 return alignment
 
         def print_alignment(self, alignment):
@@ -125,11 +128,297 @@ class Utils():
                                 with open(fname) as infile:
                                         outfile.write(infile.read())
 
-        def populate_features(self):
-                pass
-        
         def setnA(self):
-                pass
+                # Columna nueva y valor por defecto
+                self.df['nA'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nA = alignSec.seq.count('A')
+                        self.df.at[id, 'nA'] = nA
+
+        def setnB(self):
+                # Columna nueva y valor por defecto
+                self.df['nB'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nB = alignSec.seq.count('B')
+                        self.df.at[id, 'nB'] = nB
+
+        def setnC(self):
+                # Columna nueva y valor por defecto
+                self.df['nC'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nC = alignSec.seq.count('C')
+                        self.df.at[id, 'nC'] = nC
+
+        def setnD(self):
+                # Columna nueva y valor por defecto
+                self.df['nD'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nD = alignSec.seq.count('D')
+                        self.df.at[id, 'nD'] = nD
+
+        def setnE(self):
+                # Columna nueva y valor por defecto
+                self.df['nE'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nE = alignSec.seq.count('E')
+                        self.df.at[id, 'nE'] = nE
+
+
+        def setnF(self):
+                # Columna nueva y valor por defecto
+                self.df['nF'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nF = alignSec.seq.count('F')
+                        self.df.at[id, 'nF'] = nF
+
+        def setnG(self):
+                # Columna nueva y valor por defecto
+                self.df['nG'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nG = alignSec.seq.count('G')
+                        self.df.at[id, 'nG'] = nG
+
+        def setnH(self):
+                # Columna nueva y valor por defecto
+                self.df['nH'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nH = alignSec.seq.count('H')
+                        self.df.at[id, 'nH'] = nH
+
+        def setnI(self):
+                # Columna nueva y valor por defecto
+                self.df['nI'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nI = alignSec.seq.count('I')
+                        self.df.at[id, 'nI'] = nI
+
+        def setnJ(self):
+                # Columna nueva y valor por defecto
+                self.df['nJ'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nJ = alignSec.seq.count('J')
+                        self.df.at[id, 'nJ'] = nJ
+
+        def setnK(self):
+                # Columna nueva y valor por defecto
+                self.df['nK'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nK = alignSec.seq.count('K')
+                        self.df.at[id, 'nK'] = nK
+
+        def setnL(self):
+                # Columna nueva y valor por defecto
+                self.df['nL'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nL = alignSec.seq.count('L')
+                        self.df.at[id, 'nL'] = nL
+
+        def setnM(self):
+                # Columna nueva y valor por defecto
+                self.df['nM'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nM = alignSec.seq.count('M')
+                        self.df.at[id, 'nM'] = nM
+        
+        def setnN(self):
+                # Columna nueva y valor por defecto
+                self.df['nN'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nN = alignSec.seq.count('N')
+                        self.df.at[id, 'nN'] = nN
+
+        def setnO(self):
+                # Columna nueva y valor por defecto
+                self.df['nO'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nO = alignSec.seq.count('O')
+                        self.df.at[id, 'nO'] = nO
+
+        def setnP(self):
+                # Columna nueva y valor por defecto
+                self.df['nP'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nP = alignSec.seq.count('P')
+                        self.df.at[id, 'nP'] = nP
+
+        def setnQ(self):
+                # Columna nueva y valor por defecto
+                self.df['nQ'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nQ = alignSec.seq.count('Q')
+                        self.df.at[id, 'nQ'] = nQ
+
+        def setnR(self):
+                # Columna nueva y valor por defecto
+                self.df['nR'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nR = alignSec.seq.count('R')
+                        self.df.at[id, 'nR'] = nR
+
+        def setnS(self):
+                # Columna nueva y valor por defecto
+                self.df['nS'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nS = alignSec.seq.count('S')
+                        self.df.at[id, 'nS'] = nS
+
+        def setnT(self):
+                # Columna nueva y valor por defecto
+                self.df['nT'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nT = alignSec.seq.count('T')
+                        self.df.at[id, 'nT'] = nT
+
+        def setnU(self):
+                # Columna nueva y valor por defecto
+                self.df['nU'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nU = alignSec.seq.count('U')
+                        self.df.at[id, 'nU'] = nU
+
+        def setnV(self):
+                # Columna nueva y valor por defecto
+                self.df['nV'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nV = alignSec.seq.count('V')
+                        self.df.at[id, 'nV'] = nV
+
+        def setnW(self):
+                # Columna nueva y valor por defecto
+                self.df['nW'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nW = alignSec.seq.count('W')
+                        self.df.at[id, 'nW'] = nW
+
+        def setnX(self):
+                # Columna nueva y valor por defecto
+                self.df['nX'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nX = alignSec.seq.count('X')
+                        self.df.at[id, 'nX'] = nX
+
+        def setnY(self):
+                # Columna nueva y valor por defecto
+                self.df['nY'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nY = alignSec.seq.count('Y')
+                        self.df.at[id, 'nY'] = nY
+
+        def setnZ(self):
+                # Columna nueva y valor por defecto
+                self.df['nZ'] = -1
+                # Recorrer los alineamientos y establecer el numero aminoacidos
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nZ = alignSec.seq.count('Z')
+                        self.df.at[id, 'nZ'] = nZ
+
+        def setNGap(self):
+                # Columna nueva y valor por defecto
+                self.df['nGap'] = -1
+                # Recorrer los alineamientos y establecer el numero de '-'
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nGap = alignSec.seq.count('-')
+                        self.df.at[id, 'nGap'] = nGap
+
+        def setNGaps(self):
+                # Columna nueva y valor por defecto
+                self.df['nGaps'] = -1
+                # Recorrer los alineamientos y establecer el numero conjuntos de Gaps(grupos de - entre aminoacidos)
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        nGaps = len(re.findall('-+', str(alignSec.seq).strip('-')))
+                        self.df.at[id, 'nGaps'] = nGaps
+
+
+
+        
+        
+
+        
+        def populate_features(self):
+                self.setnA()
+                self.setnB()
+                self.setnC()
+                self.setnD()
+                self.setnE()
+                self.setnF()
+                self.setnG()
+                self.setnH()
+                self.setnI()
+                self.setnJ()
+                self.setnK()
+                self.setnL()
+                self.setnM()
+                self.setnN()
+                self.setnO()
+                self.setnP()
+                self.setnQ()
+                self.setnR()
+                self.setnS()
+                self.setnT()
+                self.setnU()
+                self.setnV()
+                self.setnX()
+                self.setnY()
+                self.setnW()
+                self.setnZ()
+                self.setNGaps()
+                print(self.df)
+                
+        
+        
 
 
        
@@ -152,16 +441,33 @@ if __name__ == '__main__':
         aligmentTool = 'clustalw'
         als = util.run_alignment(aligmentTool)
 
+        # Crear las features
+
+        util.populate_features()
+
+
         # Sacar una secuencia del alineamiento
-        a = als[0]
-        aminoacids = set(a.seq)
-        for aminoacid in aminoacids:
-                print(aminoacid)
-        print(len(aminoacids))
-        print(a.seq.count('T'))
-        print(len(a))
-        print(len(a.seq))
-         
+        print("pruebas con una secuencia alineada")
+        a = als[5]
+        print(a.id)
+        print(a.seq)
+        print(a.seq.count('A'))
+        print(a.seq.count('B'))
+        print(a.seq.count('C'))
+        print(a.seq.count('D'))
+        print(a.seq.count('E'))
+        print(a.seq.count('F'))
+        print(a.seq.count('G'))
+        print(a.seq.count('U'))
+        print(a.seq.count('V'))
+        print(a.seq.count('W'))
+        print(a.seq.count('X'))
+        print(a.seq.count('Y'))
+        print(a.seq.count('Z'))
+        print(a.seq.count('-'))
+
+        
+                
         # Consensus secuence  
         summary_align = AlignInfo.SummaryInfo(als)
         consensus = summary_align.dumb_consensus(threshold=0.6,require_multiple=1,ambiguous='?')
