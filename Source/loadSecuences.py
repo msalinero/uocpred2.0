@@ -421,12 +421,7 @@ class Utils():
                         score = (x / n) * 100
                         self.df.at[id,'consensus'] = score
 
-        
-
-
-        
-
-        
+             
         def populate_features(self):
                 self.setnA()
                 self.setnB()
