@@ -25,6 +25,7 @@ class Utils():
         consensus = ''
         alignment = ''
         summary_align = ''
+        fastaout = ''
         
         def __init__(self):
                 pass
@@ -81,7 +82,8 @@ class Utils():
 
         def run_alignment(self,tool):
                 # Alineamiento
-                fastaFile = self.select_file()
+                # fastaFile = self.select_file()
+                fastaFile = self.fastaout
                 if (tool == "clustalw"):
                         self.exec_clustalW(fastaFile)
                         alignFormat = 'clustal'
@@ -146,8 +148,8 @@ class Utils():
 
                 print(self.df.to_string())
                 filenames = [f1,f2]
-                fastaout = os.path.dirname(os.path.abspath(__file__)) + '\\allkin.fasta'
-                with open(fastaout, 'w') as outfile:
+                self.fastaout = os.path.dirname(os.path.abspath(__file__)) + '\\allkin.fasta'
+                with open(self.fastaout, 'w') as outfile:
                         for fname in filenames:
                                 with open(fname) as infile:
                                         outfile.write(infile.read())
