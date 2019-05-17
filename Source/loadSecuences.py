@@ -9,12 +9,10 @@ import subprocess
 import numpy as np
 import pandas as pd
 import Bio.Align.Applications as ba
-#from Bio.Align.Applications import ClustalwCommandline
 from Bio import Phylo
 from Bio import SeqIO
 from Bio import AlignIO
 from Bio.Align import AlignInfo
-#import Bio.Align.Applications
 import tkinter as tk
 from tkinter import filedialog
 import time
@@ -59,7 +57,6 @@ class Utils():
                 alignFile = f.replace('.fasta', '.aln')
                 muscle_cline = ba.MuscleCommandline(input=f, out=alignFile)
                 stdout, stderr = muscle_cline()
-                #stdout, stderr = clinetree()
                 treeFile = f.replace('.fasta', '.dnd')
                 print("Arbol filogenetico")
                 clinetree = "muscle -maketree -in " + alignFile + " -out " + treeFile + " -cluster neighborjoining"
@@ -107,6 +104,7 @@ class Utils():
 
                 return alignment
         
+        # Si el campo GN='' del archivo fasta tiene la informacion del GEN, fijamos el gen
         def get_gene_from_description(self,desc):
                 geneField = re.findall('GN=\S+',desc)
                 if (len(geneField) == 1):
@@ -121,6 +119,7 @@ class Utils():
 
         
         def load_kinases(self):
+                # Cargar 
                 f1 = self.select_file()
                 healthySeqRecords = SeqIO.parse(f1,'fasta')
                 rows_list =[]
@@ -461,10 +460,7 @@ class ProteinProblem(object):
 
         def __init__(self,data):
                 self.data_frame = data
-                #for k in self.data_frame.columns[0:]:
-                #        self.data_frame[k], _ = pd.factorize(self.data_frame[k])
-
-
+                
                 cols = self.data_frame.columns
                 num_cols = self.data_frame._get_numeric_data().columns
                 nc = list(set(cols) - set(num_cols))
