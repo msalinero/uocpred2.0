@@ -1,3 +1,8 @@
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+from numpy.random import permutation
+from numpy import array_split, concatenate
+from sklearn.metrics import mean_squared_error
 import re
 import os
 import subprocess
@@ -21,6 +26,7 @@ class Utils():
         df = pd.DataFrame({})
         consensus = ''
         alignment = ''
+        summary_align = ''
         
         def __init__(self):
                 pass
@@ -96,8 +102,8 @@ class Utils():
                 self.print_phylo_tree(treeFile)
 
                 # Consensus secuence  
-                summary_align = AlignInfo.SummaryInfo(self.alignment)
-                self.consensus = summary_align.dumb_consensus(threshold=0.7,require_multiple=1,ambiguous='?')
+                self.summary_align = AlignInfo.SummaryInfo(self.alignment)
+                self.consensus = self.summary_align.dumb_consensus(threshold=0.7,require_multiple=1,ambiguous='?')
 
                 return alignment
         
@@ -108,6 +114,10 @@ class Utils():
                         return gen
                 else:
                         return 'unknown_gene'
+
+        ## Investigar
+        def get_activation_loop(self):
+                pass
 
         
         def load_kinases(self):
@@ -449,16 +459,90 @@ class Utils():
                 self.setConsensusPercentage()
                 print(self.df.to_string())
                 
-        
-        
+
+class ProteinProblem(object):
+
+        data_frame = pd.DataFrame()
+
+        def __init__(self,data):
+                self.data_frame = data
+                #for k in self.data_frame.columns[0:]:
+                #        self.data_frame[k], _ = pd.factorize(self.data_frame[k])
 
 
-       
-class AlignSequence():
+                cols = self.data_frame.columns
+                num_cols = self.data_frame._get_numeric_data().columns
+                nc = list(set(cols) - set(num_cols))
+
+                for k in nc:
+                        self.data_frame[k], _ = pd.factorize(self.data_frame[k])
+                
+                categories = sorted(pd.Categorical(self.data_frame['state']).categories)
+                
+                self.classes = np.array(categories)
+                self.features = self.data_frame.columns[self.data_frame.columns != 'state']
         
-        def __init__(self,seq):
-                self.recSeq = seq
-        
+        @staticmethod
+        def __factorize(data):
+
+                y, _ = pd.factorize(pd.Categorical(data['state']), sort=True)
+                return y
+
+        def train(self, X, Y):
+    
+                raise NotImplementedError
+                
+        def validation_data(self, folds):
+                df = self.data_frame
+                response = []
+                assert len(df) > folds
+                perms = array_split(permutation(len(df)), folds)
+                for i in range(folds):
+                        train_idxs = list(range(folds))
+                        train_idxs.pop(i)
+                        train = []
+                        for idx in train_idxs:
+                                train.append(perms[idx])
+
+                train = concatenate(train)
+
+                test_idx = perms[i]
+                
+                training = df.iloc[train]
+                test_data = df.iloc[test_idx]
+                y = self.__factorize(training)
+                classifier = self.train(training[self.features], y)
+                predictions = classifier.predict(test_data[self.features])
+                expected = self.__factorize(test_data)
+                response.append([predictions, expected])
+                return response
+
+
+class ProteinClassifier(ProteinProblem):
+
+        def validate(self, folds):
+
+
+                confusion_matrices = []
+                for test, training in self.validation_data(folds):
+                        confusion_matrices.append(self.confusion_matrix(training, test))
+                return confusion_matrices
+
+        @staticmethod
+        def confusion_matrix(train, test):
+                return pd.crosstab(test, train, rownames=['actual'], colnames=['preds'])
+
+
+class ProteinForest(ProteinClassifier):
+
+
+
+        def train(self, X, Y):
+
+
+                classifier = RandomForestClassifier(n_jobs=2)
+                classifier = classifier.fit(X, Y)
+                return classifier
 
 
 if __name__ == '__main__':
@@ -477,30 +561,12 @@ if __name__ == '__main__':
 
         util.populate_features()
 
-        # Secuencias consenso
-        print("Secuencia consenso")
-        print(util.consensus)
-
-
-        # Sacar una secuencia del alineamiento
-        print("pruebas con una secuencia alineada")
-        a = als[5]
-        print(a.id)
-        print(a.seq)
-        print(a.seq.count('A'))
-        print(a.seq.count('B'))
-        print(a.seq.count('C'))
-        print(a.seq.count('D'))
-        print(a.seq.count('E'))
-        print(a.seq.count('F'))
-        print(a.seq.count('G'))
-        print(a.seq.count('U'))
-        print(a.seq.count('V'))
-        print(a.seq.count('W'))
-        print(a.seq.count('X'))
-        print(a.seq.count('Y'))
-        print(a.seq.count('Z'))
-        print(a.seq.count('-'))
+               
+        #Pruebas ML
+        folds = 3
+        rf = ProteinForest(util.df)
+        print(rf.data_frame.to_string())
+        print(rf.validate(folds))
 
         
                 
