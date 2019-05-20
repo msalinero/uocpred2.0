@@ -1,0 +1,5 @@
+[DEFAULT]
+muscle_exe = C:/Program Files (x86)/ClustalW2/clustalw2.exe
+[ML]
+nfolds = 10
+criterion = gini

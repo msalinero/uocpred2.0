@@ -3,6 +3,7 @@ from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from numpy.random import permutation
 from numpy import array_split, concatenate
 from sklearn.metrics import mean_squared_error
+import sys
 import re
 import os
 import subprocess
@@ -17,22 +18,29 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter.ttk import *
 from tkinter import scrolledtext
+from tkinter import *
 import time
+import configparser
 
 class Utils():
 
-        # Direccion del ejecutable clustalW, debería leerse desde un archivo config.
-        clustalw_exe = r"C:\Program Files (x86)\ClustalW2\clustalw2.exe"
-        df = pd.DataFrame({})
-        consensus = ''
-        alignment = ''
-        alignment_tool = ''
-        summary_align = ''
-        fastaout = ''
+           
         
-        def __init__(self):
-                pass
+        
+        def __init__(self, df=pd.DataFrame({}), consensus='',
+         alignment='', alignment_tool='', summary_align='', 
+         fastaout='',clustalw_exe='',nfold=2, criterion=''):
+                try :
+                        config = configparser.ConfigParser()
+                        config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
+                        self.clustalw_exe = config['DEFAULT']['muscle_exe']
+                        self.nfolds = int(config['ML']['nfolds'])
+                        self.criterion = config['ML']['criterion']
 
+                except:
+                        print("Problema con el archivo de configuración")
+        
+        
         def select_fasta_file(self,message):
                 # para quitar la ventana que aparece
                 root = tk.Tk()
@@ -41,13 +49,48 @@ class Utils():
                 # dialogo de seleccion de archivo
                 file_path = filedialog.askopenfilename(initialdir = "./",title = message,filetypes = (("FASTA files","*.fasta"),("all files","*.*")))
                 return file_path
-        
-        def print_secuences(self,secs):
-                for seq_record in secs:
-                        print(seq_record.id)
-                        print(seq_record.seq)
-                        print(len(seq_record))
 
+        def load_kinases(self):
+                # Archivo conteniendo las kinasas benignas
+                print("Carga de las kinasas benignas")
+                f1 = self.select_fasta_file(
+                    "Selecciona el archivo FASTA con las Kinasas benignas")
+                healthySeqRecords = SeqIO.parse(f1, 'fasta')
+                rows_list = []
+                for seq in healthySeqRecords:
+                        dict1 = {}
+                        dict1.update({'id': seq.id,
+                                      'state': 'healthy',
+                                      'length': len(seq),
+                                      'gene': self.get_gene_from_description(seq.description)
+                                      })
+                        rows_list.append(dict1)
+                # Archivo conteniendo las kinasas patologicas
+                print("Carga de las kinasas patologicas")
+                f2 = self.select_fasta_file(
+                    "Selecciona el archivo FASTA con las Kinasas patológicas")
+                patSeqRecords = SeqIO.parse(f2, 'fasta')
+                for seq in patSeqRecords:
+                        dict1 = {}
+                        dict1.update({'id': seq.id,
+                                      'state': 'pathologic',
+                                      'length': len(seq),
+                                      'gene': self.get_gene_from_description(seq.description)
+                                      })
+                        rows_list.append(dict1)
+                self.df = pd.DataFrame(rows_list)
+                self.df = self.df.set_index('id')
+
+                #print(self.df.to_string())
+                filenames = [f1, f2]
+                self.fastaout = os.path.dirname(
+                    os.path.abspath(__file__)) + '\\allkin.fasta'
+                with open(self.fastaout, 'w') as outfile:
+                        for fname in filenames:
+                                with open(fname) as infile:
+                                        outfile.write(infile.read())
+
+        
         def exec_clustalW(self,f):
                 start = time.time()
                 clustalw_cline = ba.ClustalwCommandline(self.clustalw_exe, infile=f)
@@ -73,15 +116,35 @@ class Utils():
                 tree = Phylo.read(f, "newick")
                 Phylo.draw_ascii(tree)
                 
+
+        def draw_phylo_tree(self, treefile):
+                alignWindow = tk.Tk()
+                alignWindow.title("Phylo tree")
+                # Redirigir la salida al fichero
+                original = sys.stdout
+                treeout = os.path.dirname(os.path.abspath(__file__)) + '\\out.tree'
+                sys.stdout = open(treeout, 'w')
+                self.print_phylo_tree(treefile)
+                sys.stdout = original
+                # Crear el area de texto
+                txt = scrolledtext.ScrolledText(alignWindow)
+                txt.grid(column=0, row=0, sticky='NSEW')
+                with open(treeout, 'r') as f:
+                        txt.insert('1.0', f.read())
+                # Crear el boton
+                def clicked():
+                        alignWindow.destroy()
+                        alignWindow.quit()
+                btn = Button(alignWindow, text="OK", command=clicked)
+                btn.grid(column=0, row=2)
+                alignWindow.mainloop()
+
+        
+                
         def get_alignment(self,f,format):
                 alignment = AlignIO.read(f, format)
                 self.alignment = alignment
                 return alignment
-
-        def print_alignment(self, alignment):
-                print("Longitud total del alineamiento %i" % alignment.get_alignment_length())
-                for record in alignment:
-                        print("%s - %s" % (record.seq, record.id))
 
         def draw_alignment(self, alignfile):
                 alignWindow = tk.Tk()
@@ -124,7 +187,7 @@ class Utils():
                 toolWindow.mainloop()
                 
 
-        def run_alignment(self,tool):
+        def run_alignment(self):
                 # Alineamiento
                 fastaFile = self.fastaout
                 self.select_tool()
@@ -143,12 +206,12 @@ class Utils():
                 
 
                 alignment = self.get_alignment(alignFile, alignFormat)
-                self.print_alignment(alignment)
                 self.draw_alignment(alignFile)
                 
                 # Arbol filogenetico
                 treeFile = fastaFile.replace('.fasta', '.dnd')
                 self.print_phylo_tree(treeFile)
+                self.draw_phylo_tree(treeFile)
                 
 
                 # Consensus secuence  
@@ -157,63 +220,26 @@ class Utils():
 
                 return alignment
         
-        # Si el campo GN='' del archivo fasta tiene la informacion del GEN, fijamos el gen
-        def get_gene_from_description(self,desc):
-                geneField = re.findall('GN=\S+',desc)
-                if (len(geneField) == 1):
-                        gen = geneField[0].split('=')[1]
-                        return gen
-                else:
-                        return 'unknown_gene'
-
+        
         ## Investigar
         def get_activation_loop(self):
                 pass
-
-        
-        def load_kinases(self):
-                # Archivo conteniendo las kinasas benignas
-                print("Carga de las kinasas benignas")
-                f1 = self.select_fasta_file("Selecciona el archivo FASTA con las Kinasas benignas")
-                healthySeqRecords = SeqIO.parse(f1,'fasta')
-                rows_list =[]
-                for seq in healthySeqRecords:
-                        dict1 = {}
-                        dict1.update({'id' : seq.id,
-                                      'state' : 'healthy',
-                                      'length': len(seq),
-                                      'gene' : self.get_gene_from_description(seq.description)
-                        })  
-                        rows_list.append(dict1)
-                # Archivo conteniendo las kinasas patologicas
-                print("Carga de las kinasas patologicas")
-                f2 = self.select_fasta_file("Selecciona el archivo FASTA con las Kinasas patológicas")
-                patSeqRecords = SeqIO.parse(f2, 'fasta')
-                for seq in patSeqRecords:
-                        dict1 = {}
-                        dict1.update({'id' : seq.id, 
-                                      'state': 'pathologic',
-                                      'length': len(seq),
-                                      'gene': self.get_gene_from_description(seq.description)
-                        })
-                        rows_list.append(dict1)
-                self.df = pd.DataFrame(rows_list)
-                self.df = self.df.set_index('id')
-
-                #print(self.df.to_string())
-                filenames = [f1,f2]
-                self.fastaout = os.path.dirname(os.path.abspath(__file__)) + '\\allkin.fasta'
-                with open(self.fastaout, 'w') as outfile:
-                        for fname in filenames:
-                                with open(fname) as infile:
-                                        outfile.write(infile.read())
-
 
         ######################################
         #                                              
         # Funciones generadoras de Features
         # 
         ######################################
+
+        # Si el campo GN='' del archivo fasta tiene la informacion del GEN, fijamos el gen
+        def get_gene_from_description(self, desc):
+                geneField = re.findall('GN=\S+', desc)
+                if (len(geneField) == 1):
+                        gen = geneField[0].split('=')[1]
+                        return gen
+                else:
+                        return 'unknown_gene'
+
 
         def setnA(self):
                 # Columna nueva y valor por defecto
@@ -441,6 +467,7 @@ class Utils():
 
              
         def populate_features(self):
+                print("Generando las features")
                 self.setnA()
                 self.setnC()
                 self.setnD()
@@ -470,18 +497,20 @@ class Utils():
 
 class ProteinProblem(object):
 
-        data_frame = pd.DataFrame()
+        def __init__(self,data,criterion):
 
-        def __init__(self,data):
+                self.criterion = criterion
                 self.data_frame = data
-                
+
+                # Factorizamos las columnas que no son numericas(sabemos que las numéricas no son categoricas)                 
                 cols = self.data_frame.columns
-                num_cols = self.data_frame._get_numeric_data().columns
-                nc = list(set(cols) - set(num_cols))
+                numeric_cols = self.data_frame._get_numeric_data().columns
+                nc = list(set(cols) - set(numeric_cols))
 
                 for k in nc:
                         self.data_frame[k], _ = pd.factorize(self.data_frame[k])
                 
+                # Categorias de nuestro target 'state'
                 categories = sorted(pd.Categorical(self.data_frame['state']).categories)
                 
                 self.classes = np.array(categories)
@@ -500,24 +529,41 @@ class ProteinProblem(object):
         def validation_data(self, folds):
                 df = self.data_frame
                 response = []
+                # Mas observaciones que folds
                 assert len(df) > folds
+                # Generar particiones
                 perms = array_split(permutation(len(df)), folds)
-                for i in range(folds):
-                        train_idxs = list(range(folds))
-                        train_idxs.pop(i)
-                        train = []
-                        for idx in train_idxs:
-                                train.append(perms[idx])
+                
 
+                #for i in range(folds):
+                #        train_idxs = list(range(folds))
+                #        train_idxs.pop(i)
+                #        train = []
+                #        for idx in train_idxs:
+                #                train.append(perms[idx])
+                # Lista de particiones
+                train = []
+                for i in range(folds):
+                        train.append(perms[i])
+                # Sacamos la ultima particion de id para test
+                test_idx = train.pop(folds-1)
+                # Conjunto de id de train
                 train = concatenate(train)
 
-                test_idx = perms[i]
+                #test_idx = perms[i]
                 
+                # Observaciones para training
                 training = df.iloc[train]
+                # Observaciones para test
                 test_data = df.iloc[test_idx]
+
+                # Classes del conjunto de training
                 y = self.__factorize(training)
+                # Entrenar el modelo
                 classifier = self.train(training[self.features], y)
+                # Predecimos para el conjunto test
                 predictions = classifier.predict(test_data[self.features])
+                # Resultados esperados para el conjunto test
                 expected = self.__factorize(test_data)
                 response.append([predictions, expected])
                 return response
@@ -526,7 +572,6 @@ class ProteinProblem(object):
 class ProteinClassifier(ProteinProblem):
 
         def validate(self, folds):
-
 
                 confusion_matrices = []
                 for test, training in self.validation_data(folds):
@@ -541,11 +586,9 @@ class ProteinClassifier(ProteinProblem):
 class ProteinForest(ProteinClassifier):
 
 
-
         def train(self, X, Y):
 
-
-                classifier = RandomForestClassifier(n_jobs=2)
+                classifier = RandomForestClassifier(criterion=self.criterion, n_jobs=2, n_estimators=100)
                 classifier = classifier.fit(X, Y)
                 return classifier
 
@@ -553,21 +596,21 @@ class ProteinForest(ProteinClassifier):
 if __name__ == '__main__':
         
         util = Utils()
-        # Cargar kinasas no patológicas
+        # Cargar kinasas patológicas y patologicas
         util.load_kinases()
         print("")
 
         # Ejecucion del alineamiento
-        aligmentTool = 'clustalw'
-        als = util.run_alignment(aligmentTool)
+        als = util.run_alignment()
 
         # Crear las features
         util.populate_features()
 
                
         #Pruebas ML
-        folds = 3
-        rf = ProteinForest(util.df)
+        folds = util.nfolds
+        crit = util.criterion
+        rf = ProteinForest(util.df, crit)
         print(rf.data_frame.to_string())
         print(rf.validate(folds))
 
