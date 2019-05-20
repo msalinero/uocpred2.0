@@ -529,43 +529,36 @@ class ProteinProblem(object):
         def validation_data(self, folds):
                 df = self.data_frame
                 response = []
-                # Mas observaciones que folds
+                # Comprobar que hay mas observaciones que folds
                 assert len(df) > folds
                 # Generar particiones
                 perms = array_split(permutation(len(df)), folds)
                 
 
-                #for i in range(folds):
-                #        train_idxs = list(range(folds))
-                #        train_idxs.pop(i)
-                #        train = []
-                #        for idx in train_idxs:
-                #                train.append(perms[idx])
-                # Lista de particiones
-                train = []
                 for i in range(folds):
-                        train.append(perms[i])
-                # Sacamos la ultima particion de id para test
-                test_idx = train.pop(folds-1)
-                # Conjunto de id de train
-                train = concatenate(train)
+                        train_idxs = list(range(folds))
+                        train_idxs.pop(i)
+                        train = []
+                        for idx in train_idxs:
+                                train.append(perms[idx])
+                        train = concatenate(train)
 
-                #test_idx = perms[i]
+                        test_idx = perms[i]
                 
-                # Observaciones para training
-                training = df.iloc[train]
-                # Observaciones para test
-                test_data = df.iloc[test_idx]
+                        # Observaciones para training
+                        training = df.iloc[train]
+                        # Observaciones para test
+                        test_data = df.iloc[test_idx]
 
-                # Classes del conjunto de training
-                y = self.__factorize(training)
-                # Entrenar el modelo
-                classifier = self.train(training[self.features], y)
-                # Predecimos para el conjunto test
-                predictions = classifier.predict(test_data[self.features])
-                # Resultados esperados para el conjunto test
-                expected = self.__factorize(test_data)
-                response.append([predictions, expected])
+                        # Classes del conjunto de training
+                        y = self.__factorize(training)
+                        # Entrenar el modelo
+                        classifier = self.train(training[self.features], y)
+                        # Predecimos para el conjunto test
+                        predictions = classifier.predict(test_data[self.features])
+                        # Resultados esperados para el conjunto test
+                        expected = self.__factorize(test_data)
+                        response.append([predictions, expected])
                 return response
 
 
