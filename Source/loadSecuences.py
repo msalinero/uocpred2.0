@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from numpy.random import permutation
 from numpy import array_split, concatenate
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, roc_curve
 import sys
 import re
 import os
@@ -21,6 +21,9 @@ from tkinter import scrolledtext
 from tkinter import *
 import time
 import configparser
+from sklearn.metrics import accuracy_score, confusion_matrix
+from sklearn.metrics import f1_score, balanced_accuracy_score
+import matplotlib.pyplot as plt
 
 class Utils():
 
@@ -34,7 +37,7 @@ class Utils():
                         config = configparser.ConfigParser()
                         config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
                         self.clustalw_exe = config['DEFAULT']['muscle_exe']
-                        self.nfolds = int(config['ML']['nfolds'])
+                        self.nfolds = int(config['ML']['kfolds'])
                         self.criterion = config['ML']['criterion']
 
                 except:
@@ -52,7 +55,7 @@ class Utils():
 
         def load_kinases(self):
                 # Archivo conteniendo las kinasas benignas
-                print("Carga de las kinasas benignas")
+                print("Carga de las kinasas benignas\n")
                 f1 = self.select_fasta_file(
                     "Selecciona el archivo FASTA con las Kinasas benignas")
                 healthySeqRecords = SeqIO.parse(f1, 'fasta')
@@ -66,7 +69,7 @@ class Utils():
                                       })
                         rows_list.append(dict1)
                 # Archivo conteniendo las kinasas patologicas
-                print("Carga de las kinasas patologicas")
+                print("Carga de las kinasas patologicas\n")
                 f2 = self.select_fasta_file(
                     "Selecciona el archivo FASTA con las Kinasas patológicas")
                 patSeqRecords = SeqIO.parse(f2, 'fasta')
@@ -81,7 +84,6 @@ class Utils():
                 self.df = pd.DataFrame(rows_list)
                 self.df = self.df.set_index('id')
 
-                #print(self.df.to_string())
                 filenames = [f1, f2]
                 self.fastaout = os.path.dirname(
                     os.path.abspath(__file__)) + '\\allkin.fasta'
@@ -97,7 +99,7 @@ class Utils():
                 stdout, stderr = clustalw_cline()
                 end = time.time()
                 timeCost = end - start
-                print("El alineamiento con CLustalW ha tardado {0:.2f} segundos.".format(timeCost))
+                print("El alineamiento con CLustalW ha tardado {0:.2f} segundos.\n".format(timeCost))
                 
         def exec_Muscle(self,f):
                 start = time.time()
@@ -192,7 +194,7 @@ class Utils():
                 fastaFile = self.fastaout
                 self.select_tool()
                 # Barra de progreso
-                print("Ejecucion del alineamiento con " + self.alignment_tool)
+                print("Ejecucion del alineamiento con " + self.alignment_tool + "\n")
                                               
                 if (self.alignment_tool == "clustalw"):
                         self.exec_clustalW(fastaFile)
@@ -210,7 +212,7 @@ class Utils():
                 
                 # Arbol filogenetico
                 treeFile = fastaFile.replace('.fasta', '.dnd')
-                self.print_phylo_tree(treeFile)
+                #self.print_phylo_tree(treeFile)
                 self.draw_phylo_tree(treeFile)
                 
 
@@ -465,9 +467,238 @@ class Utils():
                         score = (x / n) * 100
                         self.df.at[id,'consensus'] = score
 
+        def setHydrophobicity_Group1(self):
+                # Columna nueva y valor por defecto
+                self.df['hydroG1'] = -1.0
+                # Grupo 1 AA segun hidrofobia R, K, E, D, Q, N
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[RKEDQN]', seq)) / self.df.at[id, 'length']
+                        self.df.at[id, 'hydroG1'] = n
+
+        def setHydrophobicity_Group2(self):
+                # Columna nueva y valor por defecto
+                self.df['hydroG2'] = -1.0
+                # Grupo 2 AA segun hidrofobia G, A, S, T, P, H, Y
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[GASTPHY]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'hydroG2'] = n
+
+        def setHydrophobicity_Group3(self):
+                # Columna nueva y valor por defecto
+                self.df['hydroG3'] = -1.0
+                # Grupo 3 AA segun hidrofobia C, L, V, I, M, F, W
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[CLVIMFW]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'hydroG3'] = n
+                
+        def setVanderWaals_Group1(self):
+                # Columna nueva y valor por defecto
+                self.df['vdwG1'] = -1.0
+                # Grupo 1 AA segun van der Waals Volume G, A, S, T, P, D, C
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[GASTPDC]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'vdwG1'] = n
+
+        def setVanderWaals_Group2(self):
+                # Columna nueva y valor por defecto
+                self.df['vdwG2'] = -1.0
+                # Grupo 1 AA segun van der Waals Volume N, V, E, Q, I, L
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[NVEQIL]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'vdwG2'] = n
+
+        def setVanderWaals_Group3(self):
+                # Columna nueva y valor por defecto
+                self.df['vdwG3'] = -1.0
+                # Grupo 1 AA segun van der Waals Volume M, H, K, F, R, Y, W
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[MHKFRYW]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'vdwG3'] = n
+
+        def setPolarity_Group1(self):
+                # Columna nueva y valor por defecto
+                self.df['PG1'] = -1.0
+                # Grupo 1 AA segun Polarity L, I, F, W, C, M, V, Y
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[LIFWCMVY]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'PG1'] = n
+
+        def setPolarity_Group2(self):
+                # Columna nueva y valor por defecto
+                self.df['PG2'] = -1.0
+                # Grupo 1 AA segun Polarity P, A, T, G, S
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[PATGS]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'PG2'] = n
+
+        def setPolarity_Group3(self):
+                # Columna nueva y valor por defecto
+                self.df['PG3'] = -1.0
+                # Grupo 1 AA segun Polarity H, Q, R, K, N, E, D
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[HQRKNED]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'PG3'] = n
+
+        def setPolarizability_Group1(self):
+                # Columna nueva y valor por defecto
+                self.df['PolG1'] = -1.0
+                # Grupo 1 AA segun Polarizability G, A, S, D, T
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[GASDT]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'PolG1'] = n
+        
+        def setPolarizability_Group2(self):
+                # Columna nueva y valor por defecto
+                self.df['PolG2'] = -1.0
+                # Grupo 2 AA segun Polarizability C, P, N, V, E, Q, I, L
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[CPNVEQIL]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'PolG2'] = n
+
+        def setPolarizability_Group3(self):
+                # Columna nueva y valor por defecto
+                self.df['PolG3'] = -1.0
+                # Grupo 3 AA segun Polarizability K, M, H, F, R, Y, W
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[KMHFRYW]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'PolG3'] = n
+
+        def setCharge_Group1(self):
+                # Columna nueva y valor por defecto
+                self.df['ChargeG1'] = -1.0
+                # Grupo 3 AA segun carga K, R
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[KR]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'ChargeG1'] = n
+
+        def setCharge_Group2(self):
+                # Columna nueva y valor por defecto
+                self.df['ChargeG2'] = -1.0
+                # Grupo 3 AA segun carga A, N, C, Q, G, H, I, L, M, F, P, S, T, W, Y, V
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[ANCQGHILMFPSTWYV]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'ChargeG2'] = n
+
+        def setCharge_Group3(self):
+                # Columna nueva y valor por defecto
+                self.df['ChargeG3'] = -1.0
+                # Grupo 3 AA segun carga D, E
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[DE]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'ChargeG3'] = n
+
+        def setSecondaryStructure_Group1(self):
+                # Columna nueva y valor por defecto
+                self.df['SEG1'] = -1.0
+                # Grupo 3 AA segun estructura secundaria E, A, L, M, Q, K, R, H
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[EALMQKRH]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'SEG1'] = n
+
+        def setSecondaryStructure_Group2(self):
+                # Columna nueva y valor por defecto
+                self.df['SEG2'] = -1.0
+                # Grupo 3 AA segun estructura secundaria V, I, Y, C, W, F, T
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[VIYCWFT]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'SEG2'] = n
+
+        def setSecondaryStructure_Group3(self):
+                # Columna nueva y valor por defecto
+                self.df['SEG3'] = -1.0
+                # Grupo 3 AA segun estructura secundaria D, E
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[GNPSD]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'SEG3'] = n
+
+        def setSolventAccessibility_Group1(self):
+                # Columna nueva y valor por defecto
+                self.df['SaG1'] = -1.0
+                # Grupo 3 AA segun estructura secundaria D, E
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[ALFCGIVW]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'SaG1'] = n
+
+        def setSolventAccessibility_Group2(self):
+                # Columna nueva y valor por defecto
+                self.df['SaG2'] = -1.0
+                # Grupo 3 AA segun estructura secundaria D, E
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[RKQEND]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'SaG2'] = n
+
+        def setSolventAccessibility_Group3(self):
+                # Columna nueva y valor por defecto
+                self.df['SaG3'] = -1.0
+                # Grupo 3 AA segun estructura secundaria D, E
+                for alignSec in self.alignment:
+                        id = alignSec.id
+                        seq = str(alignSec.seq)
+                        n = len(re.findall('[MSPTHY]', seq)
+                                ) / self.df.at[id, 'length']
+                        self.df.at[id, 'SaG3'] = n
              
         def populate_features(self):
-                print("Generando las features")
+                print("Generando las features\n")
                 self.setnA()
                 self.setnC()
                 self.setnD()
@@ -492,14 +723,44 @@ class Utils():
                 self.setNGap()
                 self.setNGaps()
                 self.setConsensusPercentage()
+                self.setHydrophobicity_Group1()
+                self.setHydrophobicity_Group2()
+                self.setHydrophobicity_Group3()
+                self.setVanderWaals_Group1()
+                self.setVanderWaals_Group2()
+                self.setVanderWaals_Group3()
+                self.setPolarity_Group1()
+                self.setPolarity_Group2()
+                self.setPolarity_Group3()
+                self.setPolarizability_Group1()
+                self.setPolarizability_Group2()
+                self.setPolarizability_Group3()
+                self.setCharge_Group1()
+                self.setCharge_Group2()
+                self.setCharge_Group3()
+                self.setSecondaryStructure_Group1()
+                self.setSecondaryStructure_Group2()
+                self.setSecondaryStructure_Group3()
+                self.setSolventAccessibility_Group1()
+                self.setSolventAccessibility_Group2()
+                self.setSolventAccessibility_Group3()
                 print(self.df.to_string())
                 
 
 class ProteinProblem(object):
 
-        def __init__(self,data,criterion):
+        def __init__(self,data):
 
-                self.criterion = criterion
+                try:
+                        config = configparser.ConfigParser()
+                        config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
+                        
+                        self.kfolds = int(config['ML']['kfolds'])
+                        self.criterion = config['ML']['criterion']
+
+                except:
+                        print("Problema con el archivo de configuración")
+
                 self.data_frame = data
 
                 # Factorizamos las columnas que no son numericas(sabemos que las numéricas no son categoricas)                 
@@ -526,7 +787,8 @@ class ProteinProblem(object):
     
                 raise NotImplementedError
                 
-        def validation_data(self, folds):
+        def validation_data(self):
+                folds = self.kfolds
                 df = self.data_frame
                 response = []
                 # Comprobar que hay mas observaciones que folds
@@ -564,16 +826,46 @@ class ProteinProblem(object):
 
 class ProteinClassifier(ProteinProblem):
 
-        def validate(self, folds):
+        def validate(self):
 
                 confusion_matrices = []
-                for test, training in self.validation_data(folds):
-                        confusion_matrices.append(self.confusion_matrix(training, test))
+                ncfs = 0
+                avgAcc = 0.0
+                for test, training in self.validation_data():
+
+                        # Pintar confusion matrix
+                        cm = self.confusion_matrix(training, test)
+                        print(cm)
+                        print()
+                        ncfs += 1
+                        cm1 = confusion_matrix(training, test, labels=[0, 1])
+                        # Calculamos la precision de esta confusion matrix
+                        accuracy = accuracy_score(training,test)
+                        print("Accuracy:{0:.2f}\n".format(accuracy))
+                        # Balance accuracy
+                        print("Balance accuracy score:{0:.2f}\n".format(
+                                balanced_accuracy_score(training, test)))
+                        # F-Score
+                        print("F-score:{0:.2f}\n".format(
+                            f1_score(training, test)))
+
+                        #fpr, tpr, threshold = metrics.roc_curve(y_test, preds)
+
+                        avgAcc += accuracy
+                        
+                        confusion_matrices.append(cm1)                        
+
+                avgAcc = avgAcc / ncfs
+                print('Precision media:{0:.2f}'.format(avgAcc))
+
                 return confusion_matrices
 
         @staticmethod
         def confusion_matrix(train, test):
-                return pd.crosstab(test, train, rownames=['actual'], colnames=['preds'])
+                return pd.crosstab(train, test, rownames=['actual'], colnames=['preds'])
+        
+                         
+
 
 
 class ProteinForest(ProteinClassifier):
@@ -591,22 +883,17 @@ if __name__ == '__main__':
         util = Utils()
         # Cargar kinasas patológicas y patologicas
         util.load_kinases()
-        print("")
-
+        
         # Ejecucion del alineamiento
         als = util.run_alignment()
 
         # Crear las features
         util.populate_features()
 
-               
         #Pruebas ML
-        folds = util.nfolds
-        crit = util.criterion
-        rf = ProteinForest(util.df, crit)
-        print(rf.data_frame.to_string())
-        print(rf.validate(folds))
-
+        rf = ProteinForest(util.df)
+        cfs = rf.validate()
+        
         
                 
 
