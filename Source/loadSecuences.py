@@ -24,18 +24,30 @@ import configparser
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.metrics import f1_score, balanced_accuracy_score
 import matplotlib.pyplot as plt
+import datetime
+
 
 class Utils():
-
-           
-        
         
         def __init__(self, df=pd.DataFrame({}), consensus='',
          alignment='', alignment_tool='', summary_align='', 
-         fastaout='',clustalw_exe='',nfold=2, criterion=''):
+                     fastaout='', clustalw_exe='', nfold=2, criterion='', outputPath='', currpath ='', tmstmp=''):
+                
+                # Directorio actual del script
+                self.currpath = os.path.dirname(os.path.abspath(__file__))
+                # Directorio para los archivos de salida
+                self.outputPath = self.currpath + '\\OutputFiles\\'
+                # TimeStamp para identificar los archivos de esta ejecucion
+                self.tmstmp = datetime.datetime.now().strftime("%d%m%Y-%H%M%S")
+
+                # Creamos el directorio de archivos de salida si no existe
+                if not os.path.exists(self.outputPath):
+                        os.makedirs(self.outputPath)
+
+                # Leemos parámetros del archivo de configuracion
                 try :
                         config = configparser.ConfigParser()
-                        config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
+                        config.read(self.currpath + '\\config.file')
                         self.clustalw_exe = config['DEFAULT']['muscle_exe']
                         self.nfolds = int(config['ML']['kfolds'])
                         self.criterion = config['ML']['criterion']
@@ -45,22 +57,37 @@ class Utils():
         
         
         def select_fasta_file(self,message):
-                # para quitar la ventana que aparece
+                # para quitar la ventana 
                 root = tk.Tk()
                 root.withdraw()
                 
                 # dialogo de seleccion de archivo
-                file_path = filedialog.askopenfilename(initialdir = "./",title = message,filetypes = (("FASTA files","*.fasta"),("all files","*.*")))
+                file_path = filedialog.askopenfilename(
+                        initialdir = "./",title = message,
+                        filetypes = (("FASTA files","*.fasta"),("all files","*.*")))
+                root.destroy()
+                root.quit()
                 return file_path
 
         def load_kinases(self):
-                # Archivo conteniendo las kinasas benignas
-                print("Carga de las kinasas benignas\n")
-                f1 = self.select_fasta_file(
-                    "Selecciona el archivo FASTA con las Kinasas benignas")
-                healthySeqRecords = SeqIO.parse(f1, 'fasta')
+
+                # Lista que va a contener todos los diccionarios
                 rows_list = []
+
+                # Archivo conteniendo las quinasas benignas
+                print("Carga de las quinasas benignas\n")
+                f1 = self.select_fasta_file(
+                    "Selecciona el archivo FASTA con las quinasas benignas")
+                # Leemos el fichero y creamos la lista de SeqRecord
+                healthySeqRecords = SeqIO.parse(f1, 'fasta')     
+                # Iteramos y vamos generando las entradas del 
+                # diccionario de cada secuencia           
+                numHealth = 0
+                # Archivo que recoge todas las quinasas
+                self.fastaout = self.outputPath + self.tmstmp + 'allkin.fasta'
+                outfile = open(self.fastaout, 'w')
                 for seq in healthySeqRecords:
+                        numHealth += 1
                         dict1 = {}
                         dict1.update({'id': seq.id,
                                       'state': 'healthy',
@@ -68,12 +95,22 @@ class Utils():
                                       'gene': self.get_gene_from_description(seq.description)
                                       })
                         rows_list.append(dict1)
-                # Archivo conteniendo las kinasas patologicas
-                print("Carga de las kinasas patologicas\n")
+                        outfile.write(">" + seq.id + "\n")
+                        outfile.write(str(seq.seq) + "\n")
+                
+                print("Cargadas {} quinasas benignas\n".format(numHealth))
+
+                # Archivo conteniendo las quinasas patologicas
+                print("Carga de las quinasas patologicas\n")
                 f2 = self.select_fasta_file(
-                    "Selecciona el archivo FASTA con las Kinasas patológicas")
+                    "Selecciona el archivo FASTA con las quinasas patológicas")
+                # Leemos el fichero y creamos la lista de SeqRecord
                 patSeqRecords = SeqIO.parse(f2, 'fasta')
+                # Iteramos y vamos generando las entradas del
+                # diccionario de cada secuencia
+                numPats = 0
                 for seq in patSeqRecords:
+                        numPats +=1
                         dict1 = {}
                         dict1.update({'id': seq.id,
                                       'state': 'pathologic',
@@ -81,68 +118,76 @@ class Utils():
                                       'gene': self.get_gene_from_description(seq.description)
                                       })
                         rows_list.append(dict1)
+                        outfile.write(">" + seq.id + "\n")
+                        outfile.write(str(seq.seq) + "\n")
+
+                print("Cargadas {} quinasas patológicas\n".format(numPats))   
+
+                outfile.close()
+
+                # Creamos el DataFrame con la totalidad de las filas
+                # y las columnas hasta ahora creadas                
                 self.df = pd.DataFrame(rows_list)
                 self.df = self.df.set_index('id')
 
+                print("Cargadas un total de {} quinasas\n".format(len(self.df.index)))
+
+                # Volcamos todas las entradas de los dos archivos en un mismo
+                # archivo para el alineamiento
                 filenames = [f1, f2]
-                self.fastaout = os.path.dirname(
-                    os.path.abspath(__file__)) + '\\allkin.fasta'
-                with open(self.fastaout, 'w') as outfile:
-                        for fname in filenames:
-                                with open(fname) as infile:
-                                        outfile.write(infile.read())
+                
+                print("Generando el archivo FASTA con la totalidad de las quinasas")
+                #self.fastaout = self.outputPath + self.tmstmp + 'allkin.fasta'
+                #with open(self.fastaout, 'w') as outfile:
+                #        for seq in healthySeqRecords:
+                #                outfile.write("Hello World")
+                #                outfile.write(str(seq.id))
+                #                outfile.write(str(seq.seq))
+                #        for seq in patSeqRecords:
+                #                outfile.write(str(seq.id))
+                #                outfile.write(str(seq.seq))
+                #with open(self.fastaout, 'w') as outfile:
+                #        for fname in filenames:
+                #                with open(fname) as infile:
+                #                        outfile.write(infile.read())
 
         
         def exec_clustalW(self,f):
+                # Tiempo de inicio
                 start = time.time()
+                # Linea de comando para ejecutar el alineamiento ClustalW
                 clustalw_cline = ba.ClustalwCommandline(self.clustalw_exe, infile=f)
+                # Ejecutamos la linea de ClustalW
                 stdout, stderr = clustalw_cline()
+                # Final de ejecucion
                 end = time.time()
                 timeCost = end - start
                 print("El alineamiento con CLustalW ha tardado {0:.2f} segundos.\n".format(timeCost))
                 
         def exec_Muscle(self,f):
+                # Tiempo de inicio
                 start = time.time()
                 alignFile = f.replace('.fasta', '.aln')
+                # Comando de ejecucion de muscle
                 muscle_cline = ba.MuscleCommandline(input=f, out=alignFile)
+                # Ejecucion del comando
                 stdout, stderr = muscle_cline()
                 treeFile = f.replace('.fasta', '.dnd')
                 print("Arbol filogenetico")
+                # Comando para generar el arbol filogenético
                 clinetree = "muscle -maketree -in " + alignFile + " -out " + treeFile + " -cluster neighborjoining"
+                # Ejecucion del comando
                 subprocess.call(clinetree)
+                # Final de ejecucion
                 end = time.time()
                 timeCost = end - start
-                print("El alineamiento con Muscle ha tardado {0:.2f} segundos.".format(timeCost))
+                print("El alineamiento con Muscle ha tardado {0:.2f} segundos.\n".format(timeCost))
 
         def print_phylo_tree(self,f):
                 tree = Phylo.read(f, "newick")
-                Phylo.draw_ascii(tree)
+                Phylo.draw(tree)
                 
 
-        def draw_phylo_tree(self, treefile):
-                alignWindow = tk.Tk()
-                alignWindow.title("Phylo tree")
-                # Redirigir la salida al fichero
-                original = sys.stdout
-                treeout = os.path.dirname(os.path.abspath(__file__)) + '\\out.tree'
-                sys.stdout = open(treeout, 'w')
-                self.print_phylo_tree(treefile)
-                sys.stdout = original
-                # Crear el area de texto
-                txt = scrolledtext.ScrolledText(alignWindow)
-                txt.grid(column=0, row=0, sticky='NSEW')
-                with open(treeout, 'r') as f:
-                        txt.insert('1.0', f.read())
-                # Crear el boton
-                def clicked():
-                        alignWindow.destroy()
-                        alignWindow.quit()
-                btn = Button(alignWindow, text="OK", command=clicked)
-                btn.grid(column=0, row=2)
-                alignWindow.mainloop()
-
-        
-                
         def get_alignment(self,f,format):
                 alignment = AlignIO.read(f, format)
                 self.alignment = alignment
@@ -170,16 +215,16 @@ class Utils():
                 toolWindow.title("Herramienta de alineamiento")
                 toolWindow.geometry('250x200')
                 # Crear el label
-                lbl = Label(toolWindow, text="Selección del alineamiento")
+                lbl = Label(toolWindow, text = "Selección del motor de alineamiento")
                 lbl.grid(column=0, row=0)
                 # Crear el combobox
                 combo = Combobox(toolWindow, state="readonly")
-                combo['values'] = ("clustalw", "muscle")
+                combo['values'] = ("ClustalW", "Muscle")
                 combo.current(0)
                 combo.grid(column=0, row=1)
                 # Crear el boton
                 def clicked():
-                        self.alignment_tool=combo.get()
+                        self.alignment_tool = combo.get()
                         toolWindow.destroy()
                         toolWindow.quit()
 
@@ -196,24 +241,24 @@ class Utils():
                 # Barra de progreso
                 print("Ejecucion del alineamiento con " + self.alignment_tool + "\n")
                                               
-                if (self.alignment_tool == "clustalw"):
+                if (self.alignment_tool == "ClustalW"):
                         self.exec_clustalW(fastaFile)
                         alignFormat = 'clustal'
-                elif (self.alignment_tool == "muscle"):
+                elif (self.alignment_tool == "Muscle"):
                         self.exec_Muscle(fastaFile)
                         alignFormat = 'fasta'
                 else: 
                         raise Exception('Herramienta de alineamiento no reconocida')
-                alignFile = fastaFile.replace('.fasta','.aln')
                 
+                alignFile = fastaFile.replace('.fasta','.aln')                
 
                 alignment = self.get_alignment(alignFile, alignFormat)
                 self.draw_alignment(alignFile)
                 
                 # Arbol filogenetico
                 treeFile = fastaFile.replace('.fasta', '.dnd')
-                #self.print_phylo_tree(treeFile)
-                self.draw_phylo_tree(treeFile)
+                self.print_phylo_tree(treeFile)
+                
                 
 
                 # Consensus secuence  
@@ -744,8 +789,12 @@ class Utils():
                 self.setSolventAccessibility_Group1()
                 self.setSolventAccessibility_Group2()
                 self.setSolventAccessibility_Group3()
-                print(self.df.to_string())
+                excelFile = self.outputPath + self.tmstmp + "dataframe.xlsx"
+                print("Generando el excel file con el dataframe\n")
+                self.df.to_excel(excelFile)
                 
+                
+       
 
 class ProteinProblem(object):
 
@@ -792,9 +841,9 @@ class ProteinProblem(object):
                 df = self.data_frame
                 response = []
                 # Comprobar que hay mas observaciones que folds
-                assert len(df) > folds
+                assert len(df.index) > folds
                 # Generar particiones
-                perms = array_split(permutation(len(df)), folds)
+                perms = array_split(permutation(len(df.index)), folds)
                 
 
                 for i in range(folds):
@@ -881,7 +930,7 @@ class ProteinForest(ProteinClassifier):
 if __name__ == '__main__':
         
         util = Utils()
-        # Cargar kinasas patológicas y patologicas
+        # Cargar quinasas patológicas y patologicas
         util.load_kinases()
         
         # Ejecucion del alineamiento
@@ -889,6 +938,8 @@ if __name__ == '__main__':
 
         # Crear las features
         util.populate_features()
+
+        
 
         #Pruebas ML
         rf = ProteinForest(util.df)
