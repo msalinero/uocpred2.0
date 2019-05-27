@@ -25,14 +25,20 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.metrics import f1_score, balanced_accuracy_score
 import matplotlib.pyplot as plt
 import datetime
+import itertools
 
 
 class Utils():
         
-        def __init__(self, df=pd.DataFrame({}), consensus='',
-         alignment='', alignment_tool='', summary_align='', 
-                     fastaout='', clustalw_exe='', nfold=2, criterion='', outputPath='', currpath ='', tmstmp=''):
+        def __init__(self):
                 
+                self.df = pd.DataFrame({})
+                self.consensus = ''
+                self.alignment = ''
+                self.alignment_tool = ''
+                self.summary_align = ''
+                self.fastaout = ''              
+
                 # Directorio actual del script
                 self.currpath = os.path.dirname(os.path.abspath(__file__))
                 # Directorio para los archivos de salida
@@ -49,9 +55,7 @@ class Utils():
                         config = configparser.ConfigParser()
                         config.read(self.currpath + '\\config.file')
                         self.clustalw_exe = config['DEFAULT']['muscle_exe']
-                        self.nfolds = int(config['ML']['kfolds'])
-                        self.criterion = config['ML']['criterion']
-
+                        
                 except:
                         print("Problema con el archivo de configuración")
         
@@ -84,17 +88,24 @@ class Utils():
                 # diccionario de cada secuencia           
                 numHealth = 0
                 # Archivo que recoge todas las quinasas
-                self.fastaout = self.outputPath + self.tmstmp + 'allkin.fasta'
+                self.fastaout = self.outputPath + self.tmstmp + 'Allkin.fasta'
                 outfile = open(self.fastaout, 'w')
                 for seq in healthySeqRecords:
                         numHealth += 1
                         dict1 = {}
+
+                        # Generar features preliminares
                         dict1.update({'id': seq.id,
                                       'state': 'healthy',
                                       'length': len(seq),
                                       'gene': self.get_gene_from_description(seq.description)
                                       })
+                        
+                        # Generar features de proporcion de dipeptidos
+                        self.generate_dipeptides(str(seq.seq), dict1)
+                        
                         rows_list.append(dict1)
+
                         outfile.write(">" + seq.id + "\n")
                         outfile.write(str(seq.seq) + "\n")
                 
@@ -112,45 +123,48 @@ class Utils():
                 for seq in patSeqRecords:
                         numPats +=1
                         dict1 = {}
+                        # Generar features preliminares
                         dict1.update({'id': seq.id,
                                       'state': 'pathologic',
                                       'length': len(seq),
                                       'gene': self.get_gene_from_description(seq.description)
                                       })
+
+                        # Generar features de dipeptidos
+                        self.generate_dipeptides(str(seq.seq), dict1)
+
                         rows_list.append(dict1)
+
                         outfile.write(">" + seq.id + "\n")
                         outfile.write(str(seq.seq) + "\n")
-
+                
                 print("Cargadas {} quinasas patológicas\n".format(numPats))   
 
                 outfile.close()
 
-                # Creamos el DataFrame con la totalidad de las filas
-                # y las columnas hasta ahora creadas                
+               
+
+                # Creamos el DataFrame siendo cada fila un diccionario 
+                # y el valor de cada clave el valor de esa columna
+                # determinada de cada 
                 self.df = pd.DataFrame(rows_list)
                 self.df = self.df.set_index('id')
 
-                print("Cargadas un total de {} quinasas\n".format(len(self.df.index)))
+                print("La totalidad de {} quinasas se han vocado en el archivo {}.\n".format(len(self.df.index),
+                                                                                          self.fastaout))
 
-                # Volcamos todas las entradas de los dos archivos en un mismo
-                # archivo para el alineamiento
-                filenames = [f1, f2]
                 
-                print("Generando el archivo FASTA con la totalidad de las quinasas")
-                #self.fastaout = self.outputPath + self.tmstmp + 'allkin.fasta'
-                #with open(self.fastaout, 'w') as outfile:
-                #        for seq in healthySeqRecords:
-                #                outfile.write("Hello World")
-                #                outfile.write(str(seq.id))
-                #                outfile.write(str(seq.seq))
-                #        for seq in patSeqRecords:
-                #                outfile.write(str(seq.id))
-                #                outfile.write(str(seq.seq))
-                #with open(self.fastaout, 'w') as outfile:
-                #        for fname in filenames:
-                #                with open(fname) as infile:
-                #                        outfile.write(infile.read())
 
+        def generate_dipeptides(self,secuence,dict):
+
+                amino_acids = 'ACDEFGHIKLMNPQRSTVWY'
+
+                dipeptides = itertools.product(amino_acids, repeat=2)                
+                for dipep in dipeptides:
+                        d = "".join(dipep)
+                        dict[d] = secuence.count(d) / len(secuence)
+
+         
         
         def exec_clustalW(self,f):
                 # Tiempo de inicio
@@ -198,7 +212,7 @@ class Utils():
                 alignWindow.title("Alineamiento")
                 # Crear el area de texto
                 txt = scrolledtext.ScrolledText(alignWindow, width=100, height=40)
-                txt.grid(column=0, row=0)
+                txt.grid(column=0, row=0, sticky='NSWE')
                 with open(alignfile, 'r') as f:
                         txt.insert('1.0',f.read())
                 # Crear el boton
@@ -256,6 +270,7 @@ class Utils():
                 self.draw_alignment(alignFile)
                 
                 # Arbol filogenetico
+                print("Representacion del arbol filogenetico\n")
                 treeFile = fastaFile.replace('.fasta', '.dnd')
                 self.print_phylo_tree(treeFile)
                 
@@ -267,11 +282,7 @@ class Utils():
 
                 return alignment
         
-        
-        ## Investigar
-        def get_activation_loop(self):
-                pass
-
+                
         ######################################
         #                                              
         # Funciones generadoras de Features
@@ -290,193 +301,193 @@ class Utils():
 
         def setnA(self):
                 # Columna nueva y valor por defecto
-                self.df['nA'] = -1.0
+                self.df['A'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nA = alignSec.seq.count('A') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nA'] = nA
+                        self.df.at[id, 'A'] = nA
 
         def setnC(self):
                 # Columna nueva y valor por defecto
-                self.df['nC'] = -1.0
+                self.df['C'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id 
                         nC = alignSec.seq.count('C') / self.df.at[id, 'length']
-                        self.df.at[id, 'nC'] = nC
+                        self.df.at[id, 'C'] = nC
 
         def setnD(self):
                 # Columna nueva y valor por defecto
-                self.df['nD'] = -1.0
+                self.df['D'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nD = alignSec.seq.count('D') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nD'] = nD
+                        self.df.at[id, 'D'] = nD
 
         def setnE(self):
                 # Columna nueva y valor por defecto
-                self.df['nE'] = -1.0
+                self.df['E'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nE = alignSec.seq.count('E') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nE'] = nE
+                        self.df.at[id, 'E'] = nE
 
 
         def setnF(self):
                 # Columna nueva y valor por defecto
-                self.df['nF'] = -1.0
+                self.df['F'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nF = alignSec.seq.count('F') / self.df.at[id, 'length']
-                        self.df.at[id, 'nF'] = nF
+                        self.df.at[id, 'F'] = nF
 
         def setnG(self):
                 # Columna nueva y valor por defecto
-                self.df['nG'] = -1.0
+                self.df['G'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nG = alignSec.seq.count('G') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nG'] = nG
+                        self.df.at[id, 'G'] = nG
 
         def setnH(self):
                 # Columna nueva y valor por defecto
-                self.df['nH'] = -1.0
+                self.df['H'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nH = alignSec.seq.count('H') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nH'] = nH
+                        self.df.at[id, 'H'] = nH
 
         def setnI(self):
                 # Columna nueva y valor por defecto
-                self.df['nI'] = -1.0
+                self.df['I'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nI = alignSec.seq.count('I') / self.df.at[id, 'length']
-                        self.df.at[id, 'nI'] = nI
+                        self.df.at[id, 'I'] = nI
 
         def setnK(self):
                 # Columna nueva y valor por defecto
-                self.df['nK'] = -1.0
+                self.df['K'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nK = alignSec.seq.count('K') / self.df.at[id, 'length']
-                        self.df.at[id, 'nK'] = nK
+                        self.df.at[id, 'K'] = nK
 
         def setnL(self):
                 # Columna nueva y valor por defecto
-                self.df['nL'] = -1.0
+                self.df['L'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nL = alignSec.seq.count('L') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nL'] = nL
+                        self.df.at[id, 'L'] = nL
 
         def setnM(self):
                 # Columna nueva y valor por defecto
-                self.df['nM'] = -1.0
+                self.df['M'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nM = alignSec.seq.count('M') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nM'] = nM
+                        self.df.at[id, 'M'] = nM
         
         def setnN(self):
                 # Columna nueva y valor por defecto
-                self.df['nN'] = -1.0
+                self.df['N'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nN = alignSec.seq.count('N') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nN'] = nN
+                        self.df.at[id, 'N'] = nN
 
         def setnP(self):
                 # Columna nueva y valor por defecto
-                self.df['nP'] = -1.0
+                self.df['P'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nP = alignSec.seq.count('P') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nP'] = nP
+                        self.df.at[id, 'P'] = nP
 
         def setnQ(self):
                 # Columna nueva y valor por defecto
-                self.df['nQ'] = -1.0
+                self.df['Q'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nQ = alignSec.seq.count('Q') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nQ'] = nQ
+                        self.df.at[id, 'Q'] = nQ
 
         def setnR(self):
                 # Columna nueva y valor por defecto
-                self.df['nR'] = -1.0
+                self.df['R'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nR = alignSec.seq.count('R') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nR'] = nR
+                        self.df.at[id, 'R'] = nR
 
         def setnS(self):
                 # Columna nueva y valor por defecto
-                self.df['nS'] = -1.0
+                self.df['S'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nS = alignSec.seq.count('S') / self.df.at[id, 'length']
-                        self.df.at[id, 'nS'] = nS
+                        self.df.at[id, 'S'] = nS
 
         def setnT(self):
                 # Columna nueva y valor por defecto
-                self.df['nT'] = -1.0
+                self.df['T'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nT = alignSec.seq.count('T') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nT'] = nT
+                        self.df.at[id, 'T'] = nT
 
         def setnV(self):
                 # Columna nueva y valor por defecto
-                self.df['nV'] = -1.0
+                self.df['V'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nV = alignSec.seq.count('V') / self.df.at[id, 'length']
-                        self.df.at[id, 'nV'] = nV
+                        self.df.at[id, 'V'] = nV
 
         def setnW(self):
                 # Columna nueva y valor por defecto
-                self.df['nW'] = -1.0
+                self.df['W'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nW = alignSec.seq.count('W') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nW'] = nW
+                        self.df.at[id, 'W'] = nW
 
         def setnX(self):
                 # Columna nueva y valor por defecto
-                self.df['nX'] = -1.0
+                self.df['X'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nX = alignSec.seq.count('X') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nX'] = nX
+                        self.df.at[id, 'X'] = nX
 
         def setnY(self):
                 # Columna nueva y valor por defecto
-                self.df['nY'] = -1.0
+                self.df['Y'] = -1.0
                 # Recorrer los alineamientos y fijar la frecuencia de determinado Aminoacido
                 for alignSec in self.alignment:
                         id = alignSec.id
                         nY = alignSec.seq.count('Y') / self.df.at[id, 'length'] 
-                        self.df.at[id, 'nY'] = nY
+                        self.df.at[id, 'Y'] = nY
 
         def setNGap(self):
                 # Columna nueva y valor por defecto
@@ -743,6 +754,7 @@ class Utils():
                         self.df.at[id, 'SaG3'] = n
              
         def populate_features(self):
+                # Generacion de features
                 print("Generando las features\n")
                 self.setnA()
                 self.setnC()
@@ -789,28 +801,43 @@ class Utils():
                 self.setSolventAccessibility_Group1()
                 self.setSolventAccessibility_Group2()
                 self.setSolventAccessibility_Group3()
-                excelFile = self.outputPath + self.tmstmp + "dataframe.xlsx"
-                print("Generando el excel file con el dataframe\n")
-                self.df.to_excel(excelFile)
+
+                # Exportacion del dataframe y exportacion de EDA
                 
+                excelDf = self.outputPath + self.tmstmp + "Dataframe.xlsx"
+
+                self.df.to_excel(excelDf)
                 
-       
+                print("Dataframe exportado al archivo {}\n".format(excelDf))
+
+                excelSummary = self.outputPath + self.tmstmp + "Summary.xlsx"
+
+                self.df.describe(include='all').to_excel(excelSummary)
+                
+                print("Exploracion de los datos exportado al archivo {}\n".format(excelSummary))
 
 class ProteinProblem(object):
 
-        def __init__(self,data):
+        def __init__(self,data,tmstmp,outputPath):
+
+                self.data_frame = data
+                self.tmstmp = tmstmp
+                self.outputPath = outputPath
+                self.validationFile = self.outputPath + self.tmstmp + 'validation.out'
 
                 try:
+                        
+
                         config = configparser.ConfigParser()
                         config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
                         
                         self.kfolds = int(config['ML']['kfolds'])
                         self.criterion = config['ML']['criterion']
+                        
 
                 except:
                         print("Problema con el archivo de configuración")
 
-                self.data_frame = data
 
                 # Factorizamos las columnas que no son numericas(sabemos que las numéricas no son categoricas)                 
                 cols = self.data_frame.columns
@@ -877,6 +904,14 @@ class ProteinClassifier(ProteinProblem):
 
         def validate(self):
 
+                print("Ejecutando {}-folds Cross Validation\n".format(self.kfolds))
+
+                original = sys.stdout
+
+                sys.stdout = open(self.validationFile, 'w')
+
+                print("{}-folds Cross Validation\n".format(self.kfolds))
+
                 confusion_matrices = []
                 ncfs = 0
                 avgAcc = 0.0
@@ -907,7 +942,28 @@ class ProteinClassifier(ProteinProblem):
                 avgAcc = avgAcc / ncfs
                 print('Precision media:{0:.2f}'.format(avgAcc))
 
+                sys.stdout = original
+
+                self.draw_validation()
+
                 return confusion_matrices
+
+        def draw_validation(self):
+                alignWindow = tk.Tk()
+                alignWindow.title("Validation")
+                # Crear el area de texto
+                txt = scrolledtext.ScrolledText(
+                    alignWindow, width=100, height=40)
+                txt.grid(column=0, row=0, sticky='NSWE')
+                with open(self.validationFile, 'r') as f:
+                        txt.insert('1.0', f.read())
+                # Crear el boton
+                def clicked():
+                        alignWindow.destroy()
+                        alignWindow.quit()
+                btn = Button(alignWindow, text="OK", command=clicked)
+                btn.grid(column=0, row=2)
+                alignWindow.mainloop()
 
         @staticmethod
         def confusion_matrix(train, test):
@@ -939,11 +995,11 @@ if __name__ == '__main__':
         # Crear las features
         util.populate_features()
 
-        
-
         #Pruebas ML
-        rf = ProteinForest(util.df)
+        rf = ProteinForest(util.df, util.tmstmp, util.outputPath)
         cfs = rf.validate()
+
+        print("Fin de la ejecucion\n")
         
         
                 
