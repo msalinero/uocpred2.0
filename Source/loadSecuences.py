@@ -2,7 +2,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
 from numpy.random import permutation
 from numpy import array_split, concatenate
-from sklearn.metrics import mean_squared_error, roc_curve
+from sklearn.metrics import mean_squared_error, roc_curve, auc
 import sys
 import re
 import os
@@ -27,7 +27,6 @@ import matplotlib.pyplot as plt
 import datetime
 import itertools
 from scipy import interp
-from sklearn.metrics import roc_curve, auc
 from sklearn.decomposition import PCA
 
 class Utils():
@@ -214,9 +213,10 @@ class Utils():
         def draw_alignment(self, alignfile):
                 alignWindow = tk.Tk()
                 alignWindow.title("Alineamiento")
+                alignWindow.resizable(False, False)
                 # Crear el area de texto
                 txt = scrolledtext.ScrolledText(alignWindow, width=100, height=40)
-                txt.grid(column=0, row=0, sticky='NSWE')
+                txt.pack()
                 with open(alignfile, 'r') as f:
                         txt.insert('1.0',f.read())
                 # Crear el boton
@@ -224,7 +224,7 @@ class Utils():
                         alignWindow.destroy()
                         alignWindow.quit()
                 btn = Button(alignWindow, text="OK", command=clicked)
-                btn.grid(column=0, row=2)
+                btn.pack()
                 alignWindow.mainloop()
 
          
@@ -233,13 +233,13 @@ class Utils():
                 toolWindow.title("Herramienta de alineamiento")
                 toolWindow.geometry('250x200')
                 # Crear el label
-                lbl = Label(toolWindow, text = "Selección del motor de alineamiento")
-                lbl.grid(column=0, row=0)
+                lbl = Label(toolWindow, text = "Selecciona el motor de alineamiento")
+                lbl.pack()
                 # Crear el combobox
                 combo = Combobox(toolWindow, state="readonly")
                 combo['values'] = ("ClustalW", "Muscle")
                 combo.current(0)
-                combo.grid(column=0, row=1)
+                combo.pack()
                 # Crear el boton
                 def clicked():
                         self.alignment_tool = combo.get()
@@ -247,7 +247,7 @@ class Utils():
                         toolWindow.quit()
 
                 btn = Button(toolWindow, text="OK", command=clicked)
-                btn.grid(column=0, row=2)
+                btn.pack()
 
                 toolWindow.mainloop()
                 
@@ -868,7 +868,7 @@ class Utils():
                 toolWindow.geometry('250x200')
                 # Crear el label
                 lbl = Label(
-                    toolWindow, text="Introduce el numero de componentes")
+                    toolWindow, text="Introduce el numero de componentes principales")
                 lbl.pack()
                 # Crear el combobox
                 ent = tk.Entry(toolWindow)
@@ -903,7 +903,8 @@ class ProteinProblem(object):
                         
                         self.kfolds = int(config['ML']['kfolds'])
                         self.criterion = config['ML']['criterion']
-                        
+                        self.n_estimators = int(config['ML']['n_estimators'])
+                        self.n_jobs = int(config['ML']['n_jobs'])
 
                 except:
                         print("Problema con el archivo de configuración")
@@ -1001,6 +1002,7 @@ class ProteinProblem(object):
                 plt.fill_between(mean_fpr, tprs_lower, tprs_upper, color='grey', alpha=.2,
                                 label=r'$\pm$ 1 std. dev.')
 
+        
                 plt.xlim([-0.05, 1.05])
                 plt.ylim([-0.05, 1.05])
                 plt.xlabel('False Positive Rate')
@@ -1029,6 +1031,8 @@ class ProteinClassifier(ProteinProblem):
                 ncfs = 0
                 avgAcc = 0.0
                 for test, training in self.validation_data():
+
+                        print("Fold {}\n".format(ncfs))
 
                         # Pintar confusion matrix
                         cm = self.confusion_matrix(training, test)
@@ -1060,21 +1064,22 @@ class ProteinClassifier(ProteinProblem):
                 return confusion_matrices
 
         def draw_validation(self):
-                alignWindow = tk.Tk()
-                alignWindow.title("Validation")
+                validatioWindow = tk.Tk()
+                validatioWindow.title("Validation")
+                validatioWindow.resizable(False, False)
                 # Crear el area de texto
                 txt = scrolledtext.ScrolledText(
-                    alignWindow, width=100, height=40)
-                txt.grid(column=0, row=0, sticky='NSWE')
+                    validatioWindow, width=100, height=40)
+                txt.pack()
                 with open(self.validationFile, 'r') as f:
                         txt.insert('1.0', f.read())
                 # Crear el boton
                 def clicked():
-                        alignWindow.destroy()
-                        alignWindow.quit()
-                btn = Button(alignWindow, text="OK", command=clicked)
-                btn.grid(column=0, row=2)
-                alignWindow.mainloop()
+                        validatioWindow.destroy()
+                        validatioWindow.quit()
+                btn = Button(validatioWindow, text="OK", command=clicked)
+                btn.pack()
+                validatioWindow.mainloop()
 
         @staticmethod
         def confusion_matrix(train, test):
@@ -1086,7 +1091,7 @@ class ProteinForest(ProteinClassifier):
 
         def train(self, X, Y):
 
-                classifier = RandomForestClassifier(criterion=self.criterion, n_jobs=2, n_estimators=100)
+                classifier = RandomForestClassifier(criterion=self.criterion, n_jobs=self.n_jobs, n_estimators=self.n_estimators)
                 classifier = classifier.fit(X, Y)
                 return classifier
 
