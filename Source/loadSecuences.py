@@ -26,7 +26,9 @@ from sklearn.metrics import f1_score, balanced_accuracy_score
 import matplotlib.pyplot as plt
 import datetime
 import itertools
-
+from scipy import interp
+from sklearn.metrics import roc_curve, auc
+from sklearn.decomposition import PCA
 
 class Utils():
         
@@ -37,7 +39,8 @@ class Utils():
                 self.alignment = ''
                 self.alignment_tool = ''
                 self.summary_align = ''
-                self.fastaout = ''              
+                self.fastaout = '' 
+                self.ncomp = 0
 
                 # Directorio actual del script
                 self.currpath = os.path.dirname(os.path.abspath(__file__))
@@ -55,6 +58,7 @@ class Utils():
                         config = configparser.ConfigParser()
                         config.read(self.currpath + '\\config.file')
                         self.clustalw_exe = config['DEFAULT']['muscle_exe']
+                        self.doPCA = config['DEFAULT']['PCA']
                         
                 except:
                         print("Problema con el archivo de configuración")
@@ -150,7 +154,7 @@ class Utils():
                 self.df = pd.DataFrame(rows_list)
                 self.df = self.df.set_index('id')
 
-                print("La totalidad de {} quinasas se han vocado en el archivo {}.\n".format(len(self.df.index),
+                print("La totalidad de {} quinasas se han volcado en el archivo {}.\n".format(len(self.df.index),
                                                                                           self.fastaout))
 
                 
@@ -199,7 +203,7 @@ class Utils():
 
         def print_phylo_tree(self,f):
                 tree = Phylo.read(f, "newick")
-                Phylo.draw(tree)
+                Phylo.draw(tree, do_show=True, show_confidence=True)
                 
 
         def get_alignment(self,f,format):
@@ -815,6 +819,72 @@ class Utils():
                 self.df.describe(include='all').to_excel(excelSummary)
                 
                 print("Exploracion de los datos exportado al archivo {}\n".format(excelSummary))
+                
+
+                # PCA
+                if(self.doPCA=='True'):
+                        self.runPca()
+
+                        
+
+        def runPca(self):
+
+                # Factorizamos las columnas que no son numericas(sabemos que las numéricas no son categoricas)
+                cols = self.df.columns
+                numeric_cols = self.df._get_numeric_data().columns
+                nc = list(set(cols) - set(numeric_cols))
+
+                for k in nc:
+                        self.df[k], _ = pd.factorize(
+                        self.df[k])
+                
+
+                dfAux = self.df.loc[:, self.df.columns != 'state']
+                pca = PCA().fit(dfAux)
+                plt.plot(np.cumsum(pca.explained_variance_ratio_))
+                plt.xlabel('Número de componentes')
+                plt.ylabel('Varianza acumulada')
+                plt.show(block=False)
+
+                self.set_ncomponents()
+
+                pca = PCA(n_components = self.ncomp)
+                pca.fit(dfAux) 
+                dfPCA = pd.DataFrame(pca.transform(dfAux), columns=[
+                        'PCA%i' % i for i in range(self.ncomp)],index = dfAux.index)
+                dfPCA = dfPCA.join(
+                        self.df.loc[:, self.df.columns == 'state'], on='id')
+
+                excelPCA = self.outputPath + self.tmstmp + "DfPCA.xlsx"
+                dfPCA.to_excel(excelPCA)
+                print("Dataframe con el PCA efectuado exportado al archivo {}\n".format(excelPCA))
+                
+                self.df = dfPCA                
+
+
+        def set_ncomponents(self):
+                toolWindow = tk.Tk()
+                toolWindow.title("Numero de componentes")
+                toolWindow.geometry('250x200')
+                # Crear el label
+                lbl = Label(
+                    toolWindow, text="Introduce el numero de componentes")
+                lbl.pack()
+                # Crear el combobox
+                ent = tk.Entry(toolWindow)
+                ent.pack()
+                # Crear el boton
+                def clicked():
+                        self.ncomp = int(ent.get())
+                        toolWindow.destroy()
+                        toolWindow.quit()
+
+                btn = Button(toolWindow, text="OK", command=clicked)
+                btn.pack()
+
+                toolWindow.mainloop()
+
+               
 
 class ProteinProblem(object):
 
@@ -872,6 +942,11 @@ class ProteinProblem(object):
                 # Generar particiones
                 perms = array_split(permutation(len(df.index)), folds)
                 
+                #Roc Curve
+                tprs = []
+                aucs = []
+                mean_fpr = np.linspace(0, 1, 100)
+                
 
                 for i in range(folds):
                         train_idxs = list(range(folds))
@@ -888,15 +963,53 @@ class ProteinProblem(object):
                         # Observaciones para test
                         test_data = df.iloc[test_idx]
 
-                        # Classes del conjunto de training
+                        # Clases del conjunto de training
                         y = self.__factorize(training)
                         # Entrenar el modelo
-                        classifier = self.train(training[self.features], y)
+                        classifier = self.train(training[self.features], y)                        
                         # Predecimos para el conjunto test
                         predictions = classifier.predict(test_data[self.features])
                         # Resultados esperados para el conjunto test
                         expected = self.__factorize(test_data)
+                        #Roc Curve
+                        probas_ = classifier.predict_proba(test_data[self.features])
+                        fpr, tpr, thresholds = roc_curve(expected, probas_[:, 1])
+                        tprs.append(interp(mean_fpr, fpr, tpr))
+                        tprs[-1][0] = 0.0
+                        roc_auc = auc(fpr, tpr)
+                        aucs.append(roc_auc)
+                        plt.plot(fpr, tpr, lw=1, alpha=0.3,
+                        label='ROC fold %d (AUC = %0.2f)' % (i, roc_auc))
+
                         response.append([predictions, expected])
+
+                plt.plot([0, 1], [0, 1], linestyle='--', lw=2, color='r',
+                         label='Chance', alpha=.8)
+
+
+                mean_tpr = np.mean(tprs, axis=0)
+                mean_tpr[-1] = 1.0
+                mean_auc = auc(mean_fpr, mean_tpr)
+                std_auc = np.std(aucs)
+                plt.plot(mean_fpr, mean_tpr, color='b',
+                        label=r'Mean ROC (AUC = %0.2f $\pm$ %0.2f)' % (mean_auc, std_auc),
+                        lw=2, alpha=.8)
+
+                std_tpr = np.std(tprs, axis=0)
+                tprs_upper = np.minimum(mean_tpr + std_tpr, 1)
+                tprs_lower = np.maximum(mean_tpr - std_tpr, 0)
+                plt.fill_between(mean_fpr, tprs_lower, tprs_upper, color='grey', alpha=.2,
+                                label=r'$\pm$ 1 std. dev.')
+
+                plt.xlim([-0.05, 1.05])
+                plt.ylim([-0.05, 1.05])
+                plt.xlabel('False Positive Rate')
+                plt.ylabel('True Positive Rate')
+                plt.title('Curvas ROC de {}-fold Cross Validation'.format(self.kfolds))
+                plt.legend(loc="lower right")
+
+                plt.show(block=False)
+
                 return response
 
 
@@ -933,8 +1046,6 @@ class ProteinClassifier(ProteinProblem):
                         print("F-score:{0:.2f}\n".format(
                             f1_score(training, test)))
 
-                        #fpr, tpr, threshold = metrics.roc_curve(y_test, preds)
-
                         avgAcc += accuracy
                         
                         confusion_matrices.append(cm1)                        
@@ -970,9 +1081,6 @@ class ProteinClassifier(ProteinProblem):
                 return pd.crosstab(train, test, rownames=['actual'], colnames=['preds'])
         
                          
-
-
-
 class ProteinForest(ProteinClassifier):
 
 
