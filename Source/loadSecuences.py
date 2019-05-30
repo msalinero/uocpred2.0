@@ -1,5 +1,6 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.svm import SVC
 from numpy.random import permutation
 from numpy import array_split, concatenate
 from sklearn.metrics import mean_squared_error, roc_curve, auc
@@ -28,6 +29,7 @@ import datetime
 import itertools
 from scipy import interp
 from sklearn.decomposition import PCA
+import seaborn as sns
 
 class Utils():
         
@@ -843,7 +845,7 @@ class Utils():
                 pca = PCA().fit(dfAux)
                 plt.plot(np.cumsum(pca.explained_variance_ratio_))
                 plt.xlabel('Número de componentes')
-                plt.ylabel('Varianza acumulada')
+                plt.ylabel('Varianza explicada acumulada')
                 plt.show(block=False)
 
                 self.set_ncomponents()
@@ -893,7 +895,7 @@ class ProteinProblem(object):
                 self.data_frame = data
                 self.tmstmp = tmstmp
                 self.outputPath = outputPath
-                self.validationFile = self.outputPath + self.tmstmp + 'validation.out'
+                self.validationFile = self.outputPath + self.tmstmp + 'Validation.out'
 
                 try:
                         
@@ -902,9 +904,10 @@ class ProteinProblem(object):
                         config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
                         
                         self.kfolds = int(config['ML']['kfolds'])
-                        self.criterion = config['ML']['criterion']
-                        self.n_estimators = int(config['ML']['n_estimators'])
-                        self.n_jobs = int(config['ML']['n_jobs'])
+                        self.criterion = config['RANDOMFOREST']['criterion']
+                        self.n_estimators = int(
+                            config['RANDOMFOREST']['n_estimators'])
+                        self.n_jobs = int(config['RANDOMFOREST']['n_jobs'])
 
                 except:
                         print("Problema con el archivo de configuración")
@@ -1007,7 +1010,7 @@ class ProteinProblem(object):
                 plt.ylim([-0.05, 1.05])
                 plt.xlabel('False Positive Rate')
                 plt.ylabel('True Positive Rate')
-                plt.title('Curvas ROC de {}-fold Cross Validation'.format(self.kfolds))
+                plt.title('Curvas ROC de {}-fold Cross Validation para {}'.format(self.kfolds, self.name))
                 plt.legend(loc="lower right")
 
                 plt.show(block=False)
@@ -1019,17 +1022,19 @@ class ProteinClassifier(ProteinProblem):
 
         def validate(self):
 
-                print("Ejecutando {}-folds Cross Validation\n".format(self.kfolds))
+                print("Ejecutando {}-folds Cross Validation para {}\n".format(self.kfolds,self.name))
 
                 original = sys.stdout
 
                 sys.stdout = open(self.validationFile, 'w')
 
-                print("{}-folds Cross Validation\n".format(self.kfolds))
+                print("{}-folds Cross Validation para {}.\n".format(self.kfolds,self.name))
 
                 confusion_matrices = []
                 ncfs = 0
                 avgAcc = 0.0
+                avgs = []
+                
                 for test, training in self.validation_data():
 
                         print("Fold {}\n".format(ncfs))
@@ -1038,7 +1043,7 @@ class ProteinClassifier(ProteinProblem):
                         cm = self.confusion_matrix(training, test)
                         print(cm)
                         print()
-                        ncfs += 1
+                        
                         cm1 = confusion_matrix(training, test, labels=[0, 1])
                         # Calculamos la precision de esta confusion matrix
                         accuracy = accuracy_score(training,test)
@@ -1052,16 +1057,24 @@ class ProteinClassifier(ProteinProblem):
 
                         avgAcc += accuracy
                         
-                        confusion_matrices.append(cm1)                        
+                        confusion_matrices.append(cm1)
+
+                        fold_name = "{} fold {}".format(self.name,ncfs)
+
+                        avgs.append([fold_name,accuracy])
+
+                        ncfs += 1
 
                 avgAcc = avgAcc / ncfs
                 print('Precision media:{0:.2f}'.format(avgAcc))
+
+                avgs.append(["Media {}".format(self.name), avgAcc])
 
                 sys.stdout = original
 
                 self.draw_validation()
 
-                return confusion_matrices
+                return avgs
 
         def draw_validation(self):
                 validatioWindow = tk.Tk()
@@ -1075,8 +1088,10 @@ class ProteinClassifier(ProteinProblem):
                         txt.insert('1.0', f.read())
                 # Crear el boton
                 def clicked():
+                        plt.close('all')
                         validatioWindow.destroy()
                         validatioWindow.quit()
+                        
                 btn = Button(validatioWindow, text="OK", command=clicked)
                 btn.pack()
                 validatioWindow.mainloop()
@@ -1088,31 +1103,97 @@ class ProteinClassifier(ProteinProblem):
                          
 class ProteinForest(ProteinClassifier):
 
+        def __init__(self,data,tmstmp,outputPath):
+
+                super().__init__(data, tmstmp, outputPath)
+
+                self.name = 'RandomForest'
+
 
         def train(self, X, Y):
 
-                classifier = RandomForestClassifier(criterion=self.criterion, n_jobs=self.n_jobs, n_estimators=self.n_estimators)
+                classifier = RandomForestClassifier(criterion=self.criterion,
+                                                    n_jobs=self.n_jobs, n_estimators=self.n_estimators)
                 classifier = classifier.fit(X, Y)
                 return classifier
 
 
+class ProteinSVM(ProteinClassifier):
+
+        def __init__(self, data, tmstmp, outputPath):
+
+                super().__init__(data, tmstmp, outputPath)
+
+                self.name = 'SVM'
+
+        def train(self, X, Y):
+
+                classifier = SVC(gamma='auto', probability=True)
+                classifier = classifier.fit(X, Y)
+                return classifier
+
+
+class Predictor(object):
+
+        
+        def pipeline(self):
+
+                util = Utils()
+                # Cargar quinasas patológicas y patologicas
+                util.load_kinases()
+
+                # Ejecucion del alineamiento
+                als = util.run_alignment()
+
+                # Crear las features
+                util.populate_features()
+
+                # Algoritmos ML
+                algoritmos_mls = []
+                algoritmos_mls.append(ProteinForest(util.df, util.tmstmp, util.outputPath))
+                algoritmos_mls.append(ProteinSVM(util.df, util.tmstmp, util.outputPath))
+
+                # Validar los algoritmos
+                log_cols = ["Clasificador", "Precision"]
+                log = pd.DataFrame(columns=log_cols)
+                
+
+                for ml in algoritmos_mls:
+                        for accs in ml.validate():
+                                log_entry = pd.DataFrame([accs], columns=log_cols)
+                                log = log.append(log_entry)
+                
+                # Tabla de resultados
+                sns.set_color_codes("muted")
+                sns.barplot(x="Precision", y="Clasificador",
+                            data=log, color="b")
+
+                plt.xlabel('Accuracy %')
+                plt.title('Accuracy Clasificadores')
+                plt.show()
+
+                #Exportar los resultados
+                excelLog = self.outputPath + self.tmstmp + "AlgLog.xlsx"
+                log.to_excel(excelLog)
+
+
+    
+    
+
+
+                print("Fin de la ejecucion\n")
+
+
+
+
+
+
 if __name__ == '__main__':
         
-        util = Utils()
-        # Cargar quinasas patológicas y patologicas
-        util.load_kinases()
-        
-        # Ejecucion del alineamiento
-        als = util.run_alignment()
+        pred = Predictor()
+        pred.pipeline()
 
-        # Crear las features
-        util.populate_features()
-
-        #Pruebas ML
-        rf = ProteinForest(util.df, util.tmstmp, util.outputPath)
-        cfs = rf.validate()
-
-        print("Fin de la ejecucion\n")
+       
         
         
                 

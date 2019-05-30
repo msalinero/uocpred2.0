@@ -1,31 +1,47 @@
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from numpy.random import permutation
-from numpy import array_split, concatenate
-from sklearn.metrics import mean_squared_error
-import pandas as pd
+import tkinter
+
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
+# Implement the default Matplotlib key bindings.
+from matplotlib.backend_bases import key_press_handler
+from matplotlib.figure import Figure
+
 import numpy as np
 
 
-class MushroomProblem(object):
+root = tkinter.Tk()
+root.wm_title("Embedding in Tk")
 
-    def __init__(self, data_file):
-        self.data_frame = pd.read_csv(data_file)
-        for k in self.data_frame.columns[1:]:
-            self.data_frame[k], _ = pd.factorize(self.data_frame[k])
-        categories = sorted(pd.Categorical(self.data_frame['class']).categories)
-        self.classes = np.array(categories)
-        self.features = self.data_frame.columns[self.data_frame.columns != 'class']
-    @staticmethod
-    def __factorize(data):
-        y, _ = pd.factorize(pd.Categorical(data['class']), sort=True)
-        return y
+fig = Figure(figsize=(5, 4), dpi=100)
+t = np.arange(0, 3, .01)
+fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
+
+canvas = FigureCanvasTkAgg(fig, master=root)  # A tk.DrawingArea.
+canvas.draw()
+canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+
+toolbar = NavigationToolbar2Tk(canvas, root)
+toolbar.update()
+canvas.get_tk_widget().pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
 
-if __name__ == '__main__':
+def on_key_press(event):
+    print("you pressed {}".format(event.key))
+    key_press_handler(event, canvas, toolbar)
 
-    f = r"C:\Users\Letissier\Desktop\Master\TFM\msd-tfm\Source\agaricus-lepiota.data"
 
-    mp = MushroomProblem(f)
-    print(mp.data_frame.to_string())
+canvas.mpl_connect("key_press_event", on_key_press)
 
+
+def _quit():
+    root.quit()     # stops mainloop
+    root.destroy()  # this is necessary on Windows to prevent
+                    # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+
+
+button = tkinter.Button(master=root, text="Quit", command=_quit)
+button.pack(side=tkinter.BOTTOM)
+
+tkinter.mainloop()
+# If you put root.destroy() here, it will cause an error if the window is
+# closed with the window manager.

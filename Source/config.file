@@ -3,6 +3,7 @@ muscle_exe = C:/Program Files (x86)/ClustalW2/clustalw2.exe
 PCA = False
 [ML]
 kfolds = 10
-criterion = entropy
+[RANDOMFOREST]
+criterion = gini
 n_estimators = 100
-n_jobs=2
+n_jobs = 2
