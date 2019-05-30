@@ -78,22 +78,22 @@ class Utils():
                 root.quit()
                 return file_path
 
-        def load_kinases(self):
+        def load_proteins(self):
 
                 # Lista que va a contener todos los diccionarios
                 rows_list = []
 
-                # Archivo conteniendo las quinasas benignas
-                print("Carga de las quinasas benignas\n")
+                # Archivo conteniendo las proteinas benignas
+                print("Carga de las proteinas benignas\n")
                 f1 = self.select_fasta_file(
-                    "Selecciona el archivo FASTA con las quinasas benignas")
+                    "Selecciona el archivo FASTA con las proteinas benignas")
                 # Leemos el fichero y creamos la lista de SeqRecord
                 healthySeqRecords = SeqIO.parse(f1, 'fasta')     
                 # Iteramos y vamos generando las entradas del 
                 # diccionario de cada secuencia           
                 numHealth = 0
-                # Archivo que recoge todas las quinasas
-                self.fastaout = self.outputPath + self.tmstmp + 'Allkin.fasta'
+                # Archivo que recoge todas las proteinas
+                self.fastaout = self.outputPath + self.tmstmp + 'AllProt.fasta'
                 outfile = open(self.fastaout, 'w')
                 for seq in healthySeqRecords:
                         numHealth += 1
@@ -114,12 +114,12 @@ class Utils():
                         outfile.write(">" + seq.id + "\n")
                         outfile.write(str(seq.seq) + "\n")
                 
-                print("Cargadas {} quinasas benignas\n".format(numHealth))
+                print("Cargadas {} proteinas benignas\n".format(numHealth))
 
-                # Archivo conteniendo las quinasas patologicas
-                print("Carga de las quinasas patologicas\n")
+                # Archivo conteniendo las proteinas patologicas
+                print("Carga de las proteinas patologicas\n")
                 f2 = self.select_fasta_file(
-                    "Selecciona el archivo FASTA con las quinasas patológicas")
+                    "Selecciona el archivo FASTA con las proteinas patológicas")
                 # Leemos el fichero y creamos la lista de SeqRecord
                 patSeqRecords = SeqIO.parse(f2, 'fasta')
                 # Iteramos y vamos generando las entradas del
@@ -143,7 +143,7 @@ class Utils():
                         outfile.write(">" + seq.id + "\n")
                         outfile.write(str(seq.seq) + "\n")
                 
-                print("Cargadas {} quinasas patológicas\n".format(numPats))   
+                print("Cargadas {} proteinas patológicas\n".format(numPats))   
 
                 outfile.close()
 
@@ -155,7 +155,7 @@ class Utils():
                 self.df = pd.DataFrame(rows_list)
                 self.df = self.df.set_index('id')
 
-                print("La totalidad de {} quinasas se han volcado en el archivo {}.\n".format(len(self.df.index),
+                print("La totalidad de {} proteinas se han volcado en el archivo {}.\n".format(len(self.df.index),
                                                                                           self.fastaout))
 
                 
@@ -1139,8 +1139,8 @@ class Predictor(object):
         def pipeline(self):
 
                 util = Utils()
-                # Cargar quinasas patológicas y patologicas
-                util.load_kinases()
+                # Cargar proteinas patológicas y patologicas
+                util.load_proteins()
 
                 # Ejecucion del alineamiento
                 als = util.run_alignment()
@@ -1173,7 +1173,7 @@ class Predictor(object):
                 plt.show()
 
                 #Exportar los resultados
-                excelLog = self.outputPath + self.tmstmp + "AlgLog.xlsx"
+                excelLog = util.outputPath + util.tmstmp + "AlgLog.xlsx"
                 log.to_excel(excelLog)
 
 
