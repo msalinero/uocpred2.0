@@ -1,4 +1,4 @@
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from numpy.random import permutation
@@ -902,12 +902,15 @@ class ProteinProblem(object):
 
                         config = configparser.ConfigParser()
                         config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
-                        
+                        # Numero de folds
                         self.kfolds = int(config['ML']['kfolds'])
+                        # Hiperparametros random forest
                         self.criterion = config['RANDOMFOREST']['criterion']
                         self.n_estimators = int(
                             config['RANDOMFOREST']['n_estimators'])
                         self.n_jobs = int(config['RANDOMFOREST']['n_jobs'])
+                        # Hiperparametros SVC
+                        self.kernel = config['SVC']['kernel']
 
                 except:
                         print("Problema con el archivo de configuración")
@@ -1124,11 +1127,26 @@ class ProteinSVM(ProteinClassifier):
 
                 super().__init__(data, tmstmp, outputPath)
 
-                self.name = 'SVM'
+                self.name = 'SVC'
 
         def train(self, X, Y):
 
-                classifier = SVC(gamma='auto', probability=True)
+                classifier = SVC(gamma='auto', probability=True, kernel = self.kernel)
+                classifier = classifier.fit(X, Y)
+                return classifier
+
+
+class ProteinAdaBoost(ProteinClassifier):
+
+        def __init__(self, data, tmstmp, outputPath):
+
+                super().__init__(data, tmstmp, outputPath)
+
+                self.name = 'AdaBoost'
+
+        def train(self, X, Y):
+
+                classifier = AdaBoostClassifier()
                 classifier = classifier.fit(X, Y)
                 return classifier
 
@@ -1152,6 +1170,8 @@ class Predictor(object):
                 algoritmos_mls = []
                 algoritmos_mls.append(ProteinForest(util.df, util.tmstmp, util.outputPath))
                 algoritmos_mls.append(ProteinSVM(util.df, util.tmstmp, util.outputPath))
+                algoritmos_mls.append(ProteinAdaBoost(
+                    util.df, util.tmstmp, util.outputPath))
 
                 # Validar los algoritmos
                 log_cols = ["Clasificador", "Precision"]
@@ -1174,6 +1194,8 @@ class Predictor(object):
 
                 #Exportar los resultados
                 excelLog = util.outputPath + util.tmstmp + "AlgLog.xlsx"
+
+                log = log.set_index('Clasificador')
                 log.to_excel(excelLog)
 
 
