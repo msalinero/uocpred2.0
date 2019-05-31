@@ -13,3 +13,6 @@ doSVC = True
 kernel = rbf
 [ADABOOST]
 doAda = True
+[KNN]
+doKNN = True
+neighbors = 5

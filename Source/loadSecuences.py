@@ -1,4 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from numpy.random import permutation
@@ -83,10 +84,10 @@ class Utils():
                 # Lista que va a contener todos los diccionarios
                 rows_list = []
 
-                # Archivo conteniendo las proteinas benignas
-                print("Carga de las proteinas benignas\n")
+                # Archivo conteniendo las proteinas no patologicas
+                print("Carga de las proteinas no patologicas\n")
                 f1 = self.select_fasta_file(
-                    "Selecciona el archivo FASTA con las proteinas benignas")
+                    "Selecciona el archivo FASTA con las proteinas no patologicas")
                 # Leemos el fichero y creamos la lista de SeqRecord
                 healthySeqRecords = SeqIO.parse(f1, 'fasta')     
                 # Iteramos y vamos generando las entradas del 
@@ -114,7 +115,7 @@ class Utils():
                         outfile.write(">" + seq.id + "\n")
                         outfile.write(str(seq.seq) + "\n")
                 
-                print("Cargadas {} proteinas benignas\n".format(numHealth))
+                print("Cargadas {} proteinas no patologicas\n".format(numHealth))
 
                 # Archivo conteniendo las proteinas patologicas
                 print("Carga de las proteinas patologicas\n")
@@ -1160,15 +1161,33 @@ class ProteinAdaBoost(ProteinClassifier):
                 # Hiperparametros AdaBoost
                 config = configparser.ConfigParser()
                 config.read(os.path.dirname(
-                    os.path.abspath(__file__)) + '\\config.file')
-               
-
-
-                
+                    os.path.abspath(__file__)) + '\\config.file')          
 
         def train(self, X, Y):
 
                 classifier = AdaBoostClassifier()
+                classifier = classifier.fit(X, Y)
+                return classifier
+
+
+class ProteinKNN(ProteinClassifier):
+
+        def __init__(self, data, tmstmp, outputPath):
+
+                self.name = 'KNN'
+
+                super().__init__(data, tmstmp, outputPath)
+
+                # Hiperparametros KNN
+                config = configparser.ConfigParser()
+                config.read(os.path.dirname(
+                    os.path.abspath(__file__)) + '\\config.file')
+                self.neighbors = int(config['KNN']['neighbors'])
+                
+
+        def train(self, X, Y):
+
+                classifier = KNeighborsClassifier(n_neighbors=self.neighbors)
                 classifier = classifier.fit(X, Y)
                 return classifier
 
@@ -1185,12 +1204,13 @@ class Predictor(object):
                 self.doSVC = config['SVC']['doSVC']
                 self.doRandomForest = config['RANDOMFOREST']['doRF']
                 self.doAdaBoost = config['ADABOOST']['doAda']
+                self.doKNN = config['KNN']['doKNN']
 
        
         def pipeline(self):
 
                 util = Utils()
-                # Cargar proteinas patológicas y patologicas
+                # Cargar proteinas no patologicas y patologicas
                 util.load_proteins()
 
                 # Ejecucion del alineamiento
@@ -1207,6 +1227,9 @@ class Predictor(object):
                         algoritmos_mls.append(ProteinSVM(util.df, util.tmstmp, util.outputPath))
                 if (self.doAdaBoost == 'True'):
                         algoritmos_mls.append(ProteinAdaBoost(util.df, util.tmstmp, util.outputPath))
+                if (self.doKNN == 'True'):
+                        algoritmos_mls.append(ProteinKNN(util.df, util.tmstmp, util.outputPath))
+
 
                 # Validar los algoritmos
                 log_cols = ["Clasificador", "Precision"]
@@ -1220,8 +1243,9 @@ class Predictor(object):
                 
                 # Tabla de resultados
                 sns.set_color_codes("muted")
+                clrs = ['r' if ('Media' in y) else 'b' for y in log["Clasificador"]]
                 sns.barplot(x="Precision", y="Clasificador",
-                            data=log, color="b")
+                            data=log, palette =clrs)
 
                 plt.xlabel('Accuracy %')
                 plt.title('Accuracy Clasificadores')
@@ -1234,10 +1258,7 @@ class Predictor(object):
 
                 log = log.set_index('Clasificador')
                 log.to_excel(excelLog)
-
-
-    
-    
+   
 
 
                 print("Fin de la ejecucion\n")
