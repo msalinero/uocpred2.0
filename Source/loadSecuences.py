@@ -161,7 +161,8 @@ class Utils():
                 
 
         def generate_dipeptides(self,secuence,dict):
-
+                
+                # Totalidad de aminoacidos
                 amino_acids = 'ACDEFGHIKLMNPQRSTVWY'
 
                 dipeptides = itertools.product(amino_acids, repeat=2)                
@@ -895,7 +896,7 @@ class ProteinProblem(object):
                 self.data_frame = data
                 self.tmstmp = tmstmp
                 self.outputPath = outputPath
-                self.validationFile = self.outputPath + self.tmstmp + 'Validation.out'
+                self.validationFile = self.outputPath + self.tmstmp + self.name +'Validation.out'
 
                 try:
                         
@@ -904,13 +905,7 @@ class ProteinProblem(object):
                         config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
                         # Numero de folds
                         self.kfolds = int(config['ML']['kfolds'])
-                        # Hiperparametros random forest
-                        self.criterion = config['RANDOMFOREST']['criterion']
-                        self.n_estimators = int(
-                            config['RANDOMFOREST']['n_estimators'])
-                        self.n_jobs = int(config['RANDOMFOREST']['n_jobs'])
-                        # Hiperparametros SVC
-                        self.kernel = config['SVC']['kernel']
+                        
 
                 except:
                         print("Problema con el archivo de configuración")
@@ -1016,6 +1011,9 @@ class ProteinProblem(object):
                 plt.title('Curvas ROC de {}-fold Cross Validation para {}'.format(self.kfolds, self.name))
                 plt.legend(loc="lower right")
 
+                plotFile = self.outputPath + self.tmstmp + self.name + "KCross.png"
+                plt.savefig(plotFile, bbox_inches='tight')
+
                 plt.show(block=False)
 
                 return response
@@ -1108,9 +1106,18 @@ class ProteinForest(ProteinClassifier):
 
         def __init__(self,data,tmstmp,outputPath):
 
+                self.name = 'RandomForest'
+
                 super().__init__(data, tmstmp, outputPath)
 
-                self.name = 'RandomForest'
+                # Hiperparametros random forest
+                config = configparser.ConfigParser()
+                config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
+                self.criterion = config['RANDOMFOREST']['criterion']
+                self.n_estimators = int(config['RANDOMFOREST']['n_estimators'])
+                self.n_jobs = int(config['RANDOMFOREST']['n_jobs'])
+
+                
 
 
         def train(self, X, Y):
@@ -1125,9 +1132,15 @@ class ProteinSVM(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
 
-                super().__init__(data, tmstmp, outputPath)
-
                 self.name = 'SVC'
+
+                super().__init__(data, tmstmp, outputPath)
+                # Hiperparametros SVC
+                config = configparser.ConfigParser()
+                config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
+                self.kernel = config['SVC']['kernel']
+
+               
 
         def train(self, X, Y):
 
@@ -1140,9 +1153,18 @@ class ProteinAdaBoost(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
 
+                self.name = 'AdaBoost'
+
                 super().__init__(data, tmstmp, outputPath)
 
-                self.name = 'AdaBoost'
+                # Hiperparametros AdaBoost
+                config = configparser.ConfigParser()
+                config.read(os.path.dirname(
+                    os.path.abspath(__file__)) + '\\config.file')
+               
+
+
+                
 
         def train(self, X, Y):
 
@@ -1153,7 +1175,18 @@ class ProteinAdaBoost(ProteinClassifier):
 
 class Predictor(object):
 
-        
+        def __init__(self):
+
+                # Hiperparametros AdaBoost
+                config = configparser.ConfigParser()
+                config.read(os.path.dirname(
+                    os.path.abspath(__file__)) + '\\config.file')
+
+                self.doSVC = config['SVC']['doSVC']
+                self.doRandomForest = config['RANDOMFOREST']['doRF']
+                self.doAdaBoost = config['ADABOOST']['doAda']
+
+       
         def pipeline(self):
 
                 util = Utils()
@@ -1168,10 +1201,12 @@ class Predictor(object):
 
                 # Algoritmos ML
                 algoritmos_mls = []
-                algoritmos_mls.append(ProteinForest(util.df, util.tmstmp, util.outputPath))
-                algoritmos_mls.append(ProteinSVM(util.df, util.tmstmp, util.outputPath))
-                algoritmos_mls.append(ProteinAdaBoost(
-                    util.df, util.tmstmp, util.outputPath))
+                if (self.doRandomForest == 'True'):
+                        algoritmos_mls.append(ProteinForest(util.df, util.tmstmp, util.outputPath))
+                if (self.doSVC == 'True'):
+                        algoritmos_mls.append(ProteinSVM(util.df, util.tmstmp, util.outputPath))
+                if (self.doAdaBoost == 'True'):
+                        algoritmos_mls.append(ProteinAdaBoost(util.df, util.tmstmp, util.outputPath))
 
                 # Validar los algoritmos
                 log_cols = ["Clasificador", "Precision"]
@@ -1190,6 +1225,8 @@ class Predictor(object):
 
                 plt.xlabel('Accuracy %')
                 plt.title('Accuracy Clasificadores')
+                plotFile = util.outputPath + util.tmstmp + "PerformanceComp.png"
+                plt.savefig(plotFile, bbox_inches='tight')
                 plt.show()
 
                 #Exportar los resultados
