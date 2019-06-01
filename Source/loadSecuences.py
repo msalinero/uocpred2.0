@@ -879,9 +879,11 @@ class Utils():
                 ent.pack()
                 # Crear el boton
                 def clicked():
+                        plt.close('all')
                         self.ncomp = int(ent.get())
                         toolWindow.destroy()
                         toolWindow.quit()
+                        
 
                 btn = Button(toolWindow, text="OK", command=clicked)
                 btn.pack()
