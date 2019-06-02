@@ -112,6 +112,22 @@ class Utils():
                         
                         # Generar features de proporcion de dipeptidos
                         self.generate_dipeptides_features(str(seq.seq), dict1)
+
+                        # Generar Transition features
+                        self.generate_P_transition_features(
+                            str(seq.seq), dict1)
+                        self.generate_Pol_transition_features(
+                            str(seq.seq), dict1)
+                        self.generate_SE_transition_features(
+                            str(seq.seq), dict1)
+                        self.generate_Sa_transition_features(
+                            str(seq.seq), dict1)
+                        self.generate_charge_transition_features(
+                            str(seq.seq), dict1)
+                        self.generate_hydro_transition_features(
+                            str(seq.seq), dict1)
+                        self.generate_vdw_transition_features(
+                            str(seq.seq), dict1)
                         
                         rows_list.append(dict1)
 
@@ -144,6 +160,22 @@ class Utils():
 
                         # Generar features de proporcion de dipeptidos
                         self.generate_dipeptides_features(str(seq.seq), dict1)
+
+                        # Generar Transition features
+                        self.generate_P_transition_features(
+                                str(seq.seq), dict1)
+                        self.generate_Pol_transition_features(
+                                str(seq.seq), dict1)
+                        self.generate_SE_transition_features(
+                                str(seq.seq), dict1)
+                        self.generate_Sa_transition_features(
+                                str(seq.seq), dict1)
+                        self.generate_charge_transition_features(
+                                str(seq.seq), dict1)
+                        self.generate_hydro_transition_features(
+                                str(seq.seq), dict1)
+                        self.generate_vdw_transition_features(
+                                str(seq.seq), dict1)
 
                         rows_list.append(dict1)
 
@@ -383,7 +415,18 @@ class Utils():
                         n = len(re.findall('[CLVIMFW]', seq)
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'hydroG3'] = n
-                
+
+        # Transition features
+        def generate_hydro_transition_features(self, secuence, dict):
+                groups = ['','[RKEDQN]','[GASTPHY]','[CLVIMFW]']
+
+                for r,s in [[1,2],[1,3],[2,3]]:
+                        grs = re.findall(groups[r]+groups[s], secuence)
+                        gsr = re.findall(groups[s]+groups[r], secuence)
+                        column_name = 'hydro.Tr' + str(r) + str(s) + str(s) + str(r)
+                        dict[column_name] = (len(grs) + len(gsr))/ (len(secuence) - 1)
+
+                       
         def setVanderWaals_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['vdwG1'] = -1.0
@@ -416,6 +459,18 @@ class Utils():
                         n = len(re.findall('[MHKFRYW]', seq)
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'vdwG3'] = n
+
+        # Transition features
+        def generate_vdw_transition_features(self, secuence, dict):
+                groups = ['', '[GASTPDC]', '[NVEQIL]', '[MHKFRYW]']
+
+                for r, s in [[1, 2], [1, 3], [2, 3]]:
+                        grs = re.findall(groups[r]+groups[s], secuence)
+                        gsr = re.findall(groups[s]+groups[r], secuence)
+                        column_name = 'vdw.Tr' + \
+                            str(r) + str(s) + str(s) + str(r)
+                        dict[column_name] = (
+                            len(grs) + len(gsr)) / (len(secuence) - 1)
 
         def setPolarity_Group1(self):
                 # Columna nueva y valor por defecto
@@ -450,6 +505,18 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PG3'] = n
 
+        # Transition features
+        def generate_P_transition_features(self, secuence, dict):
+                groups = ['', '[LIFWCMVY]', '[PATGS]', '[HQRKNED]']
+
+                for r, s in [[1, 2], [1, 3], [2, 3]]:
+                        grs = re.findall(groups[r]+groups[s], secuence)
+                        gsr = re.findall(groups[s]+groups[r], secuence)
+                        column_name = 'P.Tr' + \
+                            str(r) + str(s) + str(s) + str(r)
+                        dict[column_name] = (
+                            len(grs) + len(gsr)) / (len(secuence) - 1)
+
         def setPolarizability_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['PolG1'] = -1.0
@@ -482,6 +549,18 @@ class Utils():
                         n = len(re.findall('[KMHFRYW]', seq)
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PolG3'] = n
+
+        # Transition features
+        def generate_Pol_transition_features(self, secuence, dict):
+                groups = ['', '[GASDT]', '[CPNVEQIL]', '[KMHFRYW]']
+
+                for r, s in [[1, 2], [1, 3], [2, 3]]:
+                        grs = re.findall(groups[r]+groups[s], secuence)
+                        gsr = re.findall(groups[s]+groups[r], secuence)
+                        column_name = 'Pol.Tr' + \
+                            str(r) + str(s) + str(s) + str(r)
+                        dict[column_name] = (
+                            len(grs) + len(gsr)) / (len(secuence) - 1)
 
         def setCharge_Group1(self):
                 # Columna nueva y valor por defecto
@@ -516,6 +595,18 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'ChargeG3'] = n
 
+        # Transition features
+        def generate_charge_transition_features(self, secuence, dict):
+                groups = ['', '[KR]', '[ANCQGHILMFPSTWYV]', '[DE]']
+
+                for r, s in [[1, 2], [1, 3], [2, 3]]:
+                        grs = re.findall(groups[r]+groups[s], secuence)
+                        gsr = re.findall(groups[s]+groups[r], secuence)
+                        column_name = 'Charge.Tr' + \
+                            str(r) + str(s) + str(s) + str(r)
+                        dict[column_name] = (
+                            len(grs) + len(gsr)) / (len(secuence) - 1)
+
         def setSecondaryStructure_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['SEG1'] = -1.0
@@ -549,6 +640,18 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SEG3'] = n
 
+        # Transition features
+        def generate_SE_transition_features(self, secuence, dict):
+                groups = ['', '[EALMQKRH]', '[VIYCWFT]', '[GNPSD]']
+
+                for r, s in [[1, 2], [1, 3], [2, 3]]:
+                        grs = re.findall(groups[r]+groups[s], secuence)
+                        gsr = re.findall(groups[s]+groups[r], secuence)
+                        column_name = 'SE.Tr' + \
+                            str(r) + str(s) + str(s) + str(r)
+                        dict[column_name] = (
+                            len(grs) + len(gsr)) / (len(secuence) - 1)
+
         def setSolventAccessibility_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['SaG1'] = -1.0
@@ -581,6 +684,18 @@ class Utils():
                         n = len(re.findall('[MSPTHY]', seq)
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SaG3'] = n
+
+        # Transition features
+        def generate_Sa_transition_features(self, secuence, dict):
+                groups = ['', '[ALFCGIVW]', '[RKQEND]', '[MSPTHY]']
+
+                for r, s in [[1, 2], [1, 3], [2, 3]]:
+                        grs = re.findall(groups[r]+groups[s], secuence)
+                        gsr = re.findall(groups[s]+groups[r], secuence)
+                        column_name = 'Sa.Tr' + \
+                            str(r) + str(s) + str(s) + str(r)
+                        dict[column_name] = (
+                            len(grs) + len(gsr)) / (len(secuence) - 1)
              
         def populate_features(self):
                 # Generacion de features adicionales
