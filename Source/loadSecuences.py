@@ -656,6 +656,7 @@ class Utils():
                 pca.fit(dfAux) 
                 dfPCA = pd.DataFrame(pca.transform(dfAux), columns=[
                         'PCA%i' % i for i in range(self.ncomp)],index = dfAux.index)
+                
                 dfPCA = dfPCA.join(
                         self.df.loc[:, self.df.columns == 'state'], on='id')
 
