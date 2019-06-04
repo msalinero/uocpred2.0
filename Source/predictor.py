@@ -60,7 +60,7 @@ class Utils():
                 try :
                         config = configparser.ConfigParser()
                         config.read(self.currpath + '\\config.file')
-                        self.clustalw_exe = config['DEFAULT']['muscle_exe']
+                        self.clustalw_exe = config['DEFAULT']['clustalw_exe']
                         self.doPCA = config['ML']['PCA']
                         
                 except:

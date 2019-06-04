@@ -1,5 +1,5 @@
 [DEFAULT]
-muscle_exe = C:/Program Files (x86)/ClustalW2/clustalw2.exe
+clustalw_exe = C:/Program Files (x86)/ClustalW2/clustalw2.exe
 [ML]
 PCA = True
 kfolds = 10
