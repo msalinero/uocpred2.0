@@ -1,4 +1,5 @@
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
@@ -24,7 +25,7 @@ from tkinter import *
 import time
 import configparser
 from sklearn.metrics import accuracy_score, confusion_matrix
-from sklearn.metrics import f1_score, balanced_accuracy_score
+from sklearn.metrics import f1_score, precision_score, recall_score
 import matplotlib.pyplot as plt
 import datetime
 import itertools
@@ -60,7 +61,7 @@ class Utils():
                         config = configparser.ConfigParser()
                         config.read(self.currpath + '\\config.file')
                         self.clustalw_exe = config['DEFAULT']['muscle_exe']
-                        self.doPCA = config['DEFAULT']['PCA']
+                        self.doPCA = config['ML']['PCA']
                         
                 except:
                         print("Problema con el archivo de configuración")
@@ -352,11 +353,11 @@ class Utils():
         
         def setNGap(self):
                 # Columna nueva y valor por defecto
-                self.df['nGap'] = -1
+                self.df['nGap'] = -1.0
                 # Recorrer los alineamientos y establecer la proporcion de gaps
                 for alignSec in self.alignment:
                         id = alignSec.id
-                        nGap = alignSec.seq.count('-') / self.df.at[id, 'length'] 
+                        nGap = alignSec.seq.count('-') / len(alignSec.seq) 
                         self.df.at[id, 'nGap'] = nGap
 
         def setNGaps(self):
@@ -730,6 +731,12 @@ class Utils():
                 excelDf = self.outputPath + self.tmstmp + "Dataframe.xlsx"
 
                 self.df.to_excel(excelDf)
+
+                shape = self.df.shape
+                ncols = shape[1]
+                nsamples = shape[0]
+
+                print("El dataframe generado tiene unas dimensiones de {} muestras y {} columnas\n".format(nsamples,ncols))
                 
                 print("Dataframe exportado al archivo {}\n".format(excelDf))
 
@@ -784,11 +791,11 @@ class Utils():
 
         def set_ncomponents(self):
                 toolWindow = tk.Tk()
-                toolWindow.title("Numero de componentes")
+                toolWindow.title("Número de componentes")
                 toolWindow.geometry('250x200')
                 # Crear el label
                 lbl = Label(
-                    toolWindow, text="Introduce el numero de componentes principales")
+                    toolWindow, text="Número de componentes principales")
                 lbl.pack()
                 # Crear el combobox
                 ent = tk.Entry(toolWindow)
@@ -965,15 +972,19 @@ class ProteinClassifier(ProteinProblem):
                         print()
                         
                         cm1 = confusion_matrix(training, test, labels=[0, 1])
+
                         # Calculamos la precision de esta confusion matrix
                         accuracy = accuracy_score(training,test)
                         print("Accuracy:{0:.2f}\n".format(accuracy))
-                        # Balance accuracy
-                        print("Balance accuracy score:{0:.2f}\n".format(
-                                balanced_accuracy_score(training, test)))
+                        # Precision
+                        precision = precision_score(training, test)
+                        print("Precision score:{0:.2f}\n".format(precision))
+                        # Recall Score
+                        recall = recall_score(training, test)
+                        print("Recall score:{0:.2f}\n".format(recall))
                         # F-Score
-                        print("F-score:{0:.2f}\n".format(
-                            f1_score(training, test)))
+                        f1s = f1_score(training, test)
+                        print("F-score:{0:.2f}\n".format(f1s))
 
                         avgAcc += accuracy
                         
@@ -981,14 +992,15 @@ class ProteinClassifier(ProteinProblem):
 
                         fold_name = "{} fold {}".format(self.name,ncfs)
 
-                        avgs.append([fold_name,accuracy])
+                        avgs.append(
+                            [fold_name, accuracy, precision, recall, f1s])
 
                         ncfs += 1
 
                 avgAcc = avgAcc / ncfs
                 print('Precision media:{0:.2f}'.format(avgAcc))
 
-                avgs.append(["Media {}".format(self.name), avgAcc])
+                avgs.append(["Media {}".format(self.name), avgAcc,0,0,0])
 
                 sys.stdout = original
 
@@ -1068,11 +1080,11 @@ class ProteinSVM(ProteinClassifier):
                 return classifier
 
 
-class ProteinAdaBoost(ProteinClassifier):
+class ProteinTree(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
 
-                self.name = 'AdaBoost'
+                self.name = 'DecTree'
 
                 super().__init__(data, tmstmp, outputPath)
 
@@ -1083,7 +1095,7 @@ class ProteinAdaBoost(ProteinClassifier):
 
         def train(self, X, Y):
 
-                classifier = AdaBoostClassifier()
+                classifier = DecisionTreeClassifier()
                 classifier = classifier.fit(X, Y)
                 return classifier
 
@@ -1092,15 +1104,17 @@ class ProteinKNN(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
 
-                self.name = 'KNN'
-
-                super().__init__(data, tmstmp, outputPath)
-
                 # Hiperparametros KNN
                 config = configparser.ConfigParser()
                 config.read(os.path.dirname(
                     os.path.abspath(__file__)) + '\\config.file')
                 self.neighbors = int(config['KNN']['neighbors'])
+
+                self.name = str(self.neighbors) + 'NN'
+
+                super().__init__(data, tmstmp, outputPath)
+
+                
                 
 
         def train(self, X, Y):
@@ -1121,7 +1135,7 @@ class Predictor(object):
 
                 self.doSVC = config['SVC']['doSVC']
                 self.doRandomForest = config['RANDOMFOREST']['doRF']
-                self.doAdaBoost = config['ADABOOST']['doAda']
+                self.doTree = config['TREE']['doTree']
                 self.doKNN = config['KNN']['doKNN']
 
        
@@ -1143,14 +1157,14 @@ class Predictor(object):
                         algoritmos_mls.append(ProteinForest(util.df, util.tmstmp, util.outputPath))
                 if (self.doSVC == 'True'):
                         algoritmos_mls.append(ProteinSVM(util.df, util.tmstmp, util.outputPath))
-                if (self.doAdaBoost == 'True'):
-                        algoritmos_mls.append(ProteinAdaBoost(util.df, util.tmstmp, util.outputPath))
                 if (self.doKNN == 'True'):
                         algoritmos_mls.append(ProteinKNN(util.df, util.tmstmp, util.outputPath))
-
+                if (self.doTree == 'True'):
+                        algoritmos_mls.append(ProteinTree(util.df, util.tmstmp, util.outputPath))
+                
 
                 # Validar los algoritmos
-                log_cols = ["Clasificador", "Precision"]
+                log_cols = ["Clasificador", "Accuracy", "Precision", "Recall", "F-Score"]
                 log = pd.DataFrame(columns=log_cols)
                 
 
@@ -1161,8 +1175,8 @@ class Predictor(object):
                 
                 # Tabla de resultados
                 sns.set_color_codes("muted")
-                clrs = ['r' if ('Media' in y) else 'b' for y in log["Clasificador"]]
-                sns.barplot(x="Precision", y="Clasificador",
+                clrs = ['g' if ('Media' in y) else 'b' for y in log["Clasificador"]]
+                sns.barplot(x="Accuracy", y="Clasificador",
                             data=log, palette =clrs)
 
                 plt.xlabel('Accuracy %')

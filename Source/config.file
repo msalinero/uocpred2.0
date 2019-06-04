@@ -1,7 +1,7 @@
 [DEFAULT]
 muscle_exe = C:/Program Files (x86)/ClustalW2/clustalw2.exe
-PCA = True
 [ML]
+PCA = True
 kfolds = 10
 [RANDOMFOREST]
 doRF = True
@@ -11,8 +11,8 @@ n_jobs = 2
 [SVC]
 doSVC = True
 kernel = rbf
-[ADABOOST]
-doAda = False
+[TREE]
+doTree = True
 [KNN]
 doKNN = True
 neighbors = 5
