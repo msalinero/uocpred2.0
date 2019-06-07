@@ -5,14 +5,22 @@ PCA = True
 kfolds = 10
 [RANDOMFOREST]
 doRF = True
-criterion = gini
-n_estimators = 100
-n_jobs = 2
+n_estimators = [200, 500]
+max_features = ['auto', 'sqrt', 'log2']
+max_depth = [4,5,6,7,8]
+criterion = ['gini', 'entropy']
 [SVC]
 doSVC = True
-kernel = rbf
+kernel = ['linear', 'rbf', 'poly']
+C = [1,0.25,0.5,0.75]
+gamma = [1,2,3,'auto']
+decision_function_shape = ['ovo','ovr']
+shrinking = [True,False]
 [TREE]
 doTree = True
+criterion = ['gini', 'entropy']
+min_samples_leaf = [1, 5, 10]
+max_depth = [5,10,15,20,100]
 [KNN]
 doKNN = True
-neighbors = 5
+n_neighbors = [2,3,4,5,6,7,8,9,10]

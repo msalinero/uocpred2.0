@@ -3,6 +3,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
+from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import MinMaxScaler
 from numpy.random import permutation
 from numpy import array_split, concatenate
 from sklearn.metrics import mean_squared_error, roc_curve, auc
@@ -32,6 +34,11 @@ import itertools
 from scipy import interp
 from sklearn.decomposition import PCA
 import seaborn as sns
+import warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+pd.options.mode.chained_assignment = None  # default='warn'
+
 
 class Utils():
         
@@ -766,6 +773,13 @@ class Utils():
                 
 
                 dfAux = self.df.loc[:, self.df.columns != 'state']
+
+                scaler = MinMaxScaler()
+                dfAux[dfAux.columns] = scaler.fit_transform(dfAux[dfAux.columns])
+
+                excelScale = self.outputPath + self.tmstmp + "DfScale.xlsx"
+                dfAux.to_excel(excelScale)
+
                 pca = PCA().fit(dfAux)
                 plt.plot(np.cumsum(pca.explained_variance_ratio_))
                 plt.xlabel('Número de componentes')
@@ -813,6 +827,16 @@ class Utils():
 
                 toolWindow.mainloop()
 
+        def prepareData(self):
+
+                 # Cargar proteinas no patologicas y patologicas
+                self.load_proteins()
+
+                # Ejecucion del alineamiento
+                self.run_alignment()
+
+                # Crear las features
+                self.populate_features()
                
 
 class ProteinProblem(object):
@@ -894,7 +918,11 @@ class ProteinProblem(object):
                         # Clases del conjunto de training
                         y = self.__factorize(training)
                         # Entrenar el modelo
-                        classifier = self.train(training[self.features], y)                        
+                        classifier = self.train(training[self.features], y)
+                        # Imprimimos los parametros elegidos
+                        print("Parametros elegidos para fold {}\n".format(i))
+                        print(classifier.best_params_ )
+                        print("")
                         # Predecimos para el conjunto test
                         predictions = classifier.predict(test_data[self.features])
                         # Resultados esperados para el conjunto test
@@ -1044,18 +1072,29 @@ class ProteinForest(ProteinClassifier):
                 # Hiperparametros random forest
                 config = configparser.ConfigParser()
                 config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
-                self.criterion = config['RANDOMFOREST']['criterion']
-                self.n_estimators = int(config['RANDOMFOREST']['n_estimators'])
-                self.n_jobs = int(config['RANDOMFOREST']['n_jobs'])
-
+                self.n_estimators = eval(config['RANDOMFOREST']['n_estimators'])
+                self.max_features = eval(config['RANDOMFOREST']['max_features'])
+                self.max_depth = eval(config['RANDOMFOREST']['max_depth'])
+                self.criterion = eval(config['RANDOMFOREST']['criterion'])
+                
                 
 
 
         def train(self, X, Y):
 
-                classifier = RandomForestClassifier(criterion=self.criterion,
-                                                    n_jobs=self.n_jobs, n_estimators=self.n_estimators)
-                classifier = classifier.fit(X, Y)
+                # Hacemos grid search para determinar los mejores parámetros
+                param_grid = { 
+                        'n_estimators': self.n_estimators,
+                        'max_features': self.max_features,
+                        'max_depth' : self.max_depth,
+                        'criterion' : self.criterion
+                }
+
+                classifier = RandomForestClassifier()
+                CV_rfc = GridSearchCV(
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring = 'accuracy')
+                
+                classifier = CV_rfc.fit(X, Y)
                 return classifier
 
 
@@ -1063,20 +1102,43 @@ class ProteinSVM(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
 
-                self.name = 'SVC'
-
-                super().__init__(data, tmstmp, outputPath)
                 # Hiperparametros SVC
                 config = configparser.ConfigParser()
-                config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
-                self.kernel = config['SVC']['kernel']
+                config.read(os.path.dirname(
+                    os.path.abspath(__file__)) + '\\config.file')
+                self.kernel = eval(config['SVC']['kernel'])
+                self.C = eval(config['SVC']['C'])
+                self.gamma = eval(config['SVC']['gamma'])
+                self.decision_function_shape = eval(
+                    config['SVC']['decision_function_shape'])
+                self.shrinking = eval(config['SVC']['shrinking'])
+
+
+                self.name = 'SVM'
+
+                super().__init__(data, tmstmp, outputPath)
+                
+
+                
 
                
 
         def train(self, X, Y):
 
-                classifier = SVC(gamma='auto', probability=True, kernel = self.kernel)
-                classifier = classifier.fit(X, Y)
+                # Hacemos grid search para determinar los mejores parámetros
+                param_grid = {
+                    'kernel': self.kernel,
+                    'C': self.C,
+                    'gamma': self.gamma,
+                    'decision_function_shape': self.decision_function_shape,
+                    'shrinking': self.shrinking,
+                }
+
+                classifier = SVC(probability = True)
+
+                CV_svm = GridSearchCV(
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring='accuracy')
+                classifier = CV_svm.fit(X, Y)
                 return classifier
 
 
@@ -1088,15 +1150,26 @@ class ProteinTree(ProteinClassifier):
 
                 super().__init__(data, tmstmp, outputPath)
 
-                # Hiperparametros AdaBoost
+                # Hiperparametros Tree
                 config = configparser.ConfigParser()
                 config.read(os.path.dirname(
-                    os.path.abspath(__file__)) + '\\config.file')          
+                    os.path.abspath(__file__)) + '\\config.file')
+                self.criterion = eval(config['TREE']['criterion'])
+                self.min_samples_leaf = eval(config['TREE']['min_samples_leaf'])
+                self.max_depth = eval(config['TREE']['max_depth'])
 
         def train(self, X, Y):
 
+                param_grid = {
+                    'criterion': self.criterion,
+                    'min_samples_leaf': self.min_samples_leaf,
+                    'max_depth': self.max_depth,
+                }
+
                 classifier = DecisionTreeClassifier()
-                classifier = classifier.fit(X, Y)
+                CV_tree = GridSearchCV(
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring='accuracy')
+                classifier = CV_tree.fit(X, Y)
                 return classifier
 
 
@@ -1108,9 +1181,9 @@ class ProteinKNN(ProteinClassifier):
                 config = configparser.ConfigParser()
                 config.read(os.path.dirname(
                     os.path.abspath(__file__)) + '\\config.file')
-                self.neighbors = int(config['KNN']['neighbors'])
+                self.n_neighbors = eval(config['KNN']['n_neighbors'])
 
-                self.name = str(self.neighbors) + 'NN'
+                self.name = 'KNN' 
 
                 super().__init__(data, tmstmp, outputPath)
 
@@ -1119,9 +1192,22 @@ class ProteinKNN(ProteinClassifier):
 
         def train(self, X, Y):
 
-                classifier = KNeighborsClassifier(n_neighbors=self.neighbors)
-                classifier = classifier.fit(X, Y)
+                param_grid = {
+                    'n_neighbors': self.n_neighbors
+                }
+
+                classifier = KNeighborsClassifier()
+                CV_KNN = GridSearchCV(
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring='accuracy')
+                classifier = CV_KNN.fit(X, Y)
                 return classifier
+
+
+class gridSearch(object):
+
+        def __init__(self,df):
+                pass
+
 
 
 class Predictor(object):
@@ -1138,62 +1224,70 @@ class Predictor(object):
                 self.doTree = config['TREE']['doTree']
                 self.doKNN = config['KNN']['doKNN']
 
-       
-        def pipeline(self):
 
-                util = Utils()
-                # Cargar proteinas no patologicas y patologicas
-                util.load_proteins()
-
-                # Ejecucion del alineamiento
-                als = util.run_alignment()
-
-                # Crear las features
-                util.populate_features()
+        def runClassifiers(self, ut):
 
                 # Algoritmos ML
                 algoritmos_mls = []
                 if (self.doRandomForest == 'True'):
-                        algoritmos_mls.append(ProteinForest(util.df, util.tmstmp, util.outputPath))
+                        algoritmos_mls.append(ProteinForest(
+                            ut.df, ut.tmstmp, ut.outputPath))
                 if (self.doSVC == 'True'):
-                        algoritmos_mls.append(ProteinSVM(util.df, util.tmstmp, util.outputPath))
+                        algoritmos_mls.append(ProteinSVM(
+                            ut.df, ut.tmstmp, ut.outputPath))
                 if (self.doKNN == 'True'):
-                        algoritmos_mls.append(ProteinKNN(util.df, util.tmstmp, util.outputPath))
+                        algoritmos_mls.append(ProteinKNN(
+                            ut.df, ut.tmstmp, ut.outputPath))
                 if (self.doTree == 'True'):
-                        algoritmos_mls.append(ProteinTree(util.df, util.tmstmp, util.outputPath))
-                
+                        algoritmos_mls.append(ProteinTree(
+                            ut.df, ut.tmstmp, ut.outputPath))
 
                 # Validar los algoritmos
-                log_cols = ["Clasificador", "Accuracy", "Precision", "Recall", "F-Score"]
+                log_cols = ["Clasificador", "Accuracy",
+                            "Precision", "Recall", "F-Score"]
                 log = pd.DataFrame(columns=log_cols)
-                
 
                 for ml in algoritmos_mls:
-                        for accs in ml.validate():
-                                log_entry = pd.DataFrame([accs], columns=log_cols)
+                        for metrics in ml.validate():
+                                log_entry = pd.DataFrame(
+                                    [metrics], columns=log_cols)
                                 log = log.append(log_entry)
-                
+
                 # Tabla de resultados
                 sns.set_color_codes("muted")
-                clrs = ['g' if ('Media' in y) else 'b' for y in log["Clasificador"]]
+                clrs = ['g' if ('Media' in y)
+                        else 'b' for y in log["Clasificador"]]
                 sns.barplot(x="Accuracy", y="Clasificador",
-                            data=log, palette =clrs)
+                            data=log, palette=clrs)
 
                 plt.xlabel('Accuracy %')
                 plt.title('Accuracy Clasificadores')
-                plotFile = util.outputPath + util.tmstmp + "PerformanceComp.png"
+                plotFile = ut.outputPath + ut.tmstmp + "PerformanceComp.png"
                 plt.savefig(plotFile, bbox_inches='tight')
                 plt.show()
 
                 #Exportar los resultados
-                excelLog = util.outputPath + util.tmstmp + "AlgLog.xlsx"
+                excelLog = ut.outputPath + ut.tmstmp + "AlgLog.xlsx"
 
                 log = log.set_index('Clasificador')
                 log.to_excel(excelLog)
-   
 
 
-                print("Fin de la ejecucion\n")
+
+       
+        def pipeline(self):
+
+                util = Utils()
+
+                # Preparar los datos
+                util.prepareData()
+
+                # Ejecutar clasificadores
+                self.runClassifiers(util)
+
+
+
+                print("Fin de la ejecución\n")
 
 
 
