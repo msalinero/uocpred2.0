@@ -754,9 +754,7 @@ class Utils():
                 print("Exploracion de los datos exportado al archivo {}\n".format(excelSummary))
                 
 
-                # PCA
-                if(self.doPCA=='True'):
-                        self.runPca()
+                
 
                         
 
@@ -837,6 +835,10 @@ class Utils():
 
                 # Crear las features
                 self.populate_features()
+
+                # PCA
+                if(self.doPCA == 'True'):
+                        self.runPca()
                
 
 class ProteinProblem(object):
@@ -894,11 +896,15 @@ class ProteinProblem(object):
                 # Generar particiones
                 perms = array_split(permutation(len(df.index)), folds)
                 
-                #Roc Curve
+                # Roc Curve
                 tprs = []
                 aucs = []
                 mean_fpr = np.linspace(0, 1, 100)
-                
+
+                # Hiperparámetros usados
+                dfGrid = pd.DataFrame({})
+                rows_list = []
+                         
 
                 for i in range(folds):
                         train_idxs = list(range(folds))
@@ -919,10 +925,12 @@ class ProteinProblem(object):
                         y = self.__factorize(training)
                         # Entrenar el modelo
                         classifier = self.train(training[self.features], y)
-                        # Imprimimos los parametros elegidos
+                        # Imprimimos los parametros elegidos por grid search
                         print("Parametros elegidos para fold {}\n".format(i))
                         print(classifier.best_params_ )
                         print("")
+                        dict1 = {}
+                        dict1.update(classifier.best_params_)
                         # Predecimos para el conjunto test
                         predictions = classifier.predict(test_data[self.features])
                         # Resultados esperados para el conjunto test
@@ -936,6 +944,8 @@ class ProteinProblem(object):
                         aucs.append(roc_auc)
                         plt.plot(fpr, tpr, lw=1, alpha=0.3,
                         label='ROC fold %d (AUC = %0.2f)' % (i, roc_auc))
+
+                        rows_list.append(dict1)
 
                         response.append([predictions, expected])
 
@@ -969,6 +979,10 @@ class ProteinProblem(object):
                 plt.savefig(plotFile, bbox_inches='tight')
 
                 plt.show(block=False)
+
+                dfGrid = pd.DataFrame(rows_list)
+                gridFile = self.outputPath + self.tmstmp + self.name + "GridSearch.xlsx"
+                dfGrid.to_excel(gridFile)
 
                 return response
 
@@ -1284,8 +1298,6 @@ class Predictor(object):
 
                 # Ejecutar clasificadores
                 self.runClassifiers(util)
-
-
 
                 print("Fin de la ejecución\n")
 
