@@ -71,14 +71,15 @@ class Utils():
                         self.doPCA = config['ML']['PCA']
                         
                 except:
-                        print("Problema con el archivo de configuración")
+                        print("Problema con el archivo de configuración.")
         
         
         def select_fasta_file(self,message):
+        
                 # para quitar la ventana 
                 root = tk.Tk()
                 root.withdraw()
-                
+                      
                 # dialogo de seleccion de archivo
                 file_path = filedialog.askopenfilename(
                         initialdir = "./",title = message,
@@ -87,6 +88,7 @@ class Utils():
                 root.quit()
                 return file_path
 
+                
         def load_proteins(self):
 
                 # Lista que va a contener todos los diccionarios
@@ -857,6 +859,7 @@ class ProteinProblem(object):
                         config.read(os.path.dirname(os.path.abspath(__file__)) + '\\config.file')
                         # Numero de folds
                         self.kfolds = int(config['ML']['kfolds'])
+                        self.target_metric = config['ML']['target_metric']
                         
 
                 except:
@@ -931,6 +934,7 @@ class ProteinProblem(object):
                         print("")
                         dict1 = {}
                         dict1.update(classifier.best_params_)
+                        rows_list.append(dict1)
                         # Predecimos para el conjunto test
                         predictions = classifier.predict(test_data[self.features])
                         # Resultados esperados para el conjunto test
@@ -945,7 +949,7 @@ class ProteinProblem(object):
                         plt.plot(fpr, tpr, lw=1, alpha=0.3,
                         label='ROC fold %d (AUC = %0.2f)' % (i, roc_auc))
 
-                        rows_list.append(dict1)
+                        
 
                         response.append([predictions, expected])
 
@@ -975,7 +979,7 @@ class ProteinProblem(object):
                 plt.title('Curvas ROC de {}-fold Cross Validation para {}'.format(self.kfolds, self.name))
                 plt.legend(loc="lower right")
 
-                plotFile = self.outputPath + self.tmstmp + self.name + "KCross.png"
+                plotFile = self.outputPath + self.tmstmp + self.name + "RocCuves.png"
                 plt.savefig(plotFile, bbox_inches='tight')
 
                 plt.show(block=False)
@@ -1001,8 +1005,11 @@ class ProteinClassifier(ProteinProblem):
 
                 confusion_matrices = []
                 ncfs = 0
-                avgAcc = 0.0
-                avgs = []
+                mean_accuracy = 0.0
+                mean_precision = 0.0
+                mean_recall = 0.0
+                mean_f1 = 0.0
+                metrics = []
                 
                 for test, training in self.validation_data():
 
@@ -1017,38 +1024,49 @@ class ProteinClassifier(ProteinProblem):
 
                         # Calculamos la precision de esta confusion matrix
                         accuracy = accuracy_score(training,test)
+                        mean_accuracy = mean_accuracy + accuracy
                         print("Accuracy:{0:.2f}\n".format(accuracy))
                         # Precision
                         precision = precision_score(training, test)
+                        mean_precision = mean_precision + precision
                         print("Precision score:{0:.2f}\n".format(precision))
                         # Recall Score
                         recall = recall_score(training, test)
+                        mean_recall = mean_recall + recall
                         print("Recall score:{0:.2f}\n".format(recall))
                         # F-Score
-                        f1s = f1_score(training, test)
-                        print("F-score:{0:.2f}\n".format(f1s))
+                        f1 = f1_score(training, test)
+                        mean_f1 = mean_f1 + f1
+                        print("F-score:{0:.2f}\n".format(f1))
 
-                        avgAcc += accuracy
-                        
                         confusion_matrices.append(cm1)
 
                         fold_name = "{} fold {}".format(self.name,ncfs)
 
-                        avgs.append(
-                            [fold_name, accuracy, precision, recall, f1s])
+                        metrics.append(
+                            [fold_name, accuracy, precision, recall, f1])
 
                         ncfs += 1
 
-                avgAcc = avgAcc / ncfs
-                print('Precision media:{0:.2f}'.format(avgAcc))
+                mean_accuracy = mean_accuracy / ncfs
+                print('Accuracy media:{0:.2f}\n'.format(mean_accuracy))
 
-                avgs.append(["Media {}".format(self.name), avgAcc,0,0,0])
+                mean_precision = mean_precision / ncfs
+                print('Precision media:{0:.2f}\n'.format(mean_precision))
+
+                mean_recall = mean_recall / ncfs
+                print('Recall media:{0:.2f}\n'.format(mean_recall))
+
+                mean_f1 = mean_f1 / ncfs
+                print('F1 media:{0:2f}\n'.format(mean_f1))
+
+                metrics.append(["Media {}".format(self.name), mean_accuracy,mean_precision,mean_recall,mean_f1])
 
                 sys.stdout = original
 
                 self.draw_validation()
 
-                return avgs
+                return metrics
 
         def draw_validation(self):
                 validatioWindow = tk.Tk()
@@ -1106,7 +1124,7 @@ class ProteinForest(ProteinClassifier):
 
                 classifier = RandomForestClassifier()
                 CV_rfc = GridSearchCV(
-                    estimator=classifier, param_grid=param_grid, cv=3, scoring = 'accuracy')
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring = self.target_metric)
                 
                 classifier = CV_rfc.fit(X, Y)
                 return classifier
@@ -1151,7 +1169,7 @@ class ProteinSVM(ProteinClassifier):
                 classifier = SVC(probability = True)
 
                 CV_svm = GridSearchCV(
-                    estimator=classifier, param_grid=param_grid, cv=3, scoring='accuracy')
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring= self.target_metric)
                 classifier = CV_svm.fit(X, Y)
                 return classifier
 
@@ -1182,7 +1200,7 @@ class ProteinTree(ProteinClassifier):
 
                 classifier = DecisionTreeClassifier()
                 CV_tree = GridSearchCV(
-                    estimator=classifier, param_grid=param_grid, cv=3, scoring='accuracy')
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring = self.target_metric)
                 classifier = CV_tree.fit(X, Y)
                 return classifier
 
@@ -1212,7 +1230,7 @@ class ProteinKNN(ProteinClassifier):
 
                 classifier = KNeighborsClassifier()
                 CV_KNN = GridSearchCV(
-                    estimator=classifier, param_grid=param_grid, cv=3, scoring='accuracy')
+                    estimator=classifier, param_grid=param_grid, cv=3, scoring = self.target_metric)
                 classifier = CV_KNN.fit(X, Y)
                 return classifier
 
@@ -1237,6 +1255,7 @@ class Predictor(object):
                 self.doRandomForest = config['RANDOMFOREST']['doRF']
                 self.doTree = config['TREE']['doTree']
                 self.doKNN = config['KNN']['doKNN']
+                self.target_metric = config['ML']['target_metric']
 
 
         def runClassifiers(self, ut):
@@ -1257,8 +1276,8 @@ class Predictor(object):
                             ut.df, ut.tmstmp, ut.outputPath))
 
                 # Validar los algoritmos
-                log_cols = ["Clasificador", "Accuracy",
-                            "Precision", "Recall", "F-Score"]
+                log_cols = ["Clasificador", "accuracy",
+                            "precision", "recall", "f1"]
                 log = pd.DataFrame(columns=log_cols)
 
                 for ml in algoritmos_mls:
@@ -1271,11 +1290,11 @@ class Predictor(object):
                 sns.set_color_codes("muted")
                 clrs = ['g' if ('Media' in y)
                         else 'b' for y in log["Clasificador"]]
-                sns.barplot(x="Accuracy", y="Clasificador",
+                sns.barplot(x=self.target_metric, y="Clasificador",
                             data=log, palette=clrs)
 
-                plt.xlabel('Accuracy %')
-                plt.title('Accuracy Clasificadores')
+                plt.xlabel(self.target_metric)
+                plt.title('{} Clasificadores'.format(self.target_metric))
                 plotFile = ut.outputPath + ut.tmstmp + "PerformanceComp.png"
                 plt.savefig(plotFile, bbox_inches='tight')
                 plt.show()

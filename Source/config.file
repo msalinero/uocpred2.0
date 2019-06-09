@@ -3,6 +3,7 @@ clustalw_exe = C:/Program Files (x86)/ClustalW2/clustalw2.exe
 [ML]
 PCA = True
 kfolds = 10
+target_metric = recall
 [RANDOMFOREST]
 doRF = True
 n_estimators = [200, 500]
