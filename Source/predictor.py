@@ -39,7 +39,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 pd.options.mode.chained_assignment = None  # default='warn'
 
-
+# Clase que recopila y prepara los datos
 class Utils():
         
         def __init__(self):
@@ -237,6 +237,7 @@ class Utils():
                 timeCost = end - start
                 print("El alineamiento con Muscle ha tardado {0:.2f} segundos.\n".format(timeCost))
 
+        # Representar el arbol filogenetico
         def print_phylo_tree(self,f):
                 tree = Phylo.read(f, "newick")
                 Phylo.draw(tree, do_show=True, show_confidence=True)
@@ -247,6 +248,7 @@ class Utils():
                 self.alignment = alignment
                 return alignment
 
+        # Ventana con los alineamientos desde el archivo generado
         def draw_alignment(self, alignfile):
                 alignWindow = tk.Tk()
                 alignWindow.title("Alineamiento")
@@ -264,7 +266,7 @@ class Utils():
                 btn.pack()
                 alignWindow.mainloop()
 
-         
+        # Dialogo de seleccion del alineamiento
         def select_tool(self):
                 toolWindow = tk.Tk()
                 toolWindow.title("Herramienta de alineamiento")
@@ -288,7 +290,7 @@ class Utils():
 
                 toolWindow.mainloop()
                 
-
+        # Ejecutar el alineamiento seleccionado
         def run_alignment(self):
                 # Alineamiento
                 fastaFile = self.fastaout
@@ -360,6 +362,7 @@ class Utils():
                 else:
                         return 'unknown_gene'
         
+        # Propocion de gaps en el alineamiento
         def setNGap(self):
                 # Columna nueva y valor por defecto
                 self.df['nGap'] = -1.0
@@ -369,6 +372,7 @@ class Utils():
                         nGap = alignSec.seq.count('-') / len(alignSec.seq) 
                         self.df.at[id, 'nGap'] = nGap
 
+        # Grupos de gaps en la secuencia alineada
         def setNGaps(self):
                 # Columna nueva y valor por defecto
                 self.df['nGaps'] = -1
@@ -378,6 +382,7 @@ class Utils():
                         nGaps = len(re.findall('-+', str(alignSec.seq).strip('-')))
                         self.df.at[id, 'nGaps'] = nGaps
 
+        # Proporcion de coincidencia con la secuencia consenso
         def setConsensusPercentage(self):
                 # Columna nueva y valor por defecto
                 self.df['consensus'] = -1.0
@@ -394,6 +399,7 @@ class Utils():
                         score = (x / n) * 100
                         self.df.at[id,'consensus'] = score
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setHydrophobicity_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['hydroG1'] = -1.0
@@ -404,6 +410,7 @@ class Utils():
                         n = len(re.findall('[RKEDQN]', seq)) / self.df.at[id, 'length']
                         self.df.at[id, 'hydroG1'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setHydrophobicity_Group2(self):
                 # Columna nueva y valor por defecto
                 self.df['hydroG2'] = -1.0
@@ -415,6 +422,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'hydroG2'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setHydrophobicity_Group3(self):
                 # Columna nueva y valor por defecto
                 self.df['hydroG3'] = -1.0
@@ -426,7 +434,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'hydroG3'] = n
 
-        # Transition features
+        # Transition features para esta propiedad
         def generate_hydro_transition_features(self, secuence, dict):
                 groups = ['','[RKEDQN]','[GASTPHY]','[CLVIMFW]']
 
@@ -436,7 +444,7 @@ class Utils():
                         column_name = 'hydro.Tr' + str(r) + str(s) + str(s) + str(r)
                         dict[column_name] = (len(grs) + len(gsr))/ (len(secuence) - 1)
 
-                       
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setVanderWaals_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['vdwG1'] = -1.0
@@ -448,6 +456,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'vdwG1'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setVanderWaals_Group2(self):
                 # Columna nueva y valor por defecto
                 self.df['vdwG2'] = -1.0
@@ -459,6 +468,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'vdwG2'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setVanderWaals_Group3(self):
                 # Columna nueva y valor por defecto
                 self.df['vdwG3'] = -1.0
@@ -470,7 +480,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'vdwG3'] = n
 
-        # Transition features
+        # Transition features para esta propiedad
         def generate_vdw_transition_features(self, secuence, dict):
                 groups = ['', '[GASTPDC]', '[NVEQIL]', '[MHKFRYW]']
 
@@ -482,6 +492,7 @@ class Utils():
                         dict[column_name] = (
                             len(grs) + len(gsr)) / (len(secuence) - 1)
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setPolarity_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['PG1'] = -1.0
@@ -493,6 +504,8 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PG1'] = n
 
+
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setPolarity_Group2(self):
                 # Columna nueva y valor por defecto
                 self.df['PG2'] = -1.0
@@ -504,6 +517,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PG2'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setPolarity_Group3(self):
                 # Columna nueva y valor por defecto
                 self.df['PG3'] = -1.0
@@ -515,7 +529,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PG3'] = n
 
-        # Transition features
+        # Transition features para esta propiedad
         def generate_P_transition_features(self, secuence, dict):
                 groups = ['', '[LIFWCMVY]', '[PATGS]', '[HQRKNED]']
 
@@ -527,6 +541,7 @@ class Utils():
                         dict[column_name] = (
                             len(grs) + len(gsr)) / (len(secuence) - 1)
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setPolarizability_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['PolG1'] = -1.0
@@ -538,6 +553,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PolG1'] = n
         
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setPolarizability_Group2(self):
                 # Columna nueva y valor por defecto
                 self.df['PolG2'] = -1.0
@@ -549,6 +565,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PolG2'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setPolarizability_Group3(self):
                 # Columna nueva y valor por defecto
                 self.df['PolG3'] = -1.0
@@ -560,7 +577,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'PolG3'] = n
 
-        # Transition features
+        # Transition features para esta propiedad
         def generate_Pol_transition_features(self, secuence, dict):
                 groups = ['', '[GASDT]', '[CPNVEQIL]', '[KMHFRYW]']
 
@@ -572,6 +589,7 @@ class Utils():
                         dict[column_name] = (
                             len(grs) + len(gsr)) / (len(secuence) - 1)
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setCharge_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['ChargeG1'] = -1.0
@@ -583,6 +601,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'ChargeG1'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setCharge_Group2(self):
                 # Columna nueva y valor por defecto
                 self.df['ChargeG2'] = -1.0
@@ -594,6 +613,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'ChargeG2'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setCharge_Group3(self):
                 # Columna nueva y valor por defecto
                 self.df['ChargeG3'] = -1.0
@@ -617,6 +637,7 @@ class Utils():
                         dict[column_name] = (
                             len(grs) + len(gsr)) / (len(secuence) - 1)
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setSecondaryStructure_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['SEG1'] = -1.0
@@ -628,6 +649,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SEG1'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setSecondaryStructure_Group2(self):
                 # Columna nueva y valor por defecto
                 self.df['SEG2'] = -1.0
@@ -639,6 +661,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SEG2'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setSecondaryStructure_Group3(self):
                 # Columna nueva y valor por defecto
                 self.df['SEG3'] = -1.0
@@ -650,7 +673,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SEG3'] = n
 
-        # Transition features
+        # Transition features para esta propiedad
         def generate_SE_transition_features(self, secuence, dict):
                 groups = ['', '[EALMQKRH]', '[VIYCWFT]', '[GNPSD]']
 
@@ -662,6 +685,7 @@ class Utils():
                         dict[column_name] = (
                             len(grs) + len(gsr)) / (len(secuence) - 1)
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setSolventAccessibility_Group1(self):
                 # Columna nueva y valor por defecto
                 self.df['SaG1'] = -1.0
@@ -673,6 +697,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SaG1'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setSolventAccessibility_Group2(self):
                 # Columna nueva y valor por defecto
                 self.df['SaG2'] = -1.0
@@ -684,6 +709,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SaG2'] = n
 
+        # Proporcion de aminoacidos de este grupo para la propiedad
         def setSolventAccessibility_Group3(self):
                 # Columna nueva y valor por defecto
                 self.df['SaG3'] = -1.0
@@ -695,7 +721,7 @@ class Utils():
                                 ) / self.df.at[id, 'length']
                         self.df.at[id, 'SaG3'] = n
 
-        # Transition features
+        # Transition features para esta propiedad
         def generate_Sa_transition_features(self, secuence, dict):
                 groups = ['', '[ALFCGIVW]', '[RKQEND]', '[MSPTHY]']
 
@@ -707,6 +733,7 @@ class Utils():
                         dict[column_name] = (
                             len(grs) + len(gsr)) / (len(secuence) - 1)
              
+        # Generar el resto de features y exportar los datos
         def populate_features(self):
                 # Generacion de features adicionales
                 print("Generando las features\n")
@@ -802,7 +829,7 @@ class Utils():
                 
                 self.df = dfPCA                
 
-
+        # Dialogo para fijar el numero de componentes principales
         def set_ncomponents(self):
                 toolWindow = tk.Tk()
                 toolWindow.title("Número de componentes")
@@ -827,6 +854,7 @@ class Utils():
 
                 toolWindow.mainloop()
 
+        # Pipeline para generar los datos para los algoritmos de ML
         def prepareData(self):
 
                  # Cargar proteinas no patologicas y patologicas
@@ -842,7 +870,7 @@ class Utils():
                 if(self.doPCA == 'True'):
                         self.runPca()
                
-
+# Clase padre de los clasificadores
 class ProteinProblem(object):
 
         def __init__(self,data,tmstmp,outputPath):
@@ -880,6 +908,7 @@ class ProteinProblem(object):
                 self.classes = np.array(categories)
                 self.features = self.data_frame.columns[self.data_frame.columns != 'state']
         
+        # Factorizar el label objetivo (0=healthy, 1=pathologic)
         @staticmethod
         def __factorize(data):
 
@@ -890,6 +919,7 @@ class ProteinProblem(object):
     
                 raise NotImplementedError
                 
+        # K-fold Cross Validation y generar curvas ROC
         def validation_data(self):
                 folds = self.kfolds
                 df = self.data_frame
@@ -953,6 +983,7 @@ class ProteinProblem(object):
 
                         response.append([predictions, expected])
 
+                # Grafica que recoge las curvas ROC
                 plt.plot([0, 1], [0, 1], linestyle='--', lw=2, color='r',
                          label='Chance', alpha=.8)
 
@@ -984,13 +1015,14 @@ class ProteinProblem(object):
 
                 plt.show(block=False)
 
+                # Exportacion de grid search
                 dfGrid = pd.DataFrame(rows_list)
                 gridFile = self.outputPath + self.tmstmp + self.name + "GridSearch.xlsx"
                 dfGrid.to_excel(gridFile)
 
                 return response
 
-
+# Clase intermedia
 class ProteinClassifier(ProteinProblem):
 
         def validate(self):
@@ -1068,6 +1100,8 @@ class ProteinClassifier(ProteinProblem):
 
                 return metrics
 
+
+        # Pinta los hiperparametros, confusion matrix y metricas
         def draw_validation(self):
                 validatioWindow = tk.Tk()
                 validatioWindow.title("Validation")
@@ -1092,7 +1126,7 @@ class ProteinClassifier(ProteinProblem):
         def confusion_matrix(train, test):
                 return pd.crosstab(train, test, rownames=['actual'], colnames=['preds'])
         
-                         
+# Implementacion de la clase random forest
 class ProteinForest(ProteinClassifier):
 
         def __init__(self,data,tmstmp,outputPath):
@@ -1129,7 +1163,7 @@ class ProteinForest(ProteinClassifier):
                 classifier = CV_rfc.fit(X, Y)
                 return classifier
 
-
+# Clase que implementa support vector machine
 class ProteinSVM(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
@@ -1154,7 +1188,7 @@ class ProteinSVM(ProteinClassifier):
                 
 
                
-
+        # Crea y entrena para los datos proporcionados
         def train(self, X, Y):
 
                 # Hacemos grid search para determinar los mejores parámetros
@@ -1173,7 +1207,7 @@ class ProteinSVM(ProteinClassifier):
                 classifier = CV_svm.fit(X, Y)
                 return classifier
 
-
+# Clase que implementa decision tree
 class ProteinTree(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
@@ -1204,7 +1238,7 @@ class ProteinTree(ProteinClassifier):
                 classifier = CV_tree.fit(X, Y)
                 return classifier
 
-
+# Clase que implementa KNN
 class ProteinKNN(ProteinClassifier):
 
         def __init__(self, data, tmstmp, outputPath):
@@ -1234,19 +1268,12 @@ class ProteinKNN(ProteinClassifier):
                 classifier = CV_KNN.fit(X, Y)
                 return classifier
 
-
-class gridSearch(object):
-
-        def __init__(self,df):
-                pass
-
-
-
+# Clase que implementa el pipeline principal
 class Predictor(object):
 
         def __init__(self):
 
-                # Hiperparametros AdaBoost
+                # Hiperparametros
                 config = configparser.ConfigParser()
                 config.read(os.path.dirname(
                     os.path.abspath(__file__)) + '\\config.file')
@@ -1257,7 +1284,7 @@ class Predictor(object):
                 self.doKNN = config['KNN']['doKNN']
                 self.target_metric = config['ML']['target_metric']
 
-
+        # Ejecuta los clasificadores y exporta los resultados
         def runClassifiers(self, ut):
 
                 # Algoritmos ML
